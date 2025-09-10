@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#F3F4F6"/>
+  <rect x="100" y="100" width="600" height="400" rx="8" fill="#E5E7EB"/>
+  <text x="400" y="300" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#6B7280">Team Image Placeholder</text>
+  <text x="400" y="340" font-family="Arial" font-size="16" text-anchor="middle" fill="#9CA3AF">Replace with actual team photo</text>
+</svg>

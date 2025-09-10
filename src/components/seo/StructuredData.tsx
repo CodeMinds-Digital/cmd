@@ -6,41 +6,46 @@ const StructuredData = () => {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "CodeMinds Digital",
-    "url": "https://codeminds.digital",
-    "logo": "https://codeminds.digital/images/logo.png",
-    "description": "Professional web development and digital solutions company specializing in custom software, mobile apps, and UI/UX design.",
-    "email": "cmd@codeminds.digital",
+    "name": "Create Studio",
+    "url": "https://createstudio.digital",
+    "logo": "https://createstudio.digital/images/logo.png",
+    "description": "Award-winning digital design agency specializing in web development, mobile apps, UI/UX design, and digital experiences that drive business growth.",
+    "email": "hello@createstudio.digital",
     "address": {
       "@type": "PostalAddress",
+      "addressLocality": "San Francisco",
+      "addressRegion": "CA",
       "addressCountry": "US"
     },
     "sameAs": [
-      "https://twitter.com/codemindsdigital",
-      "https://linkedin.com/company/codeminds-digital"
+      "https://twitter.com/createstudio",
+      "https://linkedin.com/company/create-studio",
+      "https://dribbble.com/createstudio",
+      "https://behance.net/createstudio"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": "cmd@codeminds.digital",
-      "contactType": "Customer Service"
+      "email": "hello@createstudio.digital",
+      "contactType": "Customer Service",
+      "availableLanguage": "English"
     }
   };
 
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "Web Development Services",
-    "description": "Custom web development, mobile app development, UI/UX design, and digital marketing solutions",
+    "name": "Digital Design & Development Services",
+    "description": "Award-winning web development, mobile app development, UI/UX design, and digital experiences that transform businesses",
     "provider": {
       "@type": "Organization",
-      "name": "CodeMinds Digital",
-      "url": "https://codeminds.digital"
+      "name": "Create Studio",
+      "url": "https://createstudio.digital"
     },
-    "serviceType": "Web Development",
+    "serviceType": "Digital Design & Development",
     "areaServed": "Worldwide",
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Web Development Services",
+      "name": "Digital Design & Development Services",
       "itemListElement": [
         {
           "@type": "Offer",
@@ -81,16 +86,16 @@ const StructuredData = () => {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "CodeMinds Digital",
-    "url": "https://codeminds.digital",
-    "description": "Professional web development and digital solutions",
+    "name": "Create Studio",
+    "url": "https://createstudio.digital",
+    "description": "Award-winning digital design agency crafting exceptional web experiences",
     "publisher": {
       "@type": "Organization",
-      "name": "CodeMinds Digital"
+      "name": "Create Studio"
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://codeminds.digital/search?q={search_term_string}",
+      "target": "https://createstudio.digital/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };

@@ -1,21 +1,27 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
+
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState('Home');
+  const [activeSection, setActiveSection] = useState('home');
+
+  const { scrollY } = useScroll();
+  const headerOpacity = useTransform(scrollY, [0, 100], [0.95, 1]);
+  const headerBlur = useTransform(scrollY, [0, 100], [8, 20]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
 
-      // Track active section
-      const sections = ['home', 'about', 'services', 'portfolio', 'testimonials', 'contact'];
+      // Track active section with improved logic
+      const sections = ['home', 'about', 'services', 'portfolio', 'process', 'testimonials', 'blog', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const sectionId of sections) {
@@ -23,7 +29,7 @@ const Header = () => {
         if (element) {
           const { offsetTop, offsetHeight } = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(sectionId.charAt(0).toUpperCase() + sectionId.slice(1));
+            setActiveSection(sectionId);
             break;
           }
         }
@@ -31,118 +37,181 @@ const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
+  // Modern navigation items
   const navItems = [
-    { name: 'Home', href: '#', icon: '⌂' },
-    { name: 'About', href: '#about', icon: '◉' },
-    { name: 'Services', href: '#services', icon: '⚙' },
-    { name: 'Portfolio', href: '#portfolio', icon: '◈' },
-    { name: 'Testimonials', href: '#testimonials', icon: '✦' },
-    { name: 'Contact', href: '#contact', icon: '✉' },
+    { name: 'Home', href: '#home', icon: '🏠', id: 'home' },
+    { name: 'About', href: '#about', icon: '👥', id: 'about' },
+    { name: 'Services', href: '#services', icon: '⚡', id: 'services' },
+    { name: 'Portfolio', href: '#portfolio', icon: '💼', id: 'portfolio' },
+    { name: 'Process', href: '#process', icon: '🔄', id: 'process' },
+    { name: 'Reviews', href: '#testimonials', icon: '⭐', id: 'testimonials' },
+    { name: 'Blog', href: '#blog', icon: '📝', id: 'blog' },
+    { name: 'Contact', href: '#contact', icon: '📧', id: 'contact' },
   ];
+
+
 
   return (
     <motion.header
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg py-3' : 'bg-transparent py-5'}`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: 'spring', stiffness: 50, damping: 20 }}
+      className={`fixed w-full z-50 transition-all duration-500 ${
+        isScrolled
+          ? 'glass shadow-large py-3'
+          : 'bg-transparent py-6'
+      }`}
+      style={{
+        backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+        backgroundColor: isScrolled
+          ? 'rgba(255, 255, 255, 0.8)'
+          : 'transparent'
+      }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
     >
       <div className="container flex items-center justify-between">
-        <Link href="#" className="flex items-center group">
-          <span className="text-2xl font-heading font-bold text-gray-800 dark:text-white relative">
-            <span className="text-secondary-600 dark:text-secondary-400">Create</span>
-            <span className="text-gray-800 dark:text-white">Studio</span>
-            <motion.span
-              className="absolute -bottom-1 left-0 h-[3px] bg-gradient-to-r from-secondary-500 to-primary-600 w-0 group-hover:w-full transition-all duration-300"
-              initial={{ width: 0 }}
-              animate={{ width: isScrolled ? '100%' : 0 }}
-              transition={{ duration: 0.5 }}
-            />
-          </span>
-        </Link>
+        {/* Logo */}
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Link href="#home" className="flex items-center group">
+            <div className="relative">
+              <Image
+                src="/icons/logo.svg"
+                alt="CodeMinds Digital"
+                width={40}
+                height={40}
+                className="w-10 h-10 transition-transform duration-300 group-hover:rotate-12"
+              />
+            </div>
+            <span className="ml-3 text-xl font-heading font-bold text-neutral-900 relative">
+              <span className="text-brand-600">Code</span>
+              <span>Minds</span>
+              <motion.span
+                className="absolute -bottom-1 left-0 h-[3px] bg-gradient-brand w-0 group-hover:w-full transition-all duration-300"
+                initial={{ width: 0 }}
+                animate={{ width: isScrolled ? '100%' : 0 }}
+                transition={{ duration: 0.5 }}
+              />
+            </span>
+          </Link>
+        </motion.div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-1">
           {navItems.map((item) => (
-            <Link
+            <motion.div
               key={item.name}
-              href={item.href}
-              className={`font-medium transition-colors flex items-center gap-1.5 relative py-2 ${activeSection === item.name
-                ? 'text-secondary-600 dark:text-secondary-400'
-                : 'text-gray-800 dark:text-gray-200 hover:text-secondary-600 dark:hover:text-secondary-400'
-                }`}
-
-              onMouseEnter={() => setHoveredItem(item.name)}
-              onMouseLeave={() => setHoveredItem(null)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <span>{item.name}</span>
-              {(hoveredItem === item.name || activeSection === item.name) && (
-                <motion.span
-                  className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-secondary-500 to-primary-600"
-                  layoutId="navIndicator"
-                  initial={{ opacity: 0, width: '0%' }}
-                  animate={{ opacity: 1, width: '100%' }}
-                  exit={{ opacity: 0, width: '0%' }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
-            </Link>
+              <Link
+                href={item.href}
+                className={`relative px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 z-10 ${
+                  activeSection === item.id
+                    ? 'text-brand-600'
+                    : 'text-neutral-700 hover:text-brand-600'
+                }`}
+                onMouseEnter={() => setHoveredItem(item.name)}
+                onMouseLeave={() => setHoveredItem(null)}
+              >
+                <span className="text-sm">{item.icon}</span>
+                <span>{item.name}</span>
+
+                {/* Active indicator */}
+                {activeSection === item.id && (
+                  <motion.div
+                    className="absolute inset-0 bg-brand-100 rounded-xl border border-brand-200 -z-10"
+                    layoutId="activeNavItem"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+
+                {/* Hover indicator */}
+                {hoveredItem === item.name && activeSection !== item.id && (
+                  <motion.div
+                    className="absolute inset-0 bg-brand-50/50 rounded-xl -z-10"
+                    layoutId="hoveredNavItem"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </Link>
+            </motion.div>
           ))}
-          <Link
-            href="#contact"
-            className="bg-gradient-to-r from-secondary-500 to-primary-600 text-white font-medium rounded-lg px-5 py-2 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-500/25 hover:-translate-y-0.5"
-          >
-            Get Started
-          </Link>
         </nav>
 
+        {/* Right side actions */}
+        <div className="hidden lg:flex items-center space-x-4">
+
+
+          {/* CTA Button */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Link
+              href="#contact"
+              className="btn-primary"
+            >
+              Get Started
+            </Link>
+          </motion.div>
+        </div>
+
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-gray-800 dark:text-white focus:outline-none relative z-20"
+        <motion.button
+          className="lg:hidden p-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200 transition-colors focus:outline-none relative z-20"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Toggle mobile menu"
         >
-          <div className="w-8 h-8 flex items-center justify-center">
+          <div className="w-6 h-6 flex items-center justify-center">
             <motion.div
               animate={isMobileMenuOpen ? "open" : "closed"}
-              className="w-6 flex flex-col items-center justify-center gap-1.5"
+              className="w-5 flex flex-col items-center justify-center gap-1"
             >
               <motion.span
-                className="w-full h-0.5 bg-gradient-to-r from-secondary-500 to-primary-600 block"
+                className="w-full h-0.5 bg-gradient-brand block rounded-full"
                 variants={{
                   closed: { rotate: 0, translateY: 0 },
-                  open: { rotate: 45, translateY: 8 }
+                  open: { rotate: 45, translateY: 6 }
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
               />
               <motion.span
-                className="w-full h-0.5 bg-primary-600 block"
+                className="w-full h-0.5 bg-gradient-brand block rounded-full"
                 variants={{
-                  closed: { opacity: 1 },
-                  open: { opacity: 0 }
+                  closed: { opacity: 1, scaleX: 1 },
+                  open: { opacity: 0, scaleX: 0 }
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
               />
               <motion.span
-                className="w-full h-0.5 bg-primary-600 block"
+                className="w-full h-0.5 bg-gradient-brand block rounded-full"
                 variants={{
                   closed: { rotate: 0, translateY: 0 },
-                  open: { rotate: -45, translateY: -8 }
+                  open: { rotate: -45, translateY: -6 }
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
               />
             </motion.div>
           </div>
-        </button>
+        </motion.button>
       </div>
 
       {/* Mobile Navigation */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden fixed inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-10 flex items-center justify-center"
+            className="md:hidden fixed inset-0 bg-white/95 backdrop-blur-md z-10 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -163,10 +232,14 @@ const Header = () => {
                 >
                   <Link
                     href={item.href}
-                    className="text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-500 font-medium transition-colors py-2 text-2xl flex items-center gap-3"
+                    className={`font-medium transition-colors py-2 text-2xl flex items-center gap-3 ${
+                      activeSection === item.id
+                        ? 'text-brand-600'
+                        : 'text-neutral-800 hover:text-brand-600'
+                    }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <span className="text-primary-600">{item.icon}</span>
+                    <span className="text-brand-600">{item.icon}</span>
                     {item.name}
                   </Link>
                 </motion.div>

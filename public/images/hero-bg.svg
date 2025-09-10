@@ -1,0 +1,26 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="heroGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667EEA;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#764BA2;stop-opacity:0.05" />
+    </linearGradient>
+    <linearGradient id="heroGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F093FB;stop-opacity:0.08" />
+      <stop offset="100%" style="stop-color:#F5576C;stop-opacity:0.03" />
+    </linearGradient>
+    <radialGradient id="heroRadial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:0.05" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0.01" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background shapes -->
+  <ellipse cx="300" cy="200" rx="200" ry="150" fill="url(#heroGradient1)" transform="rotate(-15 300 200)"/>
+  <ellipse cx="1600" cy="300" rx="250" ry="180" fill="url(#heroGradient2)" transform="rotate(25 1600 300)"/>
+  <ellipse cx="800" cy="600" rx="300" ry="200" fill="url(#heroRadial)" transform="rotate(45 800 600)"/>
+  
+  <!-- Geometric elements -->
+  <circle cx="1400" cy="800" r="80" fill="#6366F1" opacity="0.03"/>
+  <rect x="200" y="700" width="120" height="120" rx="20" fill="#8B5CF6" opacity="0.02" transform="rotate(30 260 760)"/>
+  <polygon points="1200,150 1280,200 1200,250 1120,200" fill="#F59E0B" opacity="0.04"/>
+</svg>

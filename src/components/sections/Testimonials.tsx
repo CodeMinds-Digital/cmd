@@ -40,8 +40,12 @@ const Testimonials = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="testimonials" className="py-24 bg-neutral-50 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-brand-100 rounded-full blur-3xl opacity-50"></div>
+      <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-electric-100 rounded-full blur-3xl opacity-50"></div>
+
+      <div className="container relative z-10">
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}

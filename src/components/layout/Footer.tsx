@@ -59,23 +59,23 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-50 pt-16 pb-8">
+    <footer className="bg-neutral-50 pt-16 pb-8">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Logo and Description */}
           <div className="lg:col-span-2">
             <Link href="#" className="flex items-center">
-              <span className="text-2xl font-heading font-bold text-primary-600">DevStudio</span>
+              <span className="text-2xl font-heading font-bold text-brand-600">Create Studio</span>
             </Link>
-            <p className="mt-4 text-gray-600 max-w-md">
-              We create innovative digital solutions that transform businesses. Our team of experts delivers cutting-edge web and mobile applications with exceptional user experiences.
+            <p className="mt-4 text-neutral-600 max-w-md">
+              We craft award-winning digital experiences that elevate brands and drive business growth. Our passionate team combines creativity with cutting-edge technology to deliver exceptional results.
             </p>
             <div className="mt-6 flex space-x-4">
               {socialLinks.map((item) => (
                 <Link 
                   key={item.name} 
                   href={item.href} 
-                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                  className="text-neutral-700 hover:text-brand-600 transition-colors"
                   aria-label={item.name}
                 >
                   {item.icon}
@@ -87,7 +87,7 @@ const Footer = () => {
           {/* Footer Links */}
           {footerLinks.map((group) => (
             <div key={group.title}>
-              <h3 className="text-sm font-semibold text-gray-800 tracking-wider uppercase">
+              <h3 className="text-sm font-semibold text-neutral-800 tracking-wider uppercase">
                 {group.title}
               </h3>
               <ul className="mt-4 space-y-3">
@@ -95,7 +95,7 @@ const Footer = () => {
                   <li key={link.name}>
                     <Link 
                       href={link.href} 
-                      className="text-gray-600 hover:text-primary-600 transition-colors"
+                      className="text-neutral-600 hover:text-brand-600 transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -106,9 +106,9 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <p className="text-center text-gray-700 text-sm">
-            &copy; {currentYear} DevStudio. All rights reserved.
+        <div className="mt-12 pt-8 border-t border-neutral-200">
+          <p className="text-center text-neutral-700 text-sm">
+            &copy; {currentYear} Create Studio. All rights reserved.
           </p>
         </div>
       </div>

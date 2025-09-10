@@ -95,13 +95,13 @@ const Portfolio = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-secondary-500 font-semibold text-sm uppercase tracking-wider mb-4 block">
+          <span className="text-electric-500 font-semibold text-sm uppercase tracking-wider mb-4 block">
             Our Work
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800 dark:text-white">
-            <span className="text-gray-800 dark:text-white">Featured</span> <span className="text-secondary-600 dark:text-secondary-400">Projects</span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-neutral-800 dark:text-white">
+            <span className="text-neutral-800 dark:text-white">Featured</span> <span className="text-electric-600 dark:text-electric-400">Projects</span>
           </h2>
-          <p className="text-lg text-gray-800 dark:text-gray-200 max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-lg text-neutral-700 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed mb-8">
             Discover our latest work and see how we bring innovative ideas to life through cutting-edge technology and creative design.
           </p>
           
@@ -111,9 +111,9 @@ const Portfolio = () => {
                 key={filter.id}
                 onClick={() => setActiveFilter(filter.id)}
                 className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                  activeFilter === filter.id 
-                    ? 'bg-gradient-to-r from-secondary-500 to-primary-600 text-white shadow-lg shadow-secondary-500/25' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
+                  activeFilter === filter.id
+                    ? 'bg-gradient-to-r from-electric-500 to-brand-600 text-white shadow-lg shadow-electric-500/25'
+                    : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:shadow-md'
                 }`}
               >
                 {filter.name}
@@ -147,15 +147,15 @@ const Portfolio = () => {
                     href={project.liveUrl}
                     className="p-2 bg-white/90 rounded-lg hover:bg-white transition-colors"
                   >
-                    <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
-                  <a 
+                  <a
                     href={project.githubUrl}
                     className="p-2 bg-white/90 rounded-lg hover:bg-white transition-colors"
                   >
-                    <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                     </svg>
                   </a>
@@ -164,24 +164,24 @@ const Portfolio = () => {
               
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-secondary-500 bg-secondary-50 px-3 py-1 rounded-full">
+                  <span className="text-xs font-semibold text-electric-500 bg-electric-50 dark:bg-electric-900/30 dark:text-electric-400 px-3 py-1 rounded-full">
                     {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
                   </span>
                 </div>
-                
-                <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-secondary-500 transition-colors">
+
+                <h3 className="text-xl font-bold text-neutral-800 dark:text-neutral-200 mb-3 group-hover:text-electric-500 dark:group-hover:text-electric-400 transition-colors">
                   {project.title}
                 </h3>
-                
-                <p className="text-gray-600 mb-4 leading-relaxed">
+
+                <p className="text-neutral-600 dark:text-neutral-400 mb-4 leading-relaxed">
                   {project.description}
                 </p>
-                
+
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, tagIndex) => (
-                    <span 
+                    <span
                       key={tagIndex}
-                      className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-md"
+                      className="text-xs font-medium text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded-md"
                     >
                       {tag}
                     </span>
@@ -198,7 +198,7 @@ const Portfolio = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <button className="bg-gradient-to-r from-secondary-500 to-primary-600 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-secondary-500/25 transition-all duration-300 hover:-translate-y-1">
+          <button className="bg-gradient-to-r from-electric-500 to-brand-600 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-electric-500/25 transition-all duration-300 hover:-translate-y-1">
             View All Projects
           </button>
         </motion.div>

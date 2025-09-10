@@ -6,16 +6,55 @@ const LoadingAnimation = () => {
   return (
     <div className="fixed inset-0 bg-white z-50 flex items-center justify-center">
       <div className="text-center">
-        {/* Logo Animation */}
+        {/* Advanced CSS Logo Animation */}
         <motion.div
-          className="mb-8"
+          className="mb-8 w-32 h-32 mx-auto relative"
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="w-20 h-20 mx-auto bg-brand-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold">
+          <motion.div
+            className="w-full h-full bg-gradient-to-br from-brand-500 to-brand-700 rounded-3xl flex items-center justify-center text-white text-4xl font-bold shadow-2xl"
+            animate={{
+              rotateY: [0, 360],
+              rotateX: [0, 15, 0],
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{
+              transformStyle: 'preserve-3d',
+              boxShadow: '0 25px 50px -12px rgba(99, 102, 241, 0.5)',
+            }}
+          >
             CS
-          </div>
+          </motion.div>
+
+          {/* Floating particles around logo */}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-brand-400 rounded-full"
+              style={{
+                top: `${20 + Math.sin(i * 45 * Math.PI / 180) * 40}%`,
+                left: `${50 + Math.cos(i * 45 * Math.PI / 180) * 40}%`,
+              }}
+              animate={{
+                scale: [0.5, 1.2, 0.5],
+                opacity: [0.3, 1, 0.3],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
         </motion.div>
 
         {/* Loading Dots */}

@@ -10,21 +10,21 @@
   },
   "dependencies": {
     "@types/nodemailer": "^7.0.1",
-    "framer-motion": "^10.18.0",
-    "next": "^14.2.32",
+    "framer-motion": "^11.11.17",
+    "next": "^15.1.0",
     "nodemailer": "^7.0.6",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/node": "^20.8.0",
-    "@types/react": "^18.3.24",
-    "@types/react-dom": "^18.2.0",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.50.0",
-    "eslint-config-next": "^14.0.0",
-    "postcss": "^8.4.30",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^5.2.2"
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.0",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
   }
 }

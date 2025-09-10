@@ -20,10 +20,10 @@ const Hero = () => {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
-        {/* Modern Floating Elements */}
+        {/* Advanced CSS Floating Elements */}
         <FloatingElements />
 
-        {/* Particle Field */}
+        {/* Advanced CSS Particle Field */}
         <ParticleField />
 
         {/* Traditional Background Elements */}

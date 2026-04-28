@@ -6,11 +6,11 @@ const StructuredData = () => {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Create Studio",
-    "url": "https://createstudio.digital",
-    "logo": "https://createstudio.digital/images/logo.png",
+    "name": "Codeminds Digital",
+    "url": "https://codeminds.digital",
+    "logo": "https://codeminds.digital/images/logo.png",
     "description": "Award-winning digital design agency specializing in web development, mobile apps, UI/UX design, and digital experiences that drive business growth.",
-    "email": "hello@createstudio.digital",
+    "email": "cmd@codeminds.digital",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "San Francisco",
@@ -18,14 +18,14 @@ const StructuredData = () => {
       "addressCountry": "US"
     },
     "sameAs": [
-      "https://twitter.com/createstudio",
-      "https://linkedin.com/company/create-studio",
-      "https://dribbble.com/createstudio",
-      "https://behance.net/createstudio"
+      "https://twitter.com/codeminds",
+      "https://linkedin.com/company/codeminds",
+      "https://dribbble.com/codeminds",
+      "https://behance.net/codeminds"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": "hello@createstudio.digital",
+      "email": "cmd@codeminds.digital",
       "contactType": "Customer Service",
       "availableLanguage": "English"
     }
@@ -38,8 +38,8 @@ const StructuredData = () => {
     "description": "Award-winning web development, mobile app development, UI/UX design, and digital experiences that transform businesses",
     "provider": {
       "@type": "Organization",
-      "name": "Create Studio",
-      "url": "https://createstudio.digital"
+      "name": "Codeminds Digital",
+      "url": "https://codeminds.digital"
     },
     "serviceType": "Digital Design & Development",
     "areaServed": "Worldwide",
@@ -86,16 +86,16 @@ const StructuredData = () => {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Create Studio",
-    "url": "https://createstudio.digital",
+    "name": "Codeminds Digital",
+    "url": "https://codeminds.digital",
     "description": "Award-winning digital design agency crafting exceptional web experiences",
     "publisher": {
       "@type": "Organization",
-      "name": "Create Studio"
+      "name": "Codeminds Digital"
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://createstudio.digital/search?q={search_term_string}",
+      "target": "https://codeminds.digital/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };

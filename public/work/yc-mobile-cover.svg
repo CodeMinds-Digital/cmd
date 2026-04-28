@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="YC mobile MVP — twin device cover">
+  <defs>
+    <linearGradient id="mobGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.45"/>
+      <stop offset="55%" stop-color="#06b6d4" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="mobGlow2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.35"/>
+      <stop offset="55%" stop-color="#6366f1" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="screenA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a22"/>
+      <stop offset="100%" stop-color="#0e0e12"/>
+    </linearGradient>
+    <linearGradient id="screenB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#11181f"/>
+      <stop offset="100%" stop-color="#0a0d12"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#0a0a0c"/>
+  <rect width="1600" height="1000" fill="url(#mobGlow)"/>
+  <rect width="1600" height="1000" fill="url(#mobGlow2)"/>
+
+  <!-- Editorial meta strip -->
+  <g font-family="ui-monospace, SFMono-Regular, monospace" font-size="20" letter-spacing="3" fill="#6b6c8a">
+    <text x="80" y="100">CASE 02 / MOBILE</text>
+    <text x="1520" y="100" text-anchor="end">SHIPPING · MAY 2026</text>
+  </g>
+
+  <!-- Title -->
+  <g font-family="Geist, system-ui, sans-serif">
+    <text x="80" y="220" font-size="56" font-weight="600" fill="#f5f5f7">iOS + Android</text>
+    <text x="80" y="280" font-size="42" font-weight="400" fill="#a5b4fc" font-style="italic" font-family="'Instrument Serif', Georgia, serif">in a single sprint.</text>
+  </g>
+
+  <!-- Twin phones -->
+  <g transform="translate(880, 380) rotate(-6)">
+    <!-- iOS phone -->
+    <rect x="-220" y="0" width="320" height="560" rx="44" fill="#22222a" stroke="#3a3a45"/>
+    <rect x="-208" y="12" width="296" height="536" rx="36" fill="url(#screenA)"/>
+    <rect x="-90" y="22" width="60" height="14" rx="7" fill="#0a0a0c"/>
+    <!-- iOS content blocks -->
+    <g fill="#a5b4fc" opacity="0.55">
+      <rect x="-188" y="80" width="180" height="14" rx="3"/>
+      <rect x="-188" y="104" width="120" height="10" rx="3" opacity="0.6"/>
+    </g>
+    <g fill="#1a1a22" stroke="#22222a">
+      <rect x="-188" y="150" width="256" height="120" rx="14"/>
+      <rect x="-188" y="290" width="256" height="120" rx="14"/>
+    </g>
+    <rect x="-188" y="170" width="80" height="10" rx="3" fill="#67e8f9" opacity="0.7"/>
+    <rect x="-188" y="190" width="180" height="8" rx="3" fill="#cfcfd9" opacity="0.4"/>
+    <rect x="-188" y="208" width="140" height="8" rx="3" fill="#cfcfd9" opacity="0.3"/>
+    <rect x="-188" y="310" width="80" height="10" rx="3" fill="#a5b4fc" opacity="0.7"/>
+    <rect x="-188" y="330" width="180" height="8" rx="3" fill="#cfcfd9" opacity="0.4"/>
+    <rect x="-188" y="348" width="140" height="8" rx="3" fill="#cfcfd9" opacity="0.3"/>
+    <!-- Bottom CTA -->
+    <rect x="-188" y="470" width="256" height="56" rx="28" fill="#f5f5f7"/>
+    <rect x="-90" y="492" width="60" height="12" rx="3" fill="#0a0a0c"/>
+    <text x="-200" y="-20" font-family="ui-monospace, monospace" font-size="14" fill="#67e8f9" letter-spacing="2">iOS · SwiftUI</text>
+  </g>
+
+  <g transform="translate(1240, 320) rotate(8)">
+    <!-- Android phone -->
+    <rect x="-160" y="0" width="320" height="600" rx="38" fill="#22222a" stroke="#3a3a45"/>
+    <rect x="-148" y="12" width="296" height="576" rx="30" fill="url(#screenB)"/>
+    <!-- Top bar -->
+    <rect x="-128" y="40" width="80" height="10" rx="3" fill="#cfcfd9" opacity="0.5"/>
+    <rect x="100" y="40" width="32" height="10" rx="3" fill="#67e8f9" opacity="0.6"/>
+    <!-- Cards row -->
+    <g fill="#11181f" stroke="#22222a">
+      <rect x="-128" y="80" width="86" height="86" rx="14"/>
+      <rect x="-32" y="80" width="86" height="86" rx="14"/>
+      <rect x="64" y="80" width="86" height="86" rx="14"/>
+    </g>
+    <circle cx="-85" cy="120" r="10" fill="#a5b4fc" opacity="0.7"/>
+    <circle cx="11" cy="120" r="10" fill="#67e8f9" opacity="0.7"/>
+    <circle cx="107" cy="120" r="10" fill="#a5b4fc" opacity="0.5"/>
+    <!-- List rows -->
+    <g fill="#cfcfd9">
+      <rect x="-128" y="200" width="200" height="10" rx="3" opacity="0.6"/>
+      <rect x="-128" y="220" width="140" height="8" rx="3" opacity="0.35"/>
+      <rect x="-128" y="260" width="220" height="10" rx="3" opacity="0.6"/>
+      <rect x="-128" y="280" width="160" height="8" rx="3" opacity="0.35"/>
+      <rect x="-128" y="320" width="200" height="10" rx="3" opacity="0.6"/>
+      <rect x="-128" y="340" width="120" height="8" rx="3" opacity="0.35"/>
+      <rect x="-128" y="380" width="220" height="10" rx="3" opacity="0.6"/>
+      <rect x="-128" y="400" width="180" height="8" rx="3" opacity="0.35"/>
+    </g>
+    <!-- Active indicator dot -->
+    <circle cx="120" cy="565" r="6" fill="#67e8f9"/>
+    <text x="-180" y="-20" font-family="ui-monospace, monospace" font-size="14" fill="#a5b4fc" letter-spacing="2">Android · RN</text>
+  </g>
+
+  <!-- Bottom anchor strip -->
+  <g font-family="ui-monospace, monospace" font-size="16" letter-spacing="3" fill="#6b6c8a">
+    <text x="80" y="950">CODEMINDS · FIG.02</text>
+    <text x="800" y="950" text-anchor="middle">SWIFTUI · REACT NATIVE · EXPO · ONE SPRINT</text>
+    <text x="1520" y="950" text-anchor="end">IN PROGRESS ●</text>
+  </g>
+</svg>

@@ -1,0 +1,163 @@
+<h2>Question 2 — Aesthetic direction</h2>
+<p class="subtitle">Four design languages, same hero copy. Pick one (or hybrid notes are welcome).</p>
+
+<style>
+  .deck { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .deck .option { padding: 0; overflow: hidden; cursor: pointer; }
+  .deck .preview {
+    aspect-ratio: 16 / 10;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .deck .preview .eyebrow {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .deck .preview .hl {
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .deck .preview .sub {
+    font-size: 11px;
+    opacity: 0.7;
+    max-width: 80%;
+  }
+  .deck .preview .anchor {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+  .deck .desc { padding: 16px 18px; font-size: 13px; line-height: 1.45; border-top: 1px solid rgba(0,0,0,0.08); }
+  .deck .desc strong { display:block; margin-bottom:4px; }
+
+  /* A — Apple-clean */
+  .a-preview { background: #f5f5f7; color: #1d1d1f; }
+  .a-preview .accent { color: #0066cc; }
+  .a-preview .hl { font-size: 36px; font-family: -apple-system, "SF Pro Display", system-ui, sans-serif; }
+
+  /* B — Editorial agency */
+  .b-preview { background: #ece7df; color: #1a1a1a; }
+  .b-preview .hl {
+    font-family: "Times New Roman", Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 38px;
+  }
+  .b-preview .accent { font-style: normal; }
+
+  /* C — Brutalist agency */
+  .c-preview { background: #fafaf7; color: #000; }
+  .c-preview .hl {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 900;
+    font-size: 44px;
+    text-transform: uppercase;
+    line-height: 0.92;
+  }
+  .c-preview .accent { background: #000; color: #fafaf7; padding: 0 6px; }
+  .c-preview .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  /* D — Premium dark */
+  .d-preview {
+    background: radial-gradient(ellipse at 25% 30%, rgba(99,102,241,0.25), transparent 55%),
+                radial-gradient(ellipse at 80% 70%, rgba(6,182,212,0.18), transparent 55%),
+                #0a0a0a;
+    color: #f5f5f7;
+  }
+  .d-preview .accent { color: #a5b4fc; }
+  .d-preview .hl { font-size: 36px; font-family: "Inter", system-ui, sans-serif; }
+
+  .deck .preview .content-stack > * + * { margin-top: 6px; }
+</style>
+
+<div class="cards deck">
+  <div class="card option" data-choice="apple" onclick="toggleSelect(this)">
+    <div class="preview a-preview">
+      <div class="content-stack">
+        <div class="eyebrow">○ Codeminds Digital</div>
+      </div>
+      <div class="content-stack">
+        <div class="hl">Software,<br>built with <span class="accent">care.</span></div>
+        <div class="sub">Web, mobile, and AI products. Two-to-four-week delivery. Chennai.</div>
+      </div>
+      <div class="anchor">v2026.1 · Booking new projects</div>
+    </div>
+    <div class="desc">
+      <strong>A — Apple Clean</strong>
+      Off-white, SF-style display, single saturated accent, generous whitespace. Confident, premium, calm. Lets the WebGL shader and motion be the surprise.
+    </div>
+  </div>
+
+  <div class="card option" data-choice="editorial" onclick="toggleSelect(this)">
+    <div class="preview b-preview">
+      <div class="content-stack">
+        <div class="eyebrow">— Codeminds Digital, est. 2026</div>
+      </div>
+      <div class="content-stack">
+        <div class="hl"><em>Software</em><br>that <em class="accent">behaves</em>.</div>
+        <div class="sub">A studio for web, mobile, and AI products. Made in Chennai, shipped to the world.</div>
+      </div>
+      <div class="anchor">v2026.1 · Now booking</div>
+    </div>
+    <div class="desc">
+      <strong>B — Editorial Studio</strong>
+      Warm off-white paper, italic serif display, monospace utility chrome. Tundra / Linear / It's Nice That energy. Reads as craft + taste, not "tech agency".
+    </div>
+  </div>
+
+  <div class="card option" data-choice="brutalist" onclick="toggleSelect(this)">
+    <div class="preview c-preview">
+      <div class="grid"></div>
+      <div class="content-stack" style="position:relative">
+        <div class="eyebrow">[ CODEMINDS / 01 / OPEN ]</div>
+      </div>
+      <div class="content-stack" style="position:relative">
+        <div class="hl">WE BUILD<br>SOFTWARE <span class="accent">THAT</span><br>SHIPS.</div>
+        <div class="sub">Web · Mobile · AI · 2–4 wk delivery · Chennai</div>
+      </div>
+      <div class="anchor" style="position:relative">v2026.1 — INDEX —— SCROLL ↓</div>
+    </div>
+    <div class="desc">
+      <strong>C — Brutalist Agency</strong>
+      All-caps Helvetica, hard edges, exposed grid, type-only. Locomotive / Active Theory hybrid. Loud, confident, unmistakable — but heavy commitment to the look across every page.
+    </div>
+  </div>
+
+  <div class="card option" data-choice="premium-dark" onclick="toggleSelect(this)">
+    <div class="preview d-preview">
+      <div class="content-stack">
+        <div class="eyebrow">● BOOKING NEW PROJECTS</div>
+      </div>
+      <div class="content-stack">
+        <div class="hl">Build the <span class="accent">unbuildable</span>.<br>Ship anyway.</div>
+        <div class="sub">Codeminds Digital — web, mobile, and AI for ambitious teams. Chennai → worldwide.</div>
+      </div>
+      <div class="anchor">CODEMINDS DIGITAL · v2026.1 · CHENNAI</div>
+    </div>
+    <div class="desc">
+      <strong>D — Premium Dark</strong>
+      Dark charcoal, plasma WebGL backdrop becomes the entire mood. Resn / Vercel / Linear-pro feel. Highest "expensive" signal. Plays best with your existing shader.
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:24px">
+  Click a card to mark your pick. You can also tell me in the terminal — "B with C's monospace details" is a perfectly valid answer.
+</p>

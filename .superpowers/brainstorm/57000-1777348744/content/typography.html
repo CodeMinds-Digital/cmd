@@ -1,0 +1,144 @@
+<h2>Question 6 — Typography pairing</h2>
+<p class="subtitle">Same hero stack rendered in 4 pairings on the locked Plasma Indigo palette. All four are free (Google Fonts).</p>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+  .type-deck { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .type-deck .option { padding: 0; overflow: hidden; cursor: pointer; }
+  .type-card {
+    aspect-ratio: 5 / 4;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+      radial-gradient(ellipse 60% 50% at 25% 30%, rgba(99,102,241,0.30), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 80% 75%, rgba(6,182,212,0.20), transparent 60%),
+      #0a0a0c;
+    color: #f5f5f7;
+  }
+  .type-card .eyebrow {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #a5b4fc;
+  }
+  .type-card .hl { line-height: 0.95; letter-spacing: -0.025em; }
+  .type-card .sub { color: #b4b4c4; max-width: 92%; }
+  .type-card .body { color: #cfcfd9; font-size: 12.5px; line-height: 1.55; max-width: 92%; }
+  .type-card .meta { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #6b6c8a; }
+  .type-card .link { color: #f5f5f7; border-bottom: 1px solid #a5b4fc; padding-bottom: 1px; }
+
+  /* A — Geist + Geist Mono */
+  .ta { font-family: 'Geist', system-ui, sans-serif; }
+  .ta .hl { font-family: 'Geist', system-ui, sans-serif; font-weight: 700; font-size: 36px; }
+  .ta .sub { font-size: 13px; }
+  .ta .eyebrow, .ta .meta { font-family: 'Geist Mono', ui-monospace, monospace; }
+
+  /* B — Bricolage Grotesque + JetBrains Mono */
+  .tb { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+  .tb .hl { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 38px; font-stretch: 100%; }
+  .tb .sub { font-size: 13px; }
+  .tb .eyebrow, .tb .meta { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  /* C — Inter + JetBrains Mono (current/safe) */
+  .tc { font-family: 'Inter', system-ui, sans-serif; }
+  .tc .hl { font-family: 'Inter', system-ui, sans-serif; font-weight: 800; font-size: 36px; }
+  .tc .sub { font-size: 13px; }
+  .tc .eyebrow, .tc .meta { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  /* D — Instrument Serif (display) + Geist (body) + Geist Mono */
+  .td { font-family: 'Geist', system-ui, sans-serif; }
+  .td .hl { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-style: italic; font-size: 46px; line-height: 0.95; letter-spacing: -0.01em; }
+  .td .hl .roman { font-style: normal; }
+  .td .sub { font-size: 13px; }
+  .td .eyebrow, .td .meta { font-family: 'Geist Mono', ui-monospace, monospace; }
+
+  .type-deck .desc { padding: 16px 18px; font-size: 13px; line-height: 1.45; }
+  .type-deck .desc strong { display:block; margin-bottom:4px; }
+  .type-deck .pair { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11px; color:#6b6f76; margin-top:6px; }
+</style>
+
+<div class="cards type-deck">
+  <div class="card option" data-choice="geist" onclick="toggleSelect(this)">
+    <div class="type-card ta">
+      <div class="eyebrow">● BOOKING NEW PROJECTS</div>
+      <div>
+        <div class="hl">Software,<br>built with care.</div>
+        <div class="sub" style="margin-top:10px">A digital studio for web, mobile, and AI products.</div>
+      </div>
+      <div>
+        <div class="body">Custom builds, no templates. Two-to-four-week delivery from <span class="link">Chennai → worldwide</span>.</div>
+        <div class="meta" style="margin-top:14px">CODEMINDS DIGITAL · v2026.1 · CHENNAI</div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>A — Geist + Geist Mono</strong>
+      Modern, neutral, technical. Vercel's house font. Reads as "we ship software". Lowest character risk; pairs cleanly with anything.
+      <div class="pair">Display: Geist 700 · Body: Geist 400 · Mono: Geist Mono</div>
+    </div>
+  </div>
+
+  <div class="card option" data-choice="bricolage" onclick="toggleSelect(this)">
+    <div class="type-card tb">
+      <div class="eyebrow">● BOOKING NEW PROJECTS</div>
+      <div>
+        <div class="hl">Software,<br>built with care.</div>
+        <div class="sub" style="margin-top:10px">A digital studio for web, mobile, and AI products.</div>
+      </div>
+      <div>
+        <div class="body">Custom builds, no templates. Two-to-four-week delivery from <span class="link">Chennai → worldwide</span>.</div>
+        <div class="meta" style="margin-top:14px">CODEMINDS DIGITAL · v2026.1 · CHENNAI</div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>B — Bricolage Grotesque + JetBrains Mono</strong>
+      Characterful sans with optical sizing — the headline gets distinctive while the body stays clean. Reads "design studio with engineering chops" more than "dev shop".
+      <div class="pair">Display: Bricolage Grotesque 700 · Body: Inter 400 · Mono: JetBrains Mono</div>
+    </div>
+  </div>
+
+  <div class="card option" data-choice="inter" onclick="toggleSelect(this)">
+    <div class="type-card tc">
+      <div class="eyebrow">● BOOKING NEW PROJECTS</div>
+      <div>
+        <div class="hl">Software,<br>built with care.</div>
+        <div class="sub" style="margin-top:10px">A digital studio for web, mobile, and AI products.</div>
+      </div>
+      <div>
+        <div class="body">Custom builds, no templates. Two-to-four-week delivery from <span class="link">Chennai → worldwide</span>.</div>
+        <div class="meta" style="margin-top:14px">CODEMINDS DIGITAL · v2026.1 · CHENNAI</div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>C — Inter + JetBrains Mono</strong>
+      Current pairing. Boring in a good way. If you want zero risk and zero font-licensing surprises later. Used by ~half the Awwwards finalists too.
+      <div class="pair">Display: Inter 800 · Body: Inter 400 · Mono: JetBrains Mono</div>
+    </div>
+  </div>
+
+  <div class="card option" data-choice="serif-mix" onclick="toggleSelect(this)">
+    <div class="type-card td">
+      <div class="eyebrow">● BOOKING NEW PROJECTS</div>
+      <div>
+        <div class="hl"><span class="roman">Software,</span><br>built with care.</div>
+        <div class="sub" style="margin-top:10px">A digital studio for web, mobile, and AI products.</div>
+      </div>
+      <div>
+        <div class="body">Custom builds, no templates. Two-to-four-week delivery from <span class="link">Chennai → worldwide</span>.</div>
+        <div class="meta" style="margin-top:14px">CODEMINDS DIGITAL · v2026.1 · CHENNAI</div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>D — Instrument Serif (display) + Geist + Geist Mono</strong>
+      Italic serif for hero/section moments only; sans-serif for everything else. Highest "editorial premium" signal. Best lift-to-effort ratio if you commit to the serif as a recurring motif.
+      <div class="pair">Display: Instrument Serif italic · Body: Geist 400 · Mono: Geist Mono</div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:24px">
+  Click a card to lock — or reply in terminal (e.g. "D, but only the hero gets the serif").
+</p>

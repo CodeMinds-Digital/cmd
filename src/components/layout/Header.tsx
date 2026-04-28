@@ -1,268 +1,165 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import Magnetic from '@/components/animations/Magnetic';
 
+const navItems = [
+  { href: '/work', label: 'Work' },
+  { href: '/studio', label: 'Studio' },
+  { href: '/journal', label: 'Journal' },
+];
 
-const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState('home');
-
-  const { scrollY } = useScroll();
-  const headerOpacity = useTransform(scrollY, [0, 100], [0.95, 1]);
-  const headerBlur = useTransform(scrollY, [0, 100], [8, 20]);
+export default function Header() {
+  const pathname = usePathname();
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-
-      // Track active section with improved logic
-      const sections = ['home', 'about', 'services', 'portfolio', 'process', 'testimonials', 'blog', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 8);
+      // Hide on scroll down past the hero, show on scroll up.
+      if (y > 200 && y > lastY) setHidden(true);
+      else setHidden(false);
+      lastY = y;
     };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial call
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Modern navigation items
-  const navItems = [
-    { name: 'Home', href: '#home', icon: '🏠', id: 'home' },
-    { name: 'About', href: '#about', icon: '👥', id: 'about' },
-    { name: 'Services', href: '#services', icon: '⚡', id: 'services' },
-    { name: 'Portfolio', href: '#portfolio', icon: '💼', id: 'portfolio' },
-    { name: 'Process', href: '#process', icon: '🔄', id: 'process' },
-    { name: 'Reviews', href: '#testimonials', icon: '⭐', id: 'testimonials' },
-    { name: 'Blog', href: '#blog', icon: '📝', id: 'blog' },
-    { name: 'Contact', href: '#contact', icon: '📧', id: 'contact' },
-  ];
-
-
+  // Close mobile menu on navigation.
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <motion.header
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'glass shadow-large py-3'
-          : 'bg-transparent py-6'
+      animate={{ y: hidden ? '-100%' : '0%' }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled
+          ? 'bg-ink-900/80 backdrop-blur-xl border-b border-ink-700'
+          : 'bg-transparent'
       }`}
-      style={{
-        backdropFilter: isScrolled ? 'blur(20px)' : 'none',
-        backgroundColor: isScrolled
-          ? 'rgba(255, 255, 255, 0.8)'
-          : 'transparent'
-      }}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
     >
-      <div className="container flex items-center justify-between">
-        {/* Logo */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+      <div className="container flex items-center justify-between h-16 md:h-20">
+        {/* Wordmark */}
+        <Link
+          href="/"
+          className="font-semibold text-paper-50 tracking-tight hover:text-brand-400 transition-colors"
         >
-          <Link href="#home" className="flex items-center group">
-            <div className="relative">
-              <Image
-                src="/icons/logo.svg"
-                alt="CodeMinds Digital"
-                width={40}
-                height={40}
-                className="w-10 h-10 transition-transform duration-300 group-hover:rotate-12"
-              />
-            </div>
-            <span className="ml-3 text-xl font-heading font-bold text-neutral-900 relative">
-              <span className="text-brand-600">Code</span>
-              <span>Minds</span>
-              <motion.span
-                className="absolute -bottom-1 left-0 h-[3px] bg-gradient-brand w-0 group-hover:w-full transition-all duration-300"
-                initial={{ width: 0 }}
-                animate={{ width: isScrolled ? '100%' : 0 }}
-                transition={{ duration: 0.5 }}
-              />
-            </span>
-          </Link>
-        </motion.div>
+          Codeminds<span className="text-paper-400 font-mono mx-1">·</span>
+          <span className="font-normal text-paper-400">Digital</span>
+        </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-1">
-          {navItems.map((item) => (
-            <motion.div
-              key={item.name}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
+          {navItems.map((item) => {
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
               <Link
+                key={item.href}
                 href={item.href}
-                className={`relative px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 z-10 ${
-                  activeSection === item.id
-                    ? 'text-brand-600'
-                    : 'text-neutral-700 hover:text-brand-600'
+                className={`px-4 py-2 text-sm transition-colors relative ${
+                  active
+                    ? 'text-paper-50'
+                    : 'text-paper-300 hover:text-paper-50'
                 }`}
-                onMouseEnter={() => setHoveredItem(item.name)}
-                onMouseLeave={() => setHoveredItem(null)}
               >
-                <span className="text-sm">{item.icon}</span>
-                <span>{item.name}</span>
-
-                {/* Active indicator */}
-                {activeSection === item.id && (
-                  <motion.div
-                    className="absolute inset-0 bg-brand-100 rounded-xl border border-brand-200 -z-10"
-                    layoutId="activeNavItem"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                )}
-
-                {/* Hover indicator */}
-                {hoveredItem === item.name && activeSection !== item.id && (
-                  <motion.div
-                    className="absolute inset-0 bg-brand-50/50 rounded-xl -z-10"
-                    layoutId="hoveredNavItem"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                {item.label}
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute left-4 right-4 -bottom-px h-px bg-brand-400"
                   />
                 )}
               </Link>
-            </motion.div>
-          ))}
+            );
+          })}
         </nav>
 
-        {/* Right side actions */}
-        <div className="hidden lg:flex items-center space-x-4">
-
-
-          {/* CTA Button */}
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
+        {/* Right CTA */}
+        <div className="hidden md:block">
+          <Magnetic>
             <Link
-              href="#contact"
-              className="btn-primary"
+              href="/#contact"
+              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium rounded-full bg-paper-50 text-ink-900 hover:bg-brand-400 transition-colors group"
             >
-              Get Started
+              Start a project
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
             </Link>
-          </motion.div>
+          </Magnetic>
         </div>
 
-        {/* Mobile Menu Button */}
-        <motion.button
-          className="lg:hidden p-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200 transition-colors focus:outline-none relative z-20"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Toggle mobile menu"
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden text-paper-100 p-2 -mr-2"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen((v) => !v)}
         >
-          <div className="w-6 h-6 flex items-center justify-center">
-            <motion.div
-              animate={isMobileMenuOpen ? "open" : "closed"}
-              className="w-5 flex flex-col items-center justify-center gap-1"
-            >
-              <motion.span
-                className="w-full h-0.5 bg-gradient-brand block rounded-full"
-                variants={{
-                  closed: { rotate: 0, translateY: 0 },
-                  open: { rotate: 45, translateY: 6 }
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden
+          >
+            {mobileOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
               />
-              <motion.span
-                className="w-full h-0.5 bg-gradient-brand block rounded-full"
-                variants={{
-                  closed: { opacity: 1, scaleX: 1 },
-                  open: { opacity: 0, scaleX: 0 }
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
               />
-              <motion.span
-                className="w-full h-0.5 bg-gradient-brand block rounded-full"
-                variants={{
-                  closed: { rotate: 0, translateY: 0 },
-                  open: { rotate: -45, translateY: -6 }
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-              />
-            </motion.div>
-          </div>
-        </motion.button>
+            )}
+          </svg>
+        </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            className="md:hidden fixed inset-0 bg-white/95 backdrop-blur-md z-10 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+        {mobileOpen && (
+          <motion.nav
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden bg-ink-900/95 backdrop-blur-xl border-t border-ink-700 overflow-hidden"
+            aria-label="Mobile primary"
           >
-            <motion.div
-              className="container py-4 flex flex-col space-y-6 items-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
-            >
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.1, duration: 0.3 }}
-                >
-                  <Link
-                    href={item.href}
-                    className={`font-medium transition-colors py-2 text-2xl flex items-center gap-3 ${
-                      activeSection === item.id
-                        ? 'text-brand-600'
-                        : 'text-neutral-800 hover:text-brand-600'
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <span className="text-brand-600">{item.icon}</span>
-                    {item.name}
-                  </Link>
-                </motion.div>
-              ))}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + navItems.length * 0.1, duration: 0.3 }}
-              >
+            <div className="container py-6 flex flex-col gap-1">
+              {navItems.map((item) => (
                 <Link
-                  href="#contact"
-                  className="btn-primary w-full text-center block mt-4"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  key={item.href}
+                  href={item.href}
+                  className="py-3 text-h3 font-semibold text-paper-100 hover:text-brand-400 transition-colors"
                 >
-                  Get Started
+                  {item.label}
                 </Link>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              ))}
+              <Link
+                href="/#contact"
+                className="mt-4 inline-flex items-center gap-2 px-5 py-3 text-sm font-medium rounded-full bg-paper-50 text-ink-900 self-start"
+              >
+                Start a project →
+              </Link>
+            </div>
+          </motion.nav>
         )}
       </AnimatePresence>
     </motion.header>
   );
-};
-
-export default Header;
+}

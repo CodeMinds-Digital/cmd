@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { motion, useAnimation, useInView, useReducedMotion } from 'framer-motion';
 
 type ScrollRevealProps = {
   children: React.ReactNode;
@@ -25,9 +25,10 @@ const ScrollReveal = ({
   const controls = useAnimation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once });
+  const prefersReducedMotion = useReducedMotion();
 
-  // Set the direction of the animation
   const getDirection = () => {
+    if (prefersReducedMotion) return {};
     switch (direction) {
       case 'up':
         return { y: 40 };

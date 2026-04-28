@@ -1,33 +1,23 @@
-'use client';
-
-import React from 'react';
-import { motion } from 'framer-motion';
 import Hero from '@/components/sections/Hero';
-import About from '@/components/sections/About';
-import Services from '@/components/sections/Services';
-import Portfolio from '@/components/sections/Portfolio';
+import SelectedWork from '@/components/sections/SelectedWork';
+import LogoWall from '@/components/sections/LogoWall';
+import Capabilities from '@/components/sections/Capabilities';
 import Process from '@/components/sections/Process';
-import Testimonials from '@/components/sections/Testimonials';
-import Blog from '@/components/sections/Blog';
-import CallToAction from '@/components/sections/CallToAction';
-import Contact from '@/components/sections/Contact';
-import Footer from '@/components/layout/Footer';
+import Conversation from '@/components/sections/Conversation';
 import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   return (
     <>
       <Header />
-      <main>
+      <main className="relative">
         <Hero />
-        <About />
-        <Services />
-        <Portfolio />
+        <SelectedWork />
+        <LogoWall />
+        <Capabilities />
         <Process />
-        <Testimonials />
-        <Blog />
-        <CallToAction />
-        <Contact />
+        <Conversation />
       </main>
       <Footer />
     </>

@@ -1,127 +1,113 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useReducedMotion,
+} from 'framer-motion';
 
-const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [clicked, setClicked] = useState(false);
-  const [linkHovered, setLinkHovered] = useState(false);
-  const [hidden, setHidden] = useState(false);
+const HOVER_SELECTOR = 'a, button, [data-cursor="hover"]';
+
+export default function CustomCursor() {
+  const prefersReducedMotion = useReducedMotion();
+  const [enabled, setEnabled] = useState(false);
+  const [hovering, setHovering] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const [hidden, setHidden] = useState(true);
+
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const ringX = useSpring(x, { stiffness: 220, damping: 26, mass: 0.4 });
+  const ringY = useSpring(y, { stiffness: 220, damping: 26, mass: 0.4 });
 
   useEffect(() => {
-    const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+    if (prefersReducedMotion) return;
+    const fine = window.matchMedia('(pointer: fine)');
+    const update = () => setEnabled(fine.matches);
+    update();
+    fine.addEventListener('change', update);
+    return () => fine.removeEventListener('change', update);
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    const onMove = (e: PointerEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      if (hidden) setHidden(false);
+    };
+    const onDown = () => setPressed(true);
+    const onUp = () => setPressed(false);
+    const onLeave = () => setHidden(true);
+    const onEnter = () => setHidden(false);
+    const onOver = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (target?.closest?.(HOVER_SELECTOR)) setHovering(true);
+    };
+    const onOut = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (target?.closest?.(HOVER_SELECTOR)) setHovering(false);
     };
 
-    const handleMouseDown = () => setClicked(true);
-    const handleMouseUp = () => setClicked(false);
-    
-    const handleLinkHoverEvents = () => {
-      document.querySelectorAll('a, button').forEach(el => {
-        el.addEventListener('mouseenter', () => setLinkHovered(true));
-        el.addEventListener('mouseleave', () => setLinkHovered(false));
-      });
-    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointerup', onUp);
+    document.addEventListener('mouseleave', onLeave);
+    document.addEventListener('mouseenter', onEnter);
+    document.addEventListener('mouseover', onOver);
+    document.addEventListener('mouseout', onOut);
 
-    const handleMouseLeave = () => setHidden(true);
-    const handleMouseEnter = () => setHidden(false);
-
-    document.addEventListener('mousemove', updatePosition);
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    handleLinkHoverEvents();
+    document.documentElement.classList.add('has-custom-cursor');
 
     return () => {
-      document.removeEventListener('mousemove', updatePosition);
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      document.querySelectorAll('a, button').forEach(el => {
-        el.removeEventListener('mouseenter', () => setLinkHovered(true));
-        el.removeEventListener('mouseleave', () => setLinkHovered(false));
-      });
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('pointerup', onUp);
+      document.removeEventListener('mouseleave', onLeave);
+      document.removeEventListener('mouseenter', onEnter);
+      document.removeEventListener('mouseover', onOver);
+      document.removeEventListener('mouseout', onOut);
+      document.documentElement.classList.remove('has-custom-cursor');
     };
-  }, []);
+  }, [enabled, hidden, x, y]);
 
-  const variants = {
-    default: {
-      x: position.x - 12,
-      y: position.y - 12,
-      opacity: hidden ? 0 : 0.8
-    },
-    text: {
-      height: 40,
-      width: 40,
-      x: position.x - 20,
-      y: position.y - 20,
-      backgroundColor: 'rgba(99, 102, 241, 0.05)',
-      mixBlendMode: 'normal' as 'normal'
-    },
-    clicked: {
-      height: 10,
-      width: 10,
-      backgroundColor: 'rgba(99, 102, 241, 0.7)'
-    }
-  };
+  if (!enabled) return null;
 
-  const spring = {
-    type: 'spring',
-    stiffness: 400,
-    damping: 30
-  };
-
-  // Only render on client side
-  if (typeof window === 'undefined') return null;
+  const dotSize = pressed ? 14 : hovering ? 8 : 6;
+  const ringSize = hovering ? 56 : pressed ? 24 : 36;
 
   return (
     <>
       <motion.div
-        className="cursor-dot hidden md:block fixed top-0 left-0 w-6 h-6 bg-transparent border border-secondary-500 rounded-full pointer-events-none z-[9999]"
-        animate={linkHovered ? 'text' : clicked ? 'clicked' : 'default'}
-        variants={variants}
-        transition={spring}
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full bg-brand-500 mix-blend-difference"
+        style={{
+          x,
+          y,
+          width: dotSize,
+          height: dotSize,
+          translateX: '-50%',
+          translateY: '-50%',
+          opacity: hidden ? 0 : 1,
+        }}
+        transition={{ type: 'spring', stiffness: 600, damping: 28 }}
       />
       <motion.div
-        className="cursor-ring hidden md:block fixed top-0 left-0 w-2 h-2 bg-gradient-to-r from-secondary-500 to-primary-600 rounded-full pointer-events-none z-[9999] opacity-50"
-        animate={{
-          x: position.x - 4,
-          y: position.y - 4,
-          opacity: hidden ? 0 : 0.5,
-          scale: clicked ? 0.5 : linkHovered ? 1.2 : 1
-        }}
-        transition={{
-          type: 'spring',
-          stiffness: 800,
-          damping: 40
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full border border-brand-500/70 mix-blend-difference"
+        style={{
+          x: ringX,
+          y: ringY,
+          width: ringSize,
+          height: ringSize,
+          translateX: '-50%',
+          translateY: '-50%',
+          opacity: hidden ? 0 : hovering ? 0.9 : 0.5,
         }}
       />
-      <style jsx global>{`
-        body {
-          cursor: none;
-        }
-        
-        @media (max-width: 768px) {
-          body {
-            cursor: auto;
-          }
-        }
-        
-        a, button {
-          cursor: none;
-        }
-        
-        @media (max-width: 768px) {
-          a, button {
-            cursor: pointer;
-          }
-        }
-      `}</style>
     </>
   );
-};
-
-export default CustomCursor;
+}

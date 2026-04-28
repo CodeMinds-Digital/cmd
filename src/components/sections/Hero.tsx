@@ -1,267 +1,178 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type TargetAndTransition,
+  type Transition,
+} from 'framer-motion';
 import Link from 'next/link';
-import FloatingElements from '@/components/animations/FloatingElements';
-import ParticleField from '@/components/animations/ParticleField';
+import dynamic from 'next/dynamic';
+import Magnetic from '@/components/animations/Magnetic';
+import SplitText from '@/components/animations/SplitText';
+
+const HeroCanvas = dynamic(() => import('@/components/three/HeroCanvas'), {
+  ssr: false,
+  loading: () => null,
+});
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
+  const loop = (anim: TargetAndTransition): TargetAndTransition =>
+    prefersReducedMotion ? {} : anim;
+  const loopTransition = (t: Transition): Transition =>
+    prefersReducedMotion ? { duration: 0 } : t;
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.85, 0]);
+
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-neutral-50"
+      ref={sectionRef}
+      style={{ position: 'relative' }}
+      className="min-h-screen min-h-[100dvh] flex items-center justify-center overflow-hidden bg-ink-900"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0 -z-10">
-        {/* Advanced CSS Floating Elements */}
-        <FloatingElements />
+      {/* Static gradient backdrop — fallback when WebGL is gated. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-20"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 30% 30%, rgba(99,102,241,0.22) 0%, transparent 60%), radial-gradient(ellipse 70% 50% at 75% 70%, rgba(6,182,212,0.16) 0%, transparent 55%)',
+        }}
+      />
 
-        {/* Advanced CSS Particle Field */}
-        <ParticleField />
-
-        {/* Traditional Background Elements */}
-        <motion.div
-          className="absolute top-1/4 right-1/4 w-96 h-96 bg-brand-100 rounded-full blur-3xl opacity-30"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-
-        <motion.div
-          className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-electric-100 rounded-full blur-3xl opacity-30"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [360, 180, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-      </div>
+      {/* WebGL shader: signature ambient backdrop. Capability-gated. */}
+      <HeroCanvas />
 
       {/* Main Content */}
-      <div className="container relative z-10">
-        <div className="text-center max-w-6xl mx-auto">
-          {/* Status Badge */}
+      <motion.div
+        className="container relative z-10"
+        style={prefersReducedMotion ? undefined : { y: contentY, opacity: contentOpacity }}
+      >
+        <div className="text-center max-w-5xl mx-auto">
+          {/* Status — quiet, type-driven */}
           <AnimatePresence>
             {isLoaded && (
               <motion.div
-                className="inline-flex items-center px-6 py-3 rounded-full bg-white/80 backdrop-blur-sm border border-brand-200/50 text-brand-700 text-sm font-semibold mb-8"
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
+                className="inline-flex items-center gap-2.5 mb-12 font-mono text-mono-xs text-paper-300"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <motion.span
-                  className="w-2 h-2 bg-neon-500 rounded-full mr-3"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [1, 0.7, 1]
-                  }}
-                  transition={{
+                  className="h-1.5 w-1.5 rounded-full bg-brand-400"
+                  animate={loop({ opacity: [1, 0.4, 1] })}
+                  transition={loopTransition({
                     duration: 2,
                     repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
+                    ease: 'easeInOut',
+                  })}
                 />
-                Available for new projects • Booking Q1 2025
+                Booking new projects
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Main Headline */}
-          <motion.h1
-            className="heading-xl mb-8 text-balance"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 1.2,
-              delay: 0.2,
-              type: "spring",
-              stiffness: 100,
-              damping: 15
-            }}
-          >
-            <motion.span
-              className="block text-neutral-900"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+          {/* Headline — Geist sans + Instrument Serif italic motif */}
+          <h1 className="mb-10 text-balance">
+            <SplitText
+              className="block text-h1 md:text-display font-bold text-paper-50"
+              delay={0.2}
             >
-              Digital Experiences
-            </motion.span>
-            <motion.span
-              className="block"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              Software,
+            </SplitText>
+            <SplitText
+              className="block text-h1 md:text-display font-bold text-paper-50"
+              delay={0.55}
             >
-              That{' '}
-              <motion.span
-                className="text-brand-600"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                whileHover={{ scale: 1.05, color: "#2563eb" }}
-              >
-                Transform
-              </motion.span>
-            </motion.span>
-            <motion.span
-              className="block text-neutral-900"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-            >
-              Businesses
-            </motion.span>
-          </motion.h1>
+              built with{' '}
+              <span className="font-serif italic font-normal text-brand-400">care.</span>
+            </SplitText>
+          </h1>
 
-          {/* Subtitle */}
+          {/* Subline */}
           <motion.p
-            className="text-xl md:text-2xl text-neutral-600 mb-12 max-w-4xl mx-auto leading-relaxed text-balance"
-            initial={{ opacity: 0, y: 30 }}
+            className="text-lead text-paper-200 max-w-2xl mx-auto mb-12 text-balance"
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 1.0,
-              delay: 1.2,
-              type: "spring",
-              stiffness: 80,
-              damping: 12
-            }}
+            transition={{ duration: 0.9, delay: 1.1 }}
           >
-            We craft award-winning websites, mobile apps, and digital solutions that drive growth.
-            From startups to enterprises, we deliver exceptional results that exceed expectations.
+            A digital studio for web, mobile, and AI. Two-to-four-week delivery
+            from Chennai → worldwide.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTAs */}
           <motion.div
-            className="flex flex-col sm:flex-row justify-center gap-4 mb-20"
-            initial={{ opacity: 0, y: 40 }}
+            className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-6"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 1.0,
-              delay: 1.4,
-              type: "spring",
-              stiffness: 100,
-              damping: 15
-            }}
+            transition={{ duration: 0.7, delay: 1.4 }}
           >
-            <motion.div
-              whileHover={{
-                scale: 1.05,
-                y: -2,
-                transition: { duration: 0.2 }
-              }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.6 }}
-            >
+            <Magnetic>
               <Link
                 href="#contact"
                 className="btn-primary btn-lg group"
               >
-                Start Your Project
+                Start a project
                 <svg
-                  className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
+                  className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  aria-hidden
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
                 </svg>
               </Link>
-            </motion.div>
+            </Magnetic>
 
-            <motion.div
-              whileHover={{
-                scale: 1.05,
-                y: -2,
-                transition: { duration: 0.2 }
-              }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.8 }}
+            <Link
+              href="#work"
+              className="px-6 py-3 text-paper-200 hover:text-paper-50 transition-colors flex items-center gap-2 group"
             >
-              <Link
-                href="#portfolio"
-                className="btn-secondary btn-lg group"
-              >
-                <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                View Our Work
-              </Link>
-            </motion.div>
-          </motion.div>
-
-          {/* Stats Grid */}
-          <motion.div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 1.0,
-              delay: 2.0,
-              type: "spring",
-              stiffness: 80,
-              damping: 12
-            }}
-          >
-            {[
-              { value: '150+', label: 'Projects Delivered', icon: '🚀' },
-              { value: '99%', label: 'Client Satisfaction', icon: '⭐' },
-              { value: '2-4 weeks', label: 'Average Delivery', icon: '⚡' },
-              { value: '24/7', label: 'Support Available', icon: '🛡️' },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                className="text-center p-6 rounded-2xl bg-white/60 backdrop-blur-sm border border-neutral-200/50 hover:bg-white/80 transition-all duration-300 group"
-                initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.8,
-                  delay: 2.2 + index * 0.15,
-                  type: "spring",
-                  stiffness: 120,
-                  damping: 15
-                }}
-                whileHover={{
-                  y: -8,
-                  scale: 1.05,
-                  transition: { duration: 0.2 }
-                }}
-              >
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                  {stat.icon}
-                </div>
-                <div className="text-2xl md:text-3xl font-bold text-brand-600 mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm md:text-base text-neutral-600 font-medium">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+              See selected work
+              <span
+                aria-hidden
+                className="inline-block h-px w-6 bg-paper-400 group-hover:w-10 group-hover:bg-paper-100 transition-all"
+              />
+            </Link>
           </motion.div>
         </div>
+      </motion.div>
+
+      {/* Editorial bottom anchor */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-6 z-10 flex items-center justify-between px-6 md:px-12 font-mono text-mono-sm text-paper-400"
+      >
+        <span>Codeminds Digital · v2026.1</span>
+        <span className="hidden md:inline">Chennai · India</span>
+        <span className="flex items-center gap-2">
+          <span className="h-px w-8 bg-paper-400" />
+          Scroll
+        </span>
       </div>
     </section>
   );

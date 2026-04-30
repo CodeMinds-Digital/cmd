@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
-import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
+import { geist, geistMono, instrumentSerif } from './fonts';
 import StructuredData from '@/components/seo/StructuredData';
 import WebVitals from '@/components/perf/WebVitals';
 import FrameBudget from '@/components/perf/FrameBudget';
@@ -10,29 +10,6 @@ import MotionRoot from '@/components/animations/MotionRoot';
 import IconSprite from '@/components/icons/IconSprite';
 
 import '../styles/globals.css';
-
-const geist = Geist({
-  subsets: ['latin'],
-  variable: '--font-geist',
-  display: 'swap',
-  preload: true,
-});
-
-const geistMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-geist-mono',
-  display: 'swap',
-  preload: true,
-});
-
-const instrumentSerif = Instrument_Serif({
-  weight: '400',
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-serif',
-  display: 'swap',
-  preload: true,
-});
 
 import type { Viewport } from 'next';
 

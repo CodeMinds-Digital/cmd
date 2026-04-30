@@ -44,6 +44,37 @@ function coerce(form: FormData, collectionId: string): Record<string, unknown> {
 
   const out: Record<string, unknown> = {};
   for (const f of cfg.fields) {
+    if (f.type === 'logo-mode') {
+      // Umbrella field — extract the 7 sub-keys directly from FormData.
+      const mode = String(form.get('logoMode') ?? 'image');
+      out.logoMode = mode === 'text' ? 'text' : 'image';
+
+      const text = String(form.get('logoText') ?? '').trim();
+      if (text !== '') out.logoText = text;
+
+      const fontFamily = String(form.get('logoFontFamily') ?? '').trim();
+      if (fontFamily !== '') out.logoFontFamily = fontFamily;
+
+      const fontSize = Number(form.get('logoFontSize'));
+      if (!Number.isNaN(fontSize) && fontSize >= 12 && fontSize <= 48) {
+        out.logoFontSize = fontSize;
+      }
+
+      const fontWeight = Number(form.get('logoFontWeight'));
+      if (!Number.isNaN(fontWeight) && fontWeight >= 100 && fontWeight <= 900) {
+        out.logoFontWeight = fontWeight;
+      }
+
+      const ls = String(form.get('logoLetterSpacing') ?? '').trim();
+      if (ls !== '' && /^-?\d*\.?\d+(em|px|rem)$|^normal$/.test(ls)) {
+        out.logoLetterSpacing = ls;
+      }
+
+      const wordmark = String(form.get('wordmarkFileId') ?? '').trim();
+      if (wordmark !== '') out.wordmarkFileId = wordmark;
+      continue;
+    }
+
     const raw = form.get(f.key);
     if (raw === null || raw === undefined) continue;
     const str = String(raw).trim();

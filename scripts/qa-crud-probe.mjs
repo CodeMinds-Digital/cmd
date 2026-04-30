@@ -80,8 +80,23 @@ async function main() {
 
   await probe(
     'siteSettings',
-    { contactEmail: `${TAG}@example.com`, ogTitle: `qa ${TAG}` },
-    { ogTitle: `qa ${TAG} updated`, themeColor: '#123456' },
+    {
+      contactEmail: `${TAG}@example.com`,
+      ogTitle: `qa ${TAG}`,
+      logoMode: 'text',
+      logoText: 'QA Wordmark',
+      logoFontFamily: 'instrument-serif',
+      logoFontSize: 24,
+      logoFontWeight: 500,
+      logoLetterSpacing: '-0.02em',
+    },
+    {
+      ogTitle: `qa ${TAG} updated`,
+      themeColor: '#123456',
+      logoMode: 'image',
+      logoFontSize: 32,
+      logoLetterSpacing: 'normal',
+    },
   );
 
   await probe(

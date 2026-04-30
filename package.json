@@ -8,16 +8,27 @@
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build --webpack",
-    "lighthouse": "lighthouse http://localhost:3000 --preset=desktop --view --output=html --output-path=./lighthouse-report.html"
+    "lighthouse": "lighthouse http://localhost:3000 --preset=desktop --view --output=html --output-path=./lighthouse-report.html",
+    "appwrite:bootstrap": "node scripts/bootstrap-appwrite.mjs",
+    "appwrite:migrate-content": "tsx scripts/migrate-content.ts",
+    "appwrite:migrate-blocks": "tsx scripts/migrate-blocks.ts",
+    "appwrite:backup": "node scripts/backup-appwrite.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.0",
+    "@tiptap/extension-link": "^3.22.5",
+    "@tiptap/extension-placeholder": "^3.22.5",
+    "@tiptap/pm": "^3.22.5",
+    "@tiptap/react": "^3.22.5",
+    "@tiptap/starter-kit": "^3.22.5",
     "@types/nodemailer": "^7.0.1",
+    "appwrite": "^25.0.0",
     "framer-motion": "^11.11.17",
     "gsap": "^3.15.0",
     "lenis": "^1.3.23",
     "next": "^16.2.4",
+    "node-appwrite": "^24.0.0",
     "nodemailer": "^7.0.6",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
@@ -34,6 +45,7 @@
     "eslint-config-next": "^16.2.4",
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.21.0",
     "typescript": "^5.7.2"
   }
 }

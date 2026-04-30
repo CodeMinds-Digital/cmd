@@ -1,31 +1,11 @@
 import Image from 'next/image';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import { getClientLogos } from '@/lib/cms/blocks';
 
-type Logo = {
-  name: string;
-  /** Optional image src — falls back to a wordmark in mono-sm uppercase. */
-  src?: string;
-  /** Optional explicit width in px. Defaults to 120. */
-  width?: number;
-};
+export default async function LogoWall() {
+  const logos = await getClientLogos();
+  if (logos.length === 0) return null;
 
-/**
- * Drop client logos here. Real assets land as SVG in /public/logos/* and
- * the wordmark fallback disappears automatically once `src` is provided.
- *
- * Per spec: logos render in low-contrast `paper-300` so they read as
- * trust-markers, not branding noise. The grayscale-ausdata pattern.
- */
-const logos: Logo[] = [
-  { name: 'Lattice' },
-  { name: 'Vercel' },
-  { name: 'Linear' },
-  { name: 'Notion' },
-  { name: 'Anthropic' },
-  { name: 'Stripe' },
-];
-
-export default function LogoWall() {
   return (
     <section
       aria-labelledby="logo-wall-heading"
@@ -45,16 +25,17 @@ export default function LogoWall() {
         <ul className="grid grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-10 items-center justify-items-center">
           {logos.map((logo) => (
             <li
-              key={logo.name}
+              key={logo.$id}
               className="text-paper-300/70 hover:text-paper-100 transition-colors duration-300"
             >
-              {logo.src ? (
+              {logo.logoUrl ? (
                 <Image
-                  src={logo.src}
+                  src={logo.logoUrl}
                   alt={logo.name}
-                  width={logo.width ?? 120}
+                  width={120}
                   height={28}
                   className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                  unoptimized
                 />
               ) : (
                 <span className="font-mono text-mono-sm uppercase tracking-[0.18em]">

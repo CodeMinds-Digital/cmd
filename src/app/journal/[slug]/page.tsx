@@ -4,11 +4,13 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
-import { posts, getPost, formatDate } from '@/data/posts';
+import { getPosts, getPost, formatDate } from '@/lib/cms/posts';
+import RenderRichText from '@/lib/render-rich-text';
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const posts = await getPosts();
   return posts.map((p) => ({ slug: p.slug }));
 }
 
@@ -18,7 +20,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return { title: 'Post Not Found | Codeminds Digital' };
 
   return {
@@ -44,9 +46,10 @@ export default async function JournalPostPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
 
+  const posts = await getPosts();
   const idx = posts.findIndex((p) => p.slug === slug);
   const next = posts[idx + 1] ?? posts[0];
 
@@ -86,15 +89,16 @@ export default async function JournalPostPage({
 
           <section className="section-padding pt-0">
             <div className="container max-w-3xl">
-              <div className="text-body text-paper-100 space-y-6 leading-relaxed">
-                {post.body ? (
-                  <p>{post.body}</p>
-                ) : (
-                  <p className="italic text-paper-300">
-                    Long-form post lands here as MDX in a future polish pass.
-                  </p>
-                )}
-              </div>
+              {post.body ? (
+                <RenderRichText
+                  doc={post.body}
+                  className="text-body text-paper-100 leading-relaxed"
+                />
+              ) : (
+                <p className="italic text-paper-300">
+                  Long-form post lands here in a future polish pass.
+                </p>
+              )}
             </div>
           </section>
         </article>

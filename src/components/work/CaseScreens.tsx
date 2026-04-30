@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { CaseScreen } from '@/data/cases';
+import type { CaseScreen } from '@/types/case';
 
 const tonePresets: Record<NonNullable<CaseScreen['tone']>, string> = {
   indigo:

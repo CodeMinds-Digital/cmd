@@ -1,127 +1,86 @@
-'use client';
-
 import Script from 'next/script';
+import { getSiteSettings } from '@/lib/cms/site-settings';
 
-const StructuredData = () => {
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://codeminds.digital';
+
+/**
+ * JSON-LD structured data. The strings come from siteSettings in
+ * Appwrite (with baked-in fallbacks). All values are JSON-stringified
+ * with `</` → `<\/` escaped, so even if a CMS field contained the
+ * literal string "</script>" it could not break out of the script tag.
+ */
+const StructuredData = async () => {
+  const s = await getSiteSettings();
+  const orgName = s.ogTitle;
+
+  const sameAs = [
+    s.twitterHandle && `https://twitter.com/${s.twitterHandle}`,
+    s.linkedinHandle && `https://linkedin.com/company/${s.linkedinHandle}`,
+    s.githubHandle && `https://github.com/${s.githubHandle}`,
+  ].filter((x): x is string => !!x);
+
   const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Codeminds Digital",
-    "url": "https://codeminds.digital",
-    "logo": "https://codeminds.digital/images/logo.png",
-    "description": "Award-winning digital design agency specializing in web development, mobile apps, UI/UX design, and digital experiences that drive business growth.",
-    "email": "cmd@codeminds.digital",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "San Francisco",
-      "addressRegion": "CA",
-      "addressCountry": "US"
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: orgName,
+    url: SITE_URL,
+    description: s.ogSubtitle,
+    email: s.contactEmail,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Chennai',
+      addressRegion: 'TN',
+      addressCountry: 'IN',
     },
-    "sameAs": [
-      "https://twitter.com/codeminds",
-      "https://linkedin.com/company/codeminds",
-      "https://dribbble.com/codeminds",
-      "https://behance.net/codeminds"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "email": "cmd@codeminds.digital",
-      "contactType": "Customer Service",
-      "availableLanguage": "English"
-    }
+    sameAs,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: s.contactEmail,
+      contactType: 'Customer Service',
+      availableLanguage: 'English',
+    },
   };
 
   const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Digital Design & Development Services",
-    "description": "Award-winning web development, mobile app development, UI/UX design, and digital experiences that transform businesses",
-    "provider": {
-      "@type": "Organization",
-      "name": "Codeminds Digital",
-      "url": "https://codeminds.digital"
-    },
-    "serviceType": "Digital Design & Development",
-    "areaServed": "Worldwide",
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Digital Design & Development Services",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Custom Web Development",
-            "description": "Tailored web applications and websites built with modern technologies"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Mobile App Development",
-            "description": "Native and cross-platform mobile applications for iOS and Android"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "UI/UX Design",
-            "description": "User interface and user experience design for web and mobile applications"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Digital Marketing",
-            "description": "SEO, social media marketing, and digital advertising solutions"
-          }
-        }
-      ]
-    }
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Software studio — web, mobile, AI',
+    description: s.ogSubtitle,
+    provider: { '@type': 'Organization', name: orgName, url: SITE_URL },
+    serviceType: 'Web, Mobile, and AI software development',
+    areaServed: 'Worldwide',
   };
 
   const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Codeminds Digital",
-    "url": "https://codeminds.digital",
-    "description": "Award-winning digital design agency crafting exceptional web experiences",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Codeminds Digital"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://codeminds.digital/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: orgName,
+    url: SITE_URL,
+    description: s.ogSubtitle,
+    publisher: { '@type': 'Organization', name: orgName },
   };
+
+  // JSON-LD escape: prevents `</script>` from breaking out even if a CMS
+  // value somehow contained it. Standard hardening for inline LD+JSON.
+  const safeJson = (obj: unknown) =>
+    JSON.stringify(obj).replace(/</g, '\\u003c');
 
   return (
     <>
       <Script
         id="organization-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: safeJson(organizationSchema) }}
       />
       <Script
         id="service-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(serviceSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: safeJson(serviceSchema) }}
       />
       <Script
         id="website-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(websiteSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: safeJson(websiteSchema) }}
       />
     </>
   );

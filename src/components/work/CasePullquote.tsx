@@ -1,4 +1,4 @@
-import type { CaseTestimonial } from '@/data/cases';
+import type { CaseTestimonial } from '@/types/case';
 
 export default function CasePullquote({
   testimonial,

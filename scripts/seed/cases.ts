@@ -1,62 +1,14 @@
-export type CaseStatus = 'live' | 'coming';
-
-export type CaseApproachStep = {
-  index: string; // "01", "02"…
-  title: string;
-  body: string;
-};
-
-export type CaseScreen = {
-  /** Optional image src — falls back to a generated gradient placeholder. */
-  src?: string;
-  alt: string;
-  caption?: string;
-  /** Visual treatment of the placeholder when no src. */
-  tone?: 'indigo' | 'cyan' | 'mixed';
-};
-
-export type CaseMetricItem = {
-  label: string;
-  value: string;
-};
-
-export type CaseTestimonial = {
-  quote: string;
-  author: string;
-  role: string;
-};
-
-export type CaseStub = {
-  slug: string;
-  title: string;
-  client?: string;
-  year: number;
-  brief: string;
-  tags: string[];
-  status: CaseStatus;
-  eta?: string;
-
-  /** Square or 16:10 cover image — used by tiles + case hero. */
-  cover?: string;
-  /** Optional alt for the cover image. Falls back to title. */
-  coverAlt?: string;
-
-  // — Long-form fields (R4)
-  role?: string;
-  duration?: string;
-  liveUrl?: string;
-  problem?: string;
-  approach?: CaseApproachStep[];
-  screens?: CaseScreen[];
-  metrics?: CaseMetricItem[];
-  testimonial?: CaseTestimonial;
-};
-
 /**
- * Single source of truth for the work index. R4 layers structured rich
- * content on top of the basic stubs from R3. R5+ may graduate this to
- * MDX once the case count justifies the dependency weight.
+ * One-time seed data for `npx tsx scripts/migrate-content.ts`.
+ *
+ * The runtime app reads from Appwrite (see src/lib/cms/cases.ts).
+ * This file is preserved so the migration is reproducible — re-running
+ * against an empty/reset Appwrite project will recreate the same docs.
+ *
+ * Edit the live data in /admin, NOT here.
  */
+import type { CaseStub } from '../../src/types/case';
+
 export const cases: CaseStub[] = [
   {
     slug: 'fintech-marketing-rebuild',
@@ -153,13 +105,3 @@ export const cases: CaseStub[] = [
     coverAlt: 'Embedding space and search result stream',
   },
 ];
-
-export function getCase(slug: string): CaseStub | undefined {
-  return cases.find((c) => c.slug === slug);
-}
-
-export function getNextCase(slug: string): CaseStub | undefined {
-  const i = cases.findIndex((c) => c.slug === slug);
-  if (i === -1) return undefined;
-  return cases[(i + 1) % cases.length];
-}

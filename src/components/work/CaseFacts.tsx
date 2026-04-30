@@ -1,4 +1,4 @@
-import type { CaseStub } from '@/data/cases';
+import type { CaseStub } from '@/types/case';
 
 type Fact = { label: string; value: string };
 

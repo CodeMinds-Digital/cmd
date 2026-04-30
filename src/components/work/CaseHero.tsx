@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
-import type { CaseStub } from '@/data/cases';
+import type { CaseStub } from '@/types/case';
 
 export default function CaseHero({ data }: { data: CaseStub }) {
   return (

@@ -1,13 +1,8 @@
-export type Post = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string; // ISO yyyy-mm-dd
-  readingTime: string;
-  tags: string[];
-  /** Optional long-form lead — the slug page uses this until MDX content lands. */
-  body?: string;
-};
+/**
+ * One-time seed data for `npx tsx scripts/migrate-content.ts`.
+ * The runtime reads from Appwrite (src/lib/cms/posts.ts).
+ */
+import type { Post } from '../../src/types/post';
 
 export const posts: Post[] = [
   {
@@ -41,16 +36,3 @@ export const posts: Post[] = [
     body: 'Long-form post coming soon.',
   },
 ];
-
-export function getPost(slug: string): Post | undefined {
-  return posts.find((p) => p.slug === slug);
-}
-
-export function formatDate(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}

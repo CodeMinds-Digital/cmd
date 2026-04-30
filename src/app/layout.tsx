@@ -34,51 +34,79 @@ const instrumentSerif = Instrument_Serif({
   preload: true,
 });
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-};
+import type { Viewport } from 'next';
+
+export async function generateViewport(): Promise<Viewport> {
+  const s = await getSiteSettings();
+  return {
+    width: 'device-width',
+    initialScale: 1,
+    themeColor: s.themeColor,
+    colorScheme: 'dark',
+  };
+}
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://codeminds.digital';
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: 'Codeminds Digital | Award-Winning Web Development & Digital Design Agency',
-  description: 'Transform your business with Codeminds Digital. We craft award-winning websites, mobile apps, and digital experiences that drive growth. Professional results delivered in 2-4 weeks.',
-  keywords: 'web development, mobile app development, UI/UX design, digital design, custom software, Codeminds Digital, website design, e-commerce development, digital agency, award-winning design',
-  authors: [{ name: 'Codeminds Digital' }],
-  creator: 'Codeminds Digital',
-  publisher: 'Codeminds Digital',
-  robots: 'index, follow',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://codeminds.digital',
-    siteName: 'Codeminds Digital',
-    title: 'Codeminds Digital | Award-Winning Web Development & Digital Design Agency',
-    description: 'Transform your business with Codeminds Digital. We craft award-winning websites, mobile apps, and digital experiences that drive growth.',
-    images: [
-      {
-        url: '/api/og',
-        width: 1200,
-        height: 630,
-        alt: 'Codeminds Digital - Award-Winning Digital Design Agency',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@codeminds',
-    creator: '@codeminds',
-    title: 'Codeminds Digital | Award-Winning Web Development & Digital Design Agency',
-    description: 'Transform your business with Codeminds Digital. We craft award-winning websites, mobile apps, and digital experiences that drive growth.',
-    images: ['/api/og'],
-  },
-  alternates: {
-    canonical: 'https://codeminds.digital',
-  },
-  category: 'technology',
-};
+import { getSiteSettings } from '@/lib/cms/site-settings';
+import { urlForFile, BUCKETS } from '@/lib/appwrite/url-for-asset';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getSiteSettings();
+  const title = `${s.ogTitle} | Software studio · Web · Mobile · AI`;
+  const ogTwitter = s.twitterHandle ? `@${s.twitterHandle}` : undefined;
+
+  // Favicon + apple-touch icons resolve to Appwrite URLs when the editor
+  // has uploaded one; otherwise we fall back to the static SVG in /public.
+  const faviconHref = s.faviconFileId
+    ? urlForFile(s.faviconFileId, BUCKETS.publicAssets)
+    : '/icons/logo.svg';
+  const appleIconHref = s.appleTouchIconFileId
+    ? urlForFile(s.appleTouchIconFileId, BUCKETS.publicAssets)
+    : '/icons/logo.svg';
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: { default: title, template: `%s | ${s.ogTitle}` },
+    description: s.ogSubtitle,
+    keywords:
+      'web development, mobile app development, UI/UX design, AI integration, Next.js, Codeminds Digital, software studio, Chennai',
+    authors: [{ name: s.ogTitle }],
+    creator: s.ogTitle,
+    publisher: s.ogTitle,
+    robots: 'index, follow',
+    icons: {
+      icon: [{ url: faviconHref }],
+      apple: [{ url: appleIconHref }],
+    },
+    openGraph: {
+      type: 'website',
+      locale: 'en_US',
+      url: siteUrl,
+      siteName: s.ogTitle,
+      title,
+      description: s.ogSubtitle,
+      images: [
+        {
+          url: '/api/og',
+          width: 1200,
+          height: 630,
+          alt: `${s.ogTitle} — software studio`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: ogTwitter,
+      creator: ogTwitter,
+      title,
+      description: s.ogSubtitle,
+      images: ['/api/og'],
+    },
+    alternates: { canonical: siteUrl },
+    category: 'technology',
+  };
+}
 
 export default function RootLayout({
   children,
@@ -87,12 +115,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta name="theme-color" content="#0a0a0c" />
-        <meta name="color-scheme" content="dark" />
-        <link rel="icon" href="/icons/logo.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icons/logo.svg" />
-      </head>
+      {/* `theme-color` + `color-scheme` come from generateViewport().
+          Favicon + apple-touch-icon come from app/icon.tsx + app/apple-icon.tsx,
+          both reading from siteSettings in Appwrite. */}
       <body
         className={`
           ${geist.variable}

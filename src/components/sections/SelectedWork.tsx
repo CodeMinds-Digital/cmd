@@ -1,12 +1,12 @@
-'use client';
-
 import Link from 'next/link';
 import SplitText from '@/components/animations/SplitText';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
 import CaseTile from '@/components/work/CaseTile';
-import { cases } from '@/data/cases';
+import { getCases } from '@/lib/cms/cases';
 
-export default function SelectedWork() {
+export default async function SelectedWork() {
+  const cases = await getCases();
+
   return (
     <section
       id="work"
@@ -39,7 +39,7 @@ export default function SelectedWork() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {cases.map((c, i) => (
+          {cases.slice(0, 3).map((c, i) => (
             <CaseTile key={c.slug} data={c} index={i} />
           ))}
         </div>

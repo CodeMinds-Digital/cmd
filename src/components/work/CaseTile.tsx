@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Tilt from '@/components/animations/Tilt';
 import ViewTransitionLink from '@/components/animations/ViewTransitionLink';
-import type { CaseStub } from '@/data/cases';
+import type { CaseStub } from '@/types/case';
 
 type CaseTileProps = {
   data: CaseStub;

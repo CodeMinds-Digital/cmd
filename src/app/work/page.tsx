@@ -3,7 +3,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
 import CaseTile from '@/components/work/CaseTile';
-import { cases } from '@/data/cases';
+import { getCases } from '@/lib/cms/cases';
 
 export const metadata: Metadata = {
   title: 'Work | Codeminds Digital',
@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     'Selected case studies — web platforms, mobile apps, and AI integrations shipped in 2–4 weeks.',
 };
 
-export default function WorkIndexPage() {
+export default async function WorkIndexPage() {
+  const cases = await getCases();
   return (
     <>
       <Header />

@@ -1,0 +1,409 @@
+{
+  "projectId": "69f17059001f2290328e",
+  "projectName": "cmd-website",
+  "endpoint": "https://sgp.cloud.appwrite.io/v1",
+  "_comment": "Schema source of truth. Apply with `appwrite deploy collection` (CLI). Do not hand-edit collections in the Console — make changes here, deploy, commit.",
+  "databases": [
+    {
+      "$id": "cmd_website_db",
+      "name": "cmd-website-db",
+      "enabled": true
+    }
+  ],
+  "collections": [
+    {
+      "$id": "siteSettings",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Site Settings",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "wordmarkFileId",       "type": "string",  "size": 64,   "required": false },
+        { "key": "faviconFileId",        "type": "string",  "size": 64,   "required": false },
+        { "key": "appleTouchIconFileId", "type": "string",  "size": 64,   "required": false },
+        { "key": "ogImageFileId",        "type": "string",  "size": 64,   "required": false },
+        { "key": "themeColor",           "type": "string",  "size": 16,   "required": false, "default": "#0a0a0c" },
+        { "key": "ogTitle",              "type": "string",  "size": 200,  "required": false },
+        { "key": "ogSubtitle",           "type": "string",  "size": 400,  "required": false },
+        { "key": "contactEmail",         "type": "string",  "size": 254,  "required": true,  "format": "email" },
+        { "key": "phone",                "type": "string",  "size": 32,   "required": false },
+        { "key": "bookingUrl",           "type": "string",  "size": 500,  "required": false, "format": "url" },
+        { "key": "twitterHandle",        "type": "string",  "size": 64,   "required": false },
+        { "key": "githubHandle",         "type": "string",  "size": 64,   "required": false },
+        { "key": "linkedinHandle",       "type": "string",  "size": 64,   "required": false },
+        { "key": "updatedBy",            "type": "string",  "size": 64,   "required": false },
+
+        { "key": "heroEyebrow",          "type": "string",  "size": 120,
+          "_comment": "Small caption above hero H1, e.g. 'Booking new projects'" },
+        { "key": "heroLine1",            "type": "string",  "size": 120,
+          "_comment": "First H1 line, e.g. 'Software,'" },
+        { "key": "heroLine2",            "type": "string",  "size": 120,
+          "_comment": "Second H1 line, plain text portion. e.g. 'built with'" },
+        { "key": "heroLine2Accent",      "type": "string",  "size": 80,
+          "_comment": "Italic-serif accent word, e.g. 'care.'" },
+        { "key": "heroSub",              "type": "string",  "size": 400,
+          "_comment": "Sub-paragraph below H1." },
+        { "key": "heroPrimaryCtaLabel",  "type": "string",  "size": 60 },
+        { "key": "heroPrimaryCtaHref",   "type": "string",  "size": 200 },
+        { "key": "heroSecondaryCtaLabel","type": "string",  "size": 60 },
+        { "key": "heroSecondaryCtaHref", "type": "string",  "size": 200 },
+        { "key": "heroAnchorLeft",       "type": "string",  "size": 80,
+          "_comment": "Editorial anchor strip — left, e.g. 'Codeminds Digital · v2026.1'" },
+        { "key": "heroAnchorCenter",     "type": "string",  "size": 80,
+          "_comment": "Anchor strip center, e.g. 'Chennai · India'" }
+      ],
+      "indexes": []
+    },
+    {
+      "$id": "navItem",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Navigation Items",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "label",      "type": "string",  "size": 64,  "required": true },
+        { "key": "href",       "type": "string",  "size": 500, "required": true },
+        {
+          "key": "location",
+          "type": "string",
+          "size": 32,
+          "required": true,
+          "_comment": "Enum-like: header | footer-studio | footer-work | footer-contact | footer-legal"
+        },
+        { "key": "orderIndex", "type": "integer", "required": true, "min": 0, "max": 1000 }
+      ],
+      "indexes": [
+        {
+          "key": "by_location_order",
+          "type": "key",
+          "attributes": ["location", "orderIndex"],
+          "orders":     ["ASC", "ASC"]
+        }
+      ]
+    },
+
+    {
+      "$id": "testimonial",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Testimonials",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "quote",  "type": "string", "size": 1000, "required": true },
+        { "key": "author", "type": "string", "size": 200,  "required": true },
+        { "key": "role",   "type": "string", "size": 200,  "required": true },
+        { "key": "company","type": "string", "size": 200 },
+        { "key": "photoFileId", "type": "string", "size": 64 }
+      ],
+      "indexes": []
+    },
+
+    {
+      "$id": "teamMember",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Team Members",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "name",            "type": "string", "size": 200,  "required": true },
+        { "key": "role",            "type": "string", "size": 200,  "required": true },
+        { "key": "bio",             "type": "string", "size": 2000 },
+        { "key": "headshotFileId",  "type": "string", "size": 64 },
+        { "key": "twitterHandle",   "type": "string", "size": 64 },
+        { "key": "githubHandle",    "type": "string", "size": 64 },
+        { "key": "linkedinHandle",  "type": "string", "size": 64 }
+      ],
+      "indexes": []
+    },
+
+    {
+      "$id": "caseStudy",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Case Studies",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "slug",           "type": "string", "size": 200,  "required": true },
+        { "key": "title",          "type": "string", "size": 200,  "required": true },
+        { "key": "client",         "type": "string", "size": 200 },
+        { "key": "year",           "type": "integer", "required": true, "min": 2020, "max": 2099 },
+        { "key": "brief",          "type": "string", "size": 500,  "required": true },
+        { "key": "tags",           "type": "string", "size": 64,   "array": true,
+          "_comment": "Native string array — Appwrite scalar arrays only. Per-element max 64 chars." },
+        { "key": "status",         "type": "string", "size": 16,   "required": true,
+          "_comment": "Enum-like: live | coming | draft" },
+        { "key": "eta",            "type": "string", "size": 100 },
+        { "key": "coverFileId",    "type": "string", "size": 64 },
+        { "key": "coverAlt",       "type": "string", "size": 200 },
+        { "key": "role",           "type": "string", "size": 200 },
+        { "key": "duration",       "type": "string", "size": 100 },
+        { "key": "liveUrl",        "type": "string", "size": 500, "format": "url" },
+        { "key": "problem",        "type": "string", "size": 1500 },
+        { "key": "approachJson",   "type": "string", "size": 3000,
+          "_comment": "JSON array of { index, title, body }. TipTap editor in A5 will replace JSON-edit UX." },
+        { "key": "screensJson",    "type": "string", "size": 2500,
+          "_comment": "JSON array of { fileId, alt, caption, tone }" },
+        { "key": "metricsJson",    "type": "string", "size": 800,
+          "_comment": "JSON array of { label, value }" },
+        { "key": "testimonialId",  "type": "string", "size": 64,
+          "_comment": "Reference to testimonial collection $id" },
+        { "key": "orderIndex",     "type": "integer", "min": 0, "max": 1000 },
+        { "key": "scheduledFor",   "type": "datetime",
+          "_comment": "If set + status='scheduled', cron flips to 'published' at this time." },
+        { "key": "reviewedBy",     "type": "string", "size": 64 },
+        { "key": "reviewedAt",     "type": "datetime" },
+        { "key": "publishedBy",    "type": "string", "size": 64 },
+        { "key": "publishedAt",    "type": "datetime" }
+      ],
+      "indexes": [
+        { "key": "by_slug",   "type": "unique", "attributes": ["slug"],   "orders": ["ASC"] },
+        { "key": "by_order",  "type": "key",    "attributes": ["orderIndex"], "orders": ["ASC"] },
+        { "key": "by_status", "type": "key",    "attributes": ["status"], "orders": ["ASC"] }
+      ]
+    },
+
+    {
+      "$id": "capability",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Capabilities",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "title",       "type": "string",  "size": 100,  "required": true },
+        { "key": "description", "type": "string",  "size": 500,  "required": true },
+        { "key": "tags",        "type": "string",  "size": 64,   "array": true },
+        { "key": "displayIndex","type": "string",  "size": 4,
+          "_comment": "Two-digit caption shown next to title, e.g. '01'" },
+        { "key": "orderIndex",  "type": "integer", "required": true, "min": 0, "max": 100 }
+      ],
+      "indexes": [
+        { "key": "by_order", "type": "key", "attributes": ["orderIndex"], "orders": ["ASC"] }
+      ]
+    },
+
+    {
+      "$id": "processStep",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Process Steps",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "displayIndex",  "type": "string",  "size": 4,    "required": true,
+          "_comment": "'01' / '02' / '03' / '04'" },
+        { "key": "title",         "type": "string",  "size": 100,  "required": true },
+        { "key": "duration",      "type": "string",  "size": 100,
+          "_comment": "e.g. '1 week', '2–4 weeks'" },
+        { "key": "body",          "type": "string",  "size": 1000, "required": true },
+        { "key": "deliverables",  "type": "string",  "size": 200,  "array": true },
+        { "key": "iconPath",      "type": "string",  "size": 1500,
+          "_comment": "SVG path d-attribute. Used by <DrawIcon>." },
+        { "key": "orderIndex",    "type": "integer", "required": true, "min": 0, "max": 100 }
+      ],
+      "indexes": [
+        { "key": "by_order", "type": "key", "attributes": ["orderIndex"], "orders": ["ASC"] }
+      ]
+    },
+
+    {
+      "$id": "clientLogo",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Client Logos",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "name",       "type": "string",  "size": 100, "required": true },
+        { "key": "logoFileId", "type": "string",  "size": 64,
+          "_comment": "Optional — falls back to wordmark text if not set." },
+        { "key": "ndaBound",   "type": "boolean", "required": false, "default": false,
+          "_comment": "When true, the logo is hidden from the public render. Defaults to false." },
+        { "key": "orderIndex", "type": "integer", "required": true, "min": 0, "max": 1000 }
+      ],
+      "indexes": [
+        { "key": "by_order", "type": "key", "attributes": ["orderIndex"], "orders": ["ASC"] }
+      ]
+    },
+
+    {
+      "$id": "journalPost",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Journal Posts",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "slug",         "type": "string",   "size": 200,  "required": true },
+        { "key": "title",        "type": "string",   "size": 200,  "required": true },
+        { "key": "excerpt",      "type": "string",   "size": 500,  "required": true },
+        { "key": "publishedAt",  "type": "datetime", "required": true },
+        { "key": "readingTime",  "type": "string",   "size": 32 },
+        { "key": "tags",         "type": "string",   "size": 64,   "array": true },
+        { "key": "coverFileId",  "type": "string",   "size": 64 },
+        { "key": "body",         "type": "string",   "size": 12000,
+          "_comment": "Plain markdown for v1; TipTap JSON in A5." },
+        { "key": "status",       "type": "string",   "size": 16,   "required": true,
+          "_comment": "Enum-like: draft | published | scheduled" },
+        { "key": "scheduledFor", "type": "datetime" },
+        { "key": "authorId",     "type": "string",   "size": 64,
+          "_comment": "Reference to teamMember collection $id" },
+        { "key": "reviewedBy",   "type": "string",   "size": 64 },
+        { "key": "reviewedAt",   "type": "datetime" },
+        { "key": "publishedBy",  "type": "string",   "size": 64 }
+      ],
+      "indexes": [
+        { "key": "by_slug",         "type": "unique", "attributes": ["slug"],         "orders": ["ASC"] },
+        { "key": "by_published_at", "type": "key",    "attributes": ["publishedAt"],  "orders": ["DESC"] },
+        { "key": "by_status",       "type": "key",    "attributes": ["status"],       "orders": ["ASC"] }
+      ]
+    },
+
+    {
+      "$id": "auditLog",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "create(\"team:writer\")",
+        "create(\"team:editor\")",
+        "create(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Audit Log",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "actor",        "type": "string",  "size": 200, "required": true,
+          "_comment": "Email or display name of the user who took the action." },
+        { "key": "actorId",      "type": "string",  "size": 64,
+          "_comment": "Appwrite user $id." },
+        { "key": "action",       "type": "string",  "size": 32,  "required": true,
+          "_comment": "Enum-like: create | update | delete | publish | unpublish | review | schedule" },
+        { "key": "collectionId", "type": "string",  "size": 64,  "required": true },
+        { "key": "documentId",   "type": "string",  "size": 64,  "required": true },
+        { "key": "documentLabel","type": "string",  "size": 200,
+          "_comment": "Display title — slug, title, or label depending on the collection." },
+        { "key": "diffSummary",  "type": "string",  "size": 1000,
+          "_comment": "Optional human-readable summary of what changed." }
+      ],
+      "indexes": [
+        { "key": "by_collection_doc", "type": "key", "attributes": ["collectionId", "documentId"], "orders": ["ASC", "ASC"] },
+        { "key": "by_action", "type": "key", "attributes": ["action"], "orders": ["ASC"] }
+      ]
+    },
+
+    {
+      "$id": "lead",
+      "$permissions": [
+        "create(\"any\")",
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "update(\"team:editor\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "_comment": "Public form submissions create rows; only team members read.",
+      "databaseId": "cmd_website_db",
+      "name": "Leads",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "name",       "type": "string",  "size": 200,  "required": true },
+        { "key": "email",      "type": "string",  "size": 254,  "required": true, "format": "email" },
+        { "key": "project",    "type": "string",  "size": 500,
+          "_comment": "What they're building — short blurb." },
+        { "key": "message",    "type": "string",  "size": 4000, "required": true },
+        { "key": "source",     "type": "string",  "size": 32,   "required": true,
+          "_comment": "Enum-like: contact-form | referral | direct | other" },
+        { "key": "status",     "type": "string",  "size": 16,   "required": true,
+          "_comment": "Enum-like: new | qualified | replied | won | lost" },
+        { "key": "assignedTo", "type": "string",  "size": 64,
+          "_comment": "Appwrite user $id of the assigned owner." },
+        { "key": "notes",      "type": "string",  "size": 4000,
+          "_comment": "Internal notes added by the team." },
+        { "key": "userAgent",  "type": "string",  "size": 500,
+          "_comment": "Captured at submission for spam triage." },
+        { "key": "ipAddress",  "type": "string",  "size": 64 }
+      ],
+      "indexes": [
+        { "key": "by_status",  "type": "key", "attributes": ["status"],  "orders": ["ASC"] },
+        { "key": "by_email",   "type": "key", "attributes": ["email"],   "orders": ["ASC"] }
+      ]
+    }
+  ],
+  "buckets": [
+    {
+      "$id": "public-assets",
+      "name": "Public Assets",
+      "_comment": "Single bucket for all media. Free-tier-friendly. Per-file permissions handle drafts vs published distinction. Split into multiple buckets if/when paid tier justifies it.",
+      "enabled": true,
+      "maximumFileSize": 10485760,
+      "allowedFileExtensions": ["png", "jpg", "jpeg", "webp", "avif", "svg", "gif", "ico"],
+      "compression": "none",
+      "encryption": false,
+      "antivirus": true,
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "update(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ]
+    }
+  ],
+  "teams": [
+    { "$id": "admin",  "name": "Admin"  },
+    { "$id": "editor", "name": "Editor" },
+    { "$id": "writer", "name": "Writer" },
+    { "$id": "viewer", "name": "Viewer" }
+  ]
+}

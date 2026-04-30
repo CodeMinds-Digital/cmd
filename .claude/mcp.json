@@ -1,0 +1,15 @@
+{
+    "servers": {
+        "appwrite": {
+            "command": "npx",
+            "args": [
+                "@appwrite/mcp"
+            ],
+            "env": {
+                "APPWRITE_ENDPOINT": "https://sgp.cloud.appwrite.io/v1",
+                "APPWRITE_PROJECT_ID": "69f17059001f2290328e",
+                "APPWRITE_API_KEY": "standard_d9f9daf3ba4af1aed6bf07fe89ad03c7f477a04e023c0d7a546af1ade264def4a84c5a572903f0fd94e3b61ccc85cf1057ec3cfaa255f46cd1557d1091b7e56b0d810beb54fb99fce35316f4e0b83041dd7e92d05cf574d93a2c4506591189455291bd3949c050d4b29bc4d44606bf707580a1d242d27bb2cc434ffce6ff1682"
+            }
+        }
+    }
+}

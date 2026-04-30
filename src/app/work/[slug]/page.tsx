@@ -9,11 +9,13 @@ import CaseScreens from '@/components/work/CaseScreens';
 import CaseMetric from '@/components/work/CaseMetric';
 import CasePullquote from '@/components/work/CasePullquote';
 import CaseNextLink from '@/components/work/CaseNextLink';
-import { cases, getCase, getNextCase } from '@/data/cases';
+import { getCases, getCase, getNextCase } from '@/lib/cms/cases';
+import RenderRichText from '@/lib/render-rich-text';
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const cases = await getCases();
   return cases.map((c) => ({ slug: c.slug }));
 }
 
@@ -23,7 +25,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const data = getCase(slug);
+  const data = await getCase(slug);
   if (!data) return { title: 'Case Not Found | Codeminds Digital' };
 
   return {
@@ -47,10 +49,10 @@ export default async function CasePage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const data = getCase(slug);
+  const data = await getCase(slug);
   if (!data) notFound();
 
-  const next = getNextCase(slug);
+  const next = await getNextCase(slug);
   const isComing = data.status === 'coming';
 
   return (
@@ -90,9 +92,10 @@ export default async function CasePage({
                   <p className="font-mono text-mono-sm text-brand-400 mb-6">
                     Problem
                   </p>
-                  <p className="text-h3 font-normal text-paper-100 leading-relaxed">
-                    {data.problem}
-                  </p>
+                  <RenderRichText
+                    doc={data.problem}
+                    className="text-h3 font-normal text-paper-100 leading-relaxed [&_p]:text-h3 [&_p]:font-normal [&_p]:text-paper-100 [&_p]:leading-relaxed"
+                  />
                 </div>
               </section>
             )}

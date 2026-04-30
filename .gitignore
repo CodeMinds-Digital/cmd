@@ -130,3 +130,5 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+# Local Appwrite snapshots (scripts/backup-appwrite.mjs)
+backups/

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import type { CaseStub } from '@/data/cases';
+import type { CaseStub } from '@/types/case';
 
 export default function CaseNextLink({
   next,

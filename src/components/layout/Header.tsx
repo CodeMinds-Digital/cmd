@@ -1,14 +1,18 @@
 import HeaderClient from './HeaderClient';
-import { getNavByLocation } from '@/lib/cms/site-settings';
+import { getNavByLocation, getSiteSettings } from '@/lib/cms/site-settings';
+import { Wordmark } from '@/components/site/Wordmark';
 
 /**
- * Server-component wrapper. Fetches header nav from Appwrite
- * (cached + tagged), then hands off to the interactive client.
- * If Appwrite is unreachable, the data layer falls back to the
- * baked-in nav so the header never goes blank.
+ * Server-component wrapper. Fetches header nav + site settings from
+ * Appwrite (cached + tagged) and pre-renders the wordmark, then hands
+ * off to the interactive client. Keeping the wordmark on the server
+ * avoids shipping the font registry to the client bundle.
  */
 export default async function Header() {
-  const items = await getNavByLocation('header');
+  const [items, settings] = await Promise.all([
+    getNavByLocation('header'),
+    getSiteSettings(),
+  ]);
   const navItems = items.map((i) => ({ href: i.href, label: i.label }));
-  return <HeaderClient navItems={navItems} />;
+  return <HeaderClient navItems={navItems} wordmark={<Wordmark settings={settings} />} />;
 }

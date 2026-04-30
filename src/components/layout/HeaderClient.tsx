@@ -6,9 +6,16 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from '@/components/animations/Magnetic';
 
+import type { ReactNode } from 'react';
 type NavItem = { href: string; label: string };
 
-export default function HeaderClient({ navItems }: { navItems: NavItem[] }) {
+export default function HeaderClient({
+  navItems,
+  wordmark,
+}: {
+  navItems: NavItem[];
+  wordmark: ReactNode;
+}) {
   const pathname = usePathname();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -47,10 +54,10 @@ export default function HeaderClient({ navItems }: { navItems: NavItem[] }) {
         {/* Wordmark */}
         <Link
           href="/"
-          className="font-semibold text-paper-50 tracking-tight hover:text-brand-400 transition-colors"
+          aria-label="Codeminds Digital — home"
+          className="inline-flex items-center text-paper-50 hover:text-brand-400 transition-colors"
         >
-          Codeminds<span className="text-paper-400 font-mono mx-1">·</span>
-          <span className="font-normal text-paper-400">Digital</span>
+          {wordmark}
         </Link>
 
         {/* Desktop nav */}

@@ -25,7 +25,12 @@ export type FieldType =
   // the underlying string Appwrite attribute.
   | 'approach-list'
   | 'screens-list'
-  | 'metrics-list';
+  | 'metrics-list'
+  // Umbrella field for site logo (image OR typeset text). Renders
+  // a single fieldset that writes to multiple form keys: logoMode,
+  // logoText, logoFontFamily, logoFontSize, logoFontWeight,
+  // logoLetterSpacing, wordmarkFileId.
+  | 'logo-mode';
 
 export type FieldConfig = {
   key: string;
@@ -117,7 +122,8 @@ export const collections: CollectionConfig[] = [
     singleton: true,
     fields: [
       // — Brand identity
-      { key: 'wordmarkFileId', label: 'Wordmark', type: 'image' },
+      // Logo (image OR typeset text) — see <LogoFieldset>.
+      { key: 'logo', label: 'Logo', type: 'logo-mode' },
       { key: 'faviconFileId', label: 'Favicon', type: 'image' },
       { key: 'appleTouchIconFileId', label: 'Apple Touch Icon', type: 'image' },
       { key: 'ogImageFileId', label: 'OG Image (default)', type: 'image' },

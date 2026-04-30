@@ -30,6 +30,14 @@ export type SiteSettings = {
   heroSecondaryCtaHref: string;
   heroAnchorLeft: string;
   heroAnchorCenter: string;
+
+  // Logo (Phase A-LOGO)
+  logoMode: 'image' | 'text';
+  logoText: string;
+  logoFontFamily: string;
+  logoFontSize: number;
+  logoFontWeight: number;
+  logoLetterSpacing: string;
 };
 
 const FALLBACK: SiteSettings = {
@@ -59,6 +67,13 @@ const FALLBACK: SiteSettings = {
   heroSecondaryCtaHref: '#work',
   heroAnchorLeft: 'Codeminds Digital · v2026.1',
   heroAnchorCenter: 'Chennai · India',
+
+  logoMode: 'image',
+  logoText: 'Codeminds Digital',
+  logoFontFamily: 'geist',
+  logoFontSize: 20,
+  logoFontWeight: 500,
+  logoLetterSpacing: '-0.01em',
 };
 
 async function fetchSiteSettings(): Promise<SiteSettings> {
@@ -94,6 +109,13 @@ async function fetchSiteSettings(): Promise<SiteSettings> {
       heroSecondaryCtaHref: stringOr(doc.heroSecondaryCtaHref, FALLBACK.heroSecondaryCtaHref),
       heroAnchorLeft: stringOr(doc.heroAnchorLeft, FALLBACK.heroAnchorLeft),
       heroAnchorCenter: stringOr(doc.heroAnchorCenter, FALLBACK.heroAnchorCenter),
+
+      logoMode: doc.logoMode === 'text' ? 'text' : 'image',
+      logoText: stringOr(doc.logoText, FALLBACK.logoText),
+      logoFontFamily: stringOr(doc.logoFontFamily, FALLBACK.logoFontFamily),
+      logoFontSize: typeof doc.logoFontSize === 'number' ? doc.logoFontSize : FALLBACK.logoFontSize,
+      logoFontWeight: typeof doc.logoFontWeight === 'number' ? doc.logoFontWeight : FALLBACK.logoFontWeight,
+      logoLetterSpacing: stringOr(doc.logoLetterSpacing, FALLBACK.logoLetterSpacing),
     };
   } catch {
     // Document not yet created — return baked-in defaults.

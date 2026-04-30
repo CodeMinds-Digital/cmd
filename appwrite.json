@@ -56,7 +56,15 @@
         { "key": "heroAnchorLeft",       "type": "string",  "size": 80,
           "_comment": "Editorial anchor strip — left, e.g. 'Codeminds Digital · v2026.1'" },
         { "key": "heroAnchorCenter",     "type": "string",  "size": 80,
-          "_comment": "Anchor strip center, e.g. 'Chennai · India'" }
+          "_comment": "Anchor strip center, e.g. 'Chennai · India'" },
+        { "key": "logoMode",          "type": "string",  "size": 8,  "required": false,
+          "_comment": "Enum-like: image | text. Defaults to image at the renderer." },
+        { "key": "logoText",          "type": "string",  "size": 64, "required": false },
+        { "key": "logoFontFamily",    "type": "string",  "size": 32, "required": false,
+          "_comment": "Allowlist key — see src/app/fonts.ts FONT_OPTIONS." },
+        { "key": "logoFontSize",      "type": "integer", "required": false, "min": 12, "max": 48 },
+        { "key": "logoFontWeight",    "type": "integer", "required": false, "min": 100, "max": 900 },
+        { "key": "logoLetterSpacing", "type": "string",  "size": 16, "required": false }
       ],
       "indexes": []
     },

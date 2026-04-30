@@ -145,6 +145,7 @@ export default function EditForm({ cfg, documentId, doc }: EditFormProps) {
           field={f}
           value={doc?.[f.key] ?? null}
           error={fieldErrors[f.key]}
+          doc={doc ?? undefined}
         />
       ))}
 

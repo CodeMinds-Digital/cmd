@@ -4,6 +4,9 @@ import ImageUploader from './ImageUploader';
 import ApproachEditor from './ApproachEditor';
 import ScreensEditor from './ScreensEditor';
 import MetricsEditor from './MetricsEditor';
+import LogoFieldset from './site-settings/LogoFieldset';
+import type { SiteSettings } from '@/lib/cms/site-settings';
+import type { FontKey } from '@/app/fonts';
 
 // TipTap is ~150KB — only ship it on routes that actually edit rich text.
 const RichTextEditor = dynamic(
@@ -21,6 +24,8 @@ const RichTextEditor = dynamic(
 type FieldProps = {
   field: FieldConfig;
   value: unknown;
+  /** The full document — used by composite fields (e.g. logo-mode). */
+  doc?: Partial<SiteSettings> & Record<string, unknown>;
 };
 
 const inputClass =
@@ -34,7 +39,7 @@ const labelClass =
  * we read the form's current value on `input` events for live validation
  * feedback below the field.
  */
-export default function Field({ field, value, error }: FieldProps & { error?: string }) {
+export default function Field({ field, value, error, doc }: FieldProps & { error?: string }) {
   const v = value === null || value === undefined ? '' : value;
 
   return (
@@ -44,7 +49,7 @@ export default function Field({ field, value, error }: FieldProps & { error?: st
         {field.required && <span className="ml-1 text-brand-400">*</span>}
       </label>
 
-      {renderControl(field, v)}
+      {renderControl(field, v, doc)}
 
       {field.hint && !error && (
         <p className="font-mono text-mono-sm text-paper-400 mt-2">
@@ -64,7 +69,7 @@ export default function Field({ field, value, error }: FieldProps & { error?: st
   );
 }
 
-function renderControl(field: FieldConfig, v: unknown) {
+function renderControl(field: FieldConfig, v: unknown, doc?: Record<string, unknown>) {
   const stringValue = typeof v === 'string' || typeof v === 'number' ? String(v) : '';
 
   switch (field.type) {
@@ -193,6 +198,21 @@ function renderControl(field: FieldConfig, v: unknown) {
           className={inputClass}
         />
       );
+
+    case 'logo-mode': {
+      const d = (doc ?? {}) as Partial<SiteSettings>;
+      return (
+        <LogoFieldset
+          defaultMode={d.logoMode === 'text' ? 'text' : 'image'}
+          defaultText={typeof d.logoText === 'string' ? d.logoText : ''}
+          defaultFontFamily={(typeof d.logoFontFamily === 'string' ? d.logoFontFamily : 'geist') as FontKey}
+          defaultFontSize={typeof d.logoFontSize === 'number' ? d.logoFontSize : 20}
+          defaultFontWeight={typeof d.logoFontWeight === 'number' ? d.logoFontWeight : 500}
+          defaultLetterSpacing={typeof d.logoLetterSpacing === 'string' ? d.logoLetterSpacing : '-0.01em'}
+          defaultWordmarkFileId={typeof d.wordmarkFileId === 'string' ? d.wordmarkFileId : ''}
+        />
+      );
+    }
 
     case 'string':
     default:

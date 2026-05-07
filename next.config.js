@@ -6,6 +6,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: ['192.168.1.2'],
+  output: 'standalone',
+  outputFileTracingExcludes: {
+    '*': [
+      'docs/**',
+      'backups/**',
+      '.superpowers/**',
+      '.qodo/**',
+      '.claude/**',
+    ],
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     // Required for `next/image` to render local SVG assets (case covers,

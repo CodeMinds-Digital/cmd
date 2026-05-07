@@ -1,0 +1,25 @@
+{
+  "_comment": "Dokploy configuration file. When Dockerfile is present, Dokploy uses Docker as the primary deployment method. These settings provide metadata and fallback configuration. The Dockerfile's CMD (node server.js) takes precedence over startCommand.",
+  "name": "codeminds-digital",
+  "description": "Codeminds Digital agency website - Next.js 16 with React 19",
+  "version": "0.1.0",
+  "type": "application",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "startCommand": "npm run start",
+  "port": 3000,
+  "healthCheck": {
+    "path": "/",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  "environment": {
+    "NODE_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "resources": {
+    "memory": "1024Mi",
+    "cpu": "1000m"
+  }
+}

@@ -1,0 +1,69 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+.vercel/
+
+# Misc
+.DS_Store
+*.pem
+full.pdf
+README.md
+
+# Debug
+*.log
+
+# Local env files
+# Note: package.json and package-lock.json are intentionally included
+# to ensure dependencies are installed in the Docker image
+.env.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Cache directories
+.npm/
+.eslintcache
+.stylelintcache
+.cache/
+
+# Reports
+lighthouse-report.html
+
+# Temp directories
+tmp/
+temp/
+
+# Documentation and backups
+docs/
+backups/
+.superpowers/
+.qodo/
+.claude/

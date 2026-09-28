@@ -7,6 +7,11 @@ type Logo = {
   src?: string;
   /** Optional explicit width in px. Defaults to 120. */
   width?: number;
+  /**
+   * True only once the client has signed off on being listed. Unapproved
+   * entries are dev-only placeholders and never render in production.
+   */
+  approved: boolean;
 };
 
 /**
@@ -17,15 +22,23 @@ type Logo = {
  * trust-markers, not branding noise. The grayscale-ausdata pattern.
  */
 const logos: Logo[] = [
-  { name: 'Lattice' },
-  { name: 'Vercel' },
-  { name: 'Linear' },
-  { name: 'Notion' },
-  { name: 'Anthropic' },
-  { name: 'Stripe' },
+  { name: 'Lattice', approved: false },
+  { name: 'Vercel', approved: false },
+  { name: 'Linear', approved: false },
+  { name: 'Notion', approved: false },
+  { name: 'Anthropic', approved: false },
+  { name: 'Stripe', approved: false },
 ];
 
+const visibleLogos =
+  process.env.NODE_ENV === 'production'
+    ? logos.filter((logo) => logo.approved)
+    : logos;
+
 export default function LogoWall() {
+  // Hide the whole section rather than show an empty "Trusted by" strip.
+  if (visibleLogos.length === 0) return null;
+
   return (
     <section
       aria-labelledby="logo-wall-heading"
@@ -43,7 +56,7 @@ export default function LogoWall() {
         </h2>
 
         <ul className="grid grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-10 items-center justify-items-center">
-          {logos.map((logo) => (
+          {visibleLogos.map((logo) => (
             <li
               key={logo.name}
               className="text-paper-300/70 hover:text-paper-100 transition-colors duration-300"

@@ -130,3 +130,14 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+# Local data exports (may contain lead PII)
+backups/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Local baseline screenshots (large; regenerate with npm run baseline:screens)
+docs/perf/*/screenshots/

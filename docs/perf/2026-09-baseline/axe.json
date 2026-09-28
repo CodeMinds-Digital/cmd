@@ -1,0 +1,152 @@
+{
+  "home@375": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 50,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".bottom-6 > span:nth-child(1)",
+        ".bottom-6 > .gap-2.items-center.flex",
+        "#work > .container > .md\\:items-end.md\\:flex-row.md\\:justify-between > div > .gap-3.text-\\[11px\\].tracking-\\[0\\.2em\\] > .text-brand-600",
+        "#work > .container > .md\\:items-end.md\\:flex-row.md\\:justify-between > div > .gap-3.text-\\[11px\\].tracking-\\[0\\.2em\\] > span:nth-child(3)"
+      ]
+    }
+  ],
+  "home@1280": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 53,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".bottom-6 > span:nth-child(1)",
+        ".bottom-6 > .md\\:inline.hidden",
+        ".bottom-6 > .gap-2.items-center.flex",
+        "#work > .container > .md\\:items-end.md\\:flex-row.md\\:justify-between > div > .gap-3.text-\\[11px\\].tracking-\\[0\\.2em\\] > .text-brand-600"
+      ]
+    }
+  ],
+  "work@375": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 18,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".gap-3 > span:nth-child(3)",
+        ".hover\\:border-paper-400 > .p-6.md\\:p-7 > .flex-wrap.gap-x-1\\.5.gap-y-1 > .text-\\[10px\\].tracking-\\[0\\.18em\\].uppercase:nth-child(1)",
+        ".hover\\:border-paper-400 > .p-6.md\\:p-7 > .flex-wrap.gap-x-1\\.5.gap-y-1 > .text-\\[10px\\].tracking-\\[0\\.18em\\].uppercase:nth-child(2)",
+        ".hover\\:border-paper-400 > .p-6.md\\:p-7 > .flex-wrap.gap-x-1\\.5.gap-y-1 > .text-\\[10px\\].tracking-\\[0\\.18em\\].uppercase:nth-child(3)"
+      ]
+    }
+  ],
+  "work@1280": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 19,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".gap-3 > span:nth-child(3)",
+        ".hover\\:border-paper-400 > .p-6.md\\:p-7 > .flex-wrap.gap-x-1\\.5.gap-y-1 > .text-\\[10px\\].tracking-\\[0\\.18em\\].uppercase:nth-child(1)",
+        ".hover\\:border-paper-400 > .p-6.md\\:p-7 > .flex-wrap.gap-x-1\\.5.gap-y-1 > .text-\\[10px\\].tracking-\\[0\\.18em\\].uppercase:nth-child(2)",
+        ".hover\\:border-paper-400 > .p-6.md\\:p-7 > .flex-wrap.gap-x-1\\.5.gap-y-1 > .text-\\[10px\\].tracking-\\[0\\.18em\\].uppercase:nth-child(3)"
+      ]
+    }
+  ],
+  "work-case@375": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 23,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".text-\\[11px\\] > span:nth-child(3)",
+        ".py-5.md\\:py-6.items-baseline:nth-child(1) > .col-span-4.md\\:col-span-3.text-paper-400",
+        ".py-5.md\\:py-6.items-baseline:nth-child(2) > .col-span-4.md\\:col-span-3.text-paper-400",
+        ".py-5.md\\:py-6.items-baseline:nth-child(3) > .col-span-4.md\\:col-span-3.text-paper-400"
+      ]
+    }
+  ],
+  "work-case@1280": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 24,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".text-\\[11px\\] > span:nth-child(3)",
+        ".py-5.md\\:py-6.items-baseline:nth-child(1) > .col-span-4.md\\:col-span-3.text-paper-400",
+        ".py-5.md\\:py-6.items-baseline:nth-child(2) > .col-span-4.md\\:col-span-3.text-paper-400",
+        ".py-5.md\\:py-6.items-baseline:nth-child(3) > .col-span-4.md\\:col-span-3.text-paper-400"
+      ]
+    }
+  ],
+  "studio@375": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 17,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".mb-8.gap-3.text-\\[11px\\] > span:nth-child(3)",
+        ".pt-0:nth-child(2) > .container > .gap-3.text-\\[11px\\].uppercase > .text-brand-600",
+        ".pt-0:nth-child(2) > .container > .gap-3.text-\\[11px\\].uppercase > span:nth-child(3)",
+        ".pt-0:nth-child(3) > .container > .gap-3.text-\\[11px\\].uppercase > .text-brand-600"
+      ]
+    }
+  ],
+  "studio@1280": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 18,
+      "targets": [
+        ".font-normal.text-paper-400",
+        ".mb-8.gap-3.text-\\[11px\\] > span:nth-child(3)",
+        ".pt-0:nth-child(2) > .container > .gap-3.text-\\[11px\\].uppercase > .text-brand-600",
+        ".pt-0:nth-child(2) > .container > .gap-3.text-\\[11px\\].uppercase > span:nth-child(3)",
+        ".pt-0:nth-child(3) > .container > .gap-3.text-\\[11px\\].uppercase > .text-brand-600"
+      ]
+    }
+  ],
+  "journal@375": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 15,
+      "targets": [
+        ".tracking-tight > .font-normal",
+        ".gap-3 > span:nth-child(3)",
+        ".border-b.border-ink-600:nth-child(1) > .grid-cols-12.md\\:gap-8.py-8 > .md\\:col-span-3.self-start.col-span-12",
+        ".border-b.border-ink-600:nth-child(1) > .grid-cols-12.md\\:gap-8.py-8 > .md\\:col-span-2.md\\:text-right.col-span-12",
+        ".border-b.border-ink-600:nth-child(2) > .grid-cols-12.md\\:gap-8.py-8 > .md\\:col-span-3.self-start.col-span-12"
+      ]
+    }
+  ],
+  "journal@1280": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 16,
+      "targets": [
+        ".tracking-tight > .font-normal",
+        ".gap-3 > span:nth-child(3)",
+        ".border-b.border-ink-600:nth-child(1) > .grid-cols-12.md\\:gap-8.py-8 > .md\\:col-span-3.self-start.col-span-12",
+        ".border-b.border-ink-600:nth-child(1) > .grid-cols-12.md\\:gap-8.py-8 > .md\\:col-span-2.md\\:text-right.col-span-12",
+        ".border-b.border-ink-600:nth-child(2) > .grid-cols-12.md\\:gap-8.py-8 > .md\\:col-span-3.self-start.col-span-12"
+      ]
+    }
+  ]
+}

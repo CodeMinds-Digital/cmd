@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './motion.css';
 
 /* ═════════════════════════════════════════════════════════════════
    Voltage — design tokens
@@ -50,7 +51,38 @@
   --color-inverse: light-dark(oklch(17.8% 0 0), oklch(95.3% 0.010 87.5));        /* #111111 · #F2EFE8 */
   --color-inverse-fg: light-dark(oklch(95.3% 0.010 87.5), oklch(17.8% 0 0));     /* #F2EFE8 · #111111 */
 
-  /* Type scale — fixed sizes for now; the fluid clamp() scale lands in Phase 2. */
+  /*
+    Fluid type scale (plan §3.3) — interpolates linearly from a 360px to a
+    1440px viewport. Utilities: text-step-6 … text-step--1. New sections use
+    these; the fixed tokens below remain for pages not yet rebuilt.
+  */
+  --text-step-6: clamp(3rem, 1.3333rem + 7.4074vw, 8rem);           /* 48 → 128  hero H1 */
+  --text-step-6--line-height: 0.92;
+  --text-step-6--letter-spacing: -0.04em;
+  --text-step-5: clamp(2.5rem, 1.5rem + 4.4444vw, 5.5rem);          /* 40 → 88   closing / wordmark */
+  --text-step-5--line-height: 0.95;
+  --text-step-5--letter-spacing: -0.035em;
+  --text-step-4: clamp(2rem, 1.5rem + 2.2222vw, 3.5rem);            /* 32 → 56   section headings */
+  --text-step-4--line-height: 1;
+  --text-step-4--letter-spacing: -0.03em;
+  --text-step-3: clamp(1.75rem, 1.5rem + 1.1111vw, 2.5rem);         /* 28 → 40   stat numerals */
+  --text-step-3--line-height: 1;
+  --text-step-3--letter-spacing: -0.025em;
+  --text-step-2: clamp(1.375rem, 1.25rem + 0.5556vw, 1.75rem);      /* 22 → 28   tile titles */
+  --text-step-2--line-height: 1.15;
+  --text-step-2--letter-spacing: -0.015em;
+  --text-step-1: clamp(1.125rem, 1.0417rem + 0.3704vw, 1.375rem);   /* 18 → 22   lead */
+  --text-step-1--line-height: 1.5;
+  --text-step-0: clamp(1rem, 0.9792rem + 0.0926vw, 1.0625rem);      /* 16 → 17   body */
+  --text-step-0--line-height: 1.6;
+  --text-step--1: clamp(0.75rem, 0.7292rem + 0.0926vw, 0.8125rem);  /* 12 → 13   mono labels */
+  --text-step--1--line-height: 1.4;
+  --text-step--1--letter-spacing: 0.12em;
+
+  /* Bento gap (plan §3.4). */
+  --spacing-bento: clamp(8px, 1vw, 14px);
+
+  /* Fixed type scale — used by pages not yet rebuilt on the fluid scale. */
   --text-mono-xs: 12px;
   --text-mono-xs--line-height: 1.2;
   --text-mono-xs--letter-spacing: 0.14em;

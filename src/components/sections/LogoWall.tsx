@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 
 type Logo = {
   name: string;
@@ -45,7 +45,7 @@ export default function LogoWall() {
       className="bg-canvas border-t border-line py-16 md:py-20"
     >
       <div className="container">
-        <SectionEyebrow
+        <Eyebrow
           index="—"
           label="Trusted by"
           className="justify-center mb-10 md:mb-14"

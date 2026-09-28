@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import SplitText from '@/components/animations/SplitText';
 import Magnetic from '@/components/animations/Magnetic';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 import { highlightClass } from '@/components/ui/Highlight';
 
 type FormState = {
@@ -64,7 +64,7 @@ export default function Conversation() {
       className="section-padding relative bg-canvas border-t border-line overflow-hidden"
     >
       <div className="container">
-        <SectionEyebrow index="04" label="Let's talk" className="mb-8" />
+        <Eyebrow index="04" label="Let's talk" className="mb-8" />
 
         {/* Closing-moment headline */}
         <h2 className="text-h2 md:text-display font-bold text-fg mb-16 md:mb-24 max-w-5xl text-balance">

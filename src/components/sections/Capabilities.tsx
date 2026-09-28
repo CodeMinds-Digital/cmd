@@ -1,5 +1,5 @@
 import SplitText from '@/components/animations/SplitText';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 import { highlightClass } from '@/components/ui/Highlight';
 
 type Capability = {
@@ -50,7 +50,7 @@ export default function Capabilities() {
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16 md:mb-24">
           <div>
-            <SectionEyebrow index="02" label="Capabilities" className="mb-6" />
+            <Eyebrow index="02" label="Capabilities" className="mb-6" />
             <h2 className="text-h2 md:text-h1 font-bold text-fg max-w-2xl text-balance">
               <SplitText>What we ship, </SplitText>
               <SplitText

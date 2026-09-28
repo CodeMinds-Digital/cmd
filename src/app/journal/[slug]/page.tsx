@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 import { posts, getPost, formatDate } from '@/data/posts';
 
 type Params = { slug: string };
@@ -57,7 +57,7 @@ export default async function JournalPostPage({
         <article>
           <header className="section-padding pt-40 md:pt-56 pb-0">
             <div className="container max-w-3xl">
-              <SectionEyebrow
+              <Eyebrow
                 index="—"
                 label={`Journal · ${formatDate(post.date)}`}
                 className="mb-8"

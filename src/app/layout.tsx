@@ -8,6 +8,7 @@ import CustomCursor from '@/components/layout/CustomCursor';
 import SmoothScroll from '@/components/animations/SmoothScrollLoader';
 import MotionRoot from '@/components/animations/MotionRoot';
 import IconSprite from '@/components/icons/IconSprite';
+import MotionRuntime from '@/components/islands/MotionRuntime';
 
 import '../styles/globals.css';
 
@@ -91,6 +92,18 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
         <link rel="icon" href="/icons/logo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icons/logo.svg" />
+        {/*
+          Motion gate (styles/motion.css): "before" states for in-view
+          animations only apply under html.js-motion. Fail-safe: if
+          <MotionRuntime> hasn't hydrated within 4s, drop the class so no
+          content can stay hidden.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(d){d.classList.add('js-motion');setTimeout(function(){if(!d.classList.contains('motion-ready'))d.classList.remove('js-motion')},4000)})(document.documentElement)",
+          }}
+        />
       </head>
       <body
         className={`
@@ -107,6 +120,7 @@ export default function RootLayout({
         <WebVitals />
         <FrameBudget />
         <SmoothScroll />
+        <MotionRuntime />
         <MotionRoot>
           <CustomCursor />
           <div id="root" className="relative min-h-screen">

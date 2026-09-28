@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 import Highlight from '@/components/ui/Highlight';
 
 export const metadata: Metadata = {
@@ -49,7 +49,7 @@ export default function StudioPage() {
         {/* Hero */}
         <section className="section-padding pt-40 md:pt-56">
           <div className="container">
-            <SectionEyebrow index="—" label="Studio" className="mb-8" />
+            <Eyebrow index="—" label="Studio" className="mb-8" />
             <h1 className="text-h2 sm:text-h1 md:text-display font-bold text-fg mb-12 max-w-5xl text-balance hyphens-auto">
               A small studio with{' '}
               <Highlight>
@@ -68,7 +68,7 @@ export default function StudioPage() {
         {/* Beliefs */}
         <section className="section-padding pt-0">
           <div className="container">
-            <SectionEyebrow index="01" label="What we believe" className="mb-12" />
+            <Eyebrow index="01" label="What we believe" className="mb-12" />
             <ul className="border-t border-line max-w-5xl">
               {beliefs.map((b) => (
                 <li
@@ -97,7 +97,7 @@ export default function StudioPage() {
         {/* Stack */}
         <section className="section-padding pt-0">
           <div className="container">
-            <SectionEyebrow index="02" label="Stack we ship" className="mb-12" />
+            <Eyebrow index="02" label="Stack we ship" className="mb-12" />
             <ul className="border-t border-line max-w-3xl">
               {stack.map((s) => (
                 <li

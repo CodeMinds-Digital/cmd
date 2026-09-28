@@ -1,0 +1,244 @@
+/* ═════════════════════════════════════════════════════════════════
+   Voltage motion system (plan §3.6)
+
+   Two mechanisms, both CSS-first:
+
+   1. TRIGGERED — play once when an element enters the viewport.
+      Elements carry `data-inview=""`; <MotionRuntime> flips it to
+      `data-inview="true"` via one shared IntersectionObserver. Animations
+      sit paused on their first keyframe until then.
+      (CSS scroll timelines can only *scrub*, not trigger, so these use IO.)
+
+   2. SCRUBBED — tied to scroll position via scroll-driven animations
+      (`animation-timeline: view() / scroll()`), progressive behind
+      @supports. Unsupported browsers show the final state.
+
+   Safety rules:
+   - Every "before" state lives under `html.js-motion` (set by an inline
+     head script) AND `prefers-reduced-motion: no-preference`. No JS or
+     reduced motion → content renders in its final state.
+   - If <MotionRuntime> hasn't marked `html.motion-ready` within 4s, the
+     head script removes `js-motion`, so nothing can stay hidden.
+   - Final states are the default styles.
+   ═════════════════════════════════════════════════════════════════ */
+
+:root {
+  --dur-snap: 160ms;
+  --dur-natural: 320ms;
+  --dur-reveal: 600ms;
+  --stagger: 60ms;
+}
+
+/* Registered so keyframes can interpolate them. */
+@property --n {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --condense {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────────── */
+@keyframes split-rise {
+  from { transform: translateY(130%); }
+}
+@keyframes tile-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+}
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(12px); }
+}
+@keyframes highlight-wipe {
+  from { background-size: 0% 100%; }
+}
+@keyframes count-up {
+  from { --n: var(--from, 0); }
+}
+@keyframes progress-x {
+  from { transform: scaleX(0); }
+}
+@keyframes condense {
+  to { --condense: 1; }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* ─── SplitText — per-word mask reveal ──────────────────────────── */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.05;
+  /* Bleed keeps descenders and inline chips from being clipped; the
+     negative margin cancels it out so layout is unchanged. */
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+.split-word > span {
+  display: inline-block;
+}
+
+/* ─── Highlight chip ────────────────────────────────────────────── */
+/* Painted as a background-image so it can wipe in left → right, per line. */
+.highlight {
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: var(--color-accent-fg);
+  border-radius: 0.14em;
+  padding-inline: 0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ─── Stat counter ──────────────────────────────────────────────── */
+/* Renders --to as text through a CSS counter; animates from --from. */
+.stat-num {
+  --n: var(--to, 0);
+  counter-reset: n var(--n);
+  font-variant-numeric: tabular-nums;
+}
+.stat-num::after {
+  content: counter(n);
+}
+
+/* ─── Tiles: lift + pointer glow ────────────────────────────────── */
+.tile-interactive {
+  transition:
+    transform var(--dur-natural) var(--ease-expo-out),
+    box-shadow var(--dur-natural) var(--ease-expo-out),
+    border-color var(--dur-natural) var(--ease-expo-out);
+}
+.tile-glow {
+  position: relative;
+  isolation: isolate;
+}
+.tile-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--x, 50%) var(--y, 50%),
+    color-mix(in oklab, var(--color-accent) 16%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-natural) var(--ease-expo-out);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+  .tile-glow:hover::before {
+    opacity: 1;
+  }
+}
+
+/* ─── Marquee ───────────────────────────────────────────────────── */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+}
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: var(--marquee-gap, 3rem);
+  padding-inline-end: var(--marquee-gap, 3rem);
+}
+
+/* ─── Motion (only when the user hasn't asked for less) ─────────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Load-time word reveal — pure CSS, runs without JS. */
+  .split-load .split-word > span {
+    animation: split-rise var(--split-dur, 800ms) var(--ease-quint-out) both;
+    animation-delay: calc(var(--split-delay, 0ms) + var(--i, 0) * var(--split-stagger, 50ms));
+  }
+
+  /* Triggered animations: paused on frame 0 until in view. */
+  html.js-motion .split-inview .split-word > span {
+    animation: split-rise var(--split-dur, 800ms) var(--ease-quint-out) both paused;
+    animation-delay: calc(var(--split-delay, 0ms) + var(--i, 0) * var(--split-stagger, 50ms));
+  }
+  html.js-motion .tile-in {
+    animation: tile-in var(--dur-reveal) var(--ease-expo-out) both paused;
+    animation-delay: calc(var(--i, 0) * var(--stagger));
+  }
+  html.js-motion .reveal {
+    animation: reveal var(--dur-reveal) var(--ease-expo-out) both paused;
+    animation-delay: calc(var(--i, 0) * var(--stagger));
+  }
+  html.js-motion .highlight-wipe {
+    animation: highlight-wipe 700ms var(--ease-expo-out) both paused;
+    animation-delay: var(--wipe-delay, 250ms);
+  }
+  html.js-motion .stat-num {
+    animation: count-up 1400ms var(--ease-expo-out) both paused;
+    animation-delay: calc(var(--i, 0) * var(--stagger));
+  }
+
+  /* Run when the element itself, or a grouping ancestor, is in view. */
+  html.js-motion [data-inview='true'].split-inview .split-word > span,
+  html.js-motion [data-inview='true']:is(.tile-in, .reveal, .highlight-wipe, .stat-num),
+  html.js-motion [data-inview='true'] :is(.tile-in, .reveal, .highlight-wipe, .stat-num) {
+    animation-play-state: running;
+  }
+
+  .marquee-track {
+    animation: marquee var(--marquee-dur, 40s) linear infinite;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* Scrubbed, scroll-driven animations. */
+  @supports (animation-timeline: view()) {
+    /* A section exposes its own view timeline to descendants… */
+    .timeline-section {
+      view-timeline-name: --section;
+    }
+    /* …which a progress bar can track (fills as the section scrolls through). */
+    .progress-x {
+      transform-origin: left center;
+      animation: progress-x linear both;
+      animation-timeline: --section;
+      animation-range: cover 25% cover 75%;
+    }
+    /* 0 → 1 over the first 80px of page scroll; consumers read var(--condense). */
+    .condense-on-scroll {
+      animation: condense linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80px;
+    }
+  }
+}
+
+/* Reduced motion: marquee becomes a static, wrapped row without duplicates. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    mask-image: none;
+  }
+  .marquee-track {
+    width: auto;
+  }
+  .marquee-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-inline-end: 0;
+  }
+  .marquee-group[aria-hidden='true'] {
+    display: none;
+  }
+}

@@ -71,7 +71,7 @@ Located at `src/components/animations/` — internal preview at `/playground`:
 
 | Primitive | Purpose |
 |---|---|
-| `<SplitText>` | Per-word reveal with `clip-path: inset(0 110% 0 0)` masks. Accepts inline elements as atomic words (so the italic accent rides inside the same staggered cascade). Screen-reader safe. |
+| `<SplitText>` | Per-word masked reveal, server-rendered (text is in the HTML); CSS animation on load or in view. Inline elements (e.g. a highlight chip) ride along as atomic words. Screen-reader safe. |
 | `<Magnetic>` | Pointer-pulled CTA wrapper + click ripple. Touch and reduced-motion bypass. |
 | `<Tilt>` | Pointer-parallax 3D tilt for cards. |
 | `<DrawIcon>` | Stroke-draws SVG paths on `whileInView` via `pathLength`. |
@@ -79,7 +79,22 @@ Located at `src/components/animations/` — internal preview at `/playground`:
 | `<CustomCursor>` | Springy ring + dot, `mix-blend-difference`, `(pointer: fine)`-gated. |
 | `<ViewTransitionLink>` | Wraps `next/link` with `document.startViewTransition()` for case-cover morphs. |
 | `<MotionRoot>` | Root `<MotionConfig>` with house easing + reduced-motion=user. |
-| `<SectionEyebrow>` | `01 ── LABEL` editorial section header chrome. |
+
+### Voltage UI primitives (`src/components/ui/`) and motion system
+
+| Primitive | Purpose |
+|---|---|
+| `<Bento>` / `<Tile>` | 12-col grid with the tight bento gap; tiles in `surface` / `sunk` / `accent` / `inverse` tones, optional hover lift + pointer glow (`interactive`), staggered entrance (`reveal`, `index`), link tiles (`href`). Tiles are container-query roots. |
+| `<Button>` | Black pill → orange on hover (`primary`), outline (`secondary`), `ghost`; link or button; optional arrow. |
+| `<Chip>` | Mono pill for tags / ETAs / metrics. |
+| `<Highlight>` | Orange chip behind one key phrase per section; wipes in on enter. `highlightClass` for `className`-style use. |
+| `<Stat>` | Integer that counts up on enter (`@property --n`), sr-only real value. |
+| `<Eyebrow>` | `01 ── LABEL` section header chrome, light or `inverse`. |
+| `<Marquee>` | CSS-only loop; static wrapped row under reduced motion. |
+| `islands/MotionRuntime` | The one JS piece of the motion system: in-view triggers (`data-inview`) + tile pointer glow. |
+| `islands/ChennaiClock` | Live IST time, hydration-safe (`useSyncExternalStore`). |
+
+Motion lives in `src/styles/motion.css`: **triggered** animations (tile entrance, highlight wipe, counters, in-view text) wait paused until `<MotionRuntime>` marks them in view; **scrubbed** ones (`.progress-x`, `.condense-on-scroll`) use CSS scroll timelines. Hidden "before" states apply only under `html.js-motion` + no reduced-motion preference, with a 4 s fail-safe — content is never stuck invisible. Fluid type utilities: `text-step-6` … `text-step--1`. Everything is demoed at `/playground`.
 
 ## Performance
 
@@ -117,7 +132,8 @@ src/
 │   ├── perf/                     # WebVitals, FrameBudget
 │   ├── icons/                    # IconSprite + <Icon>
 │   ├── seo/                      # StructuredData
-│   └── ui/                       # SectionEyebrow, primitives
+│   ├── islands/                  # MotionRuntime, ChennaiClock (client islands)
+│   └── ui/                       # Voltage primitives (Bento, Tile, Button, Chip, Highlight, Stat, Eyebrow, Marquee)
 ├── data/
 │   ├── cases.ts                  # case-study source of truth
 │   └── posts.ts                  # journal posts

@@ -1,6 +1,3 @@
-'use client';
-
-import { m } from 'motion/react';
 import React from 'react';
 
 type SplitTextProps = {
@@ -18,23 +15,13 @@ type SplitTextProps = {
   duration?: number;
   /** Delay before the first word in seconds. */
   delay?: number;
-  /** Use `whileInView` instead of `animate` (default false — fires on mount). */
+  /**
+   * Reveal when scrolled into view instead of on load (default false).
+   * On-load reveals are pure CSS; in-view reveals are triggered by
+   * <MotionRuntime> (see styles/motion.css).
+   */
   inView?: boolean;
 };
-
-const wordVariants = {
-  // Starts past the mask's extended bottom edge (see MASK_BLEED) so no
-  // sliver of the word shows before the reveal.
-  hidden: { y: '130%' },
-  show: { y: '0%' },
-};
-
-/**
- * Extra room above/below each word's clip mask, cancelled out by negative
- * margins so layout is unchanged. Keeps descenders and inline accents (the
- * rounded highlight chip) from being clipped by the tight 1.05 line box.
- */
-const MASK_BLEED = '0.14em';
 
 type Segment = { kind: 'word'; content: React.ReactNode } | { kind: 'space' };
 
@@ -65,6 +52,11 @@ function srText(node: React.ReactNode): string {
   return '';
 }
 
+/**
+ * Per-word masked reveal. Server-renderable: the words are in the HTML and
+ * the motion is CSS, so text is readable before (and without) hydration.
+ * Screen readers get the full sentence from an sr-only copy.
+ */
 export default function SplitText({
   children,
   className,
@@ -74,53 +66,34 @@ export default function SplitText({
   inView = false,
 }: SplitTextProps) {
   const segments = flatten(children);
-  const animateProp = inView
-    ? { whileInView: 'show' as const }
-    : { animate: 'show' as const };
+  let wordIndex = 0;
+
+  const style = {
+    '--split-delay': `${Math.round(delay * 1000)}ms`,
+    '--split-stagger': `${Math.round(stagger * 1000)}ms`,
+    '--split-dur': `${Math.round(duration * 1000)}ms`,
+  } as React.CSSProperties;
 
   return (
-    <span className={className}>
+    <span
+      className={`${inView ? 'split-inview' : 'split-load'}${className ? ` ${className}` : ''}`}
+      style={style}
+      data-inview=""
+    >
       <span className="sr-only">{srText(children)}</span>
-      <m.span
-        aria-hidden
-        initial="hidden"
-        {...animateProp}
-        viewport={inView ? { once: true, amount: 0.5 } : undefined}
-        transition={{
-          staggerChildren: stagger,
-          delayChildren: delay,
-        }}
-        style={{ display: 'inline' }}
-      >
+      <span aria-hidden>
         {segments.map((seg, i) =>
           seg.kind === 'space' ? (
             <span key={i}> </span>
           ) : (
-            <span
-              key={i}
-              style={{
-                display: 'inline-block',
-                overflow: 'hidden',
-                verticalAlign: 'bottom',
-                lineHeight: 1.05,
-                paddingBlock: MASK_BLEED,
-                marginBlock: `-${MASK_BLEED}`,
-              }}
-            >
-              <m.span
-                variants={wordVariants}
-                transition={{
-                  duration,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                style={{ display: 'inline-block' }}
-              >
+            <span key={i} className="split-word">
+              <span style={{ '--i': wordIndex++ } as React.CSSProperties}>
                 {seg.content}
-              </m.span>
+              </span>
             </span>
           ),
         )}
-      </m.span>
+      </span>
     </span>
   );
 }

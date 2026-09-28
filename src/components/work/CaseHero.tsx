@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 import type { CaseStub } from '@/data/cases';
 import Highlight from '@/components/ui/Highlight';
 
@@ -8,7 +8,7 @@ export default function CaseHero({ data }: { data: CaseStub }) {
   return (
     <section className="section-padding pt-40 md:pt-56 pb-0">
       <div className="container">
-        <SectionEyebrow
+        <Eyebrow
           index="—"
           label={`${data.year} · ${data.client ?? 'Confidential client'}`}
           className="mb-8"

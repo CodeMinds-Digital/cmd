@@ -275,12 +275,17 @@ Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; re
 
 **Known, deferred to Phase 3:** the hero "care." chip grazes the comma above because of the 0.92 display line-height (the bento headline tile replaces this layout); "coming" case tiles look washed out under the `canvas/50` overlay (the bento rebuild uses `surface-sunk` tiles instead).
 
-### Phase 2 — Primitives & motion system (1.5 days)
-- [ ] `ui/`: `Bento` (12-col grid, container-query aware), `Tile` (white/sunk/accent/inverse variants, lift + glow hooks), `Button` (black pill / outline pill / link), `Chip`, `Highlight` (orange wipe chip), `Stat` (`@property` counter), `Eyebrow`, `Marquee`.
-- [ ] `styles/motion.css`: `.reveal`, `.tile-in` (with `--i` stagger), `.highlight-wipe`, `.progress-x`, and header condense, all `view()`/`scroll()` behind `@supports`, with an `IntersectionObserver` fallback that adds `.in-view`.
-- [ ] `SplitText` becomes a server component (words carry `--i` and are visible without JS). The animation only runs when `html.js-motion` is set by an inline head script.
-- [ ] Islands: `TileGlow`, `MagneticCTA` (a spring port of `Magnetic`), `ChennaiClock`.
-- [ ] Rebuild `/playground` to catalogue the primitives on Voltage tokens.
+### Phase 2 — Primitives & motion system (1.5 days) — ✅ done 2026-09-28
+- [x] `ui/`: `Bento` (12-col, `gap-bento`, in-view group), `Tile` (surface/sunk/accent/inverse, `interactive` lift + glow, `reveal` stagger, `href` link tiles, `@container` root), `Button` (primary/secondary/ghost, link or button, arrow), `Chip`, `Highlight` (orange wipe chip), `Stat` (`@property --n` counter + sr-only value), `Eyebrow` (replaces `SectionEyebrow`; 12 px), `Marquee` (CSS loop, `inert` duplicate).
+- [x] `styles/motion.css`: triggered (`split-inview`, `tile-in`, `reveal`, `highlight-wipe`, `stat-num`: paused until `data-inview="true"`) and scrubbed (`progress-x` on a `.timeline-section` view timeline, `condense-on-scroll` → `--condense` 0→1 over the first 80 px). Fluid `text-step-*` scale + `--spacing-bento` in `@theme`.
+- [x] **Design change vs. plan:** triggered animations use one `IntersectionObserver`, not `view()` timelines, because scroll timelines scrub rather than play once. Scroll timelines are used only for scrubbed effects.
+- [x] `SplitText` is now server-renderable CSS (no `motion` import): words in the HTML with `--i`, load-reveal is pure CSS (runs without JS), in-view reveal is gated. Mask bleed moved into CSS.
+- [x] Islands: `MotionRuntime` (in-view observer + MutationObserver for late content + delegated rAF pointer glow; replaces the separate `TileGlow` island) and `ChennaiClock` (`useSyncExternalStore`, `--:--` on the server). `MagneticCTA`: the existing `Magnetic` is already a spring on `m.*`, so it stays as-is.
+- [x] Head script adds `html.js-motion` with a **4 s fail-safe**: if `MotionRuntime` hasn't marked `motion-ready`, it removes the class, so nothing can stay hidden.
+- [x] `/playground` rebuilt as a server-rendered catalogue of every primitive (`noindex`).
+- [x] Excluded `.kilo/` (another tool's git worktree that appeared in the repo) from `tsconfig` and ESLint.
+- **Verified:** no-JS → 0/5 tiles hidden, all wipes full, no word offset. Reduced motion → final states, marquee static without duplicate. JS + wheel scroll → every trigger fires (0 pending), counters land on target. Scroll bar scrubs (0.5 → 1). Glow tracks the pointer. Clock live. **Fail-safe with all JS blocked: hidden at 0.5 s, revealed by 4.7 s.** No console errors or hydration warnings. axe clean on all routes + playground. Existing pages: hero pixel-identical; only diffs are 12 px eyebrows (−3 px each). Home JS 246 → 247 KB gz.
+- **Test note:** Lenis overrides programmatic `window.scrollTo`, so scroll-dependent tests must use wheel events.
 
 ### Phase 3 — Section rebuilds per §4 (3 days, one PR per section)
 - [ ] Header (popover menu, condense, hide-on-scroll via IO sentinel, `aria-current`).

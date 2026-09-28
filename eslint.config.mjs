@@ -19,6 +19,8 @@ const config = [
       'test-results/**',
       'playwright-report/**',
       'next-env.d.ts',
+      // Other tools' scratch worktrees.
+      '.kilo/**',
     ],
   },
 ];

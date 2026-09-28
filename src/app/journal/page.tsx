@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 import { posts, formatDate } from '@/data/posts';
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function JournalIndexPage() {
       <main className="bg-canvas text-fg">
         <section className="section-padding pt-40 md:pt-56">
           <div className="container">
-            <SectionEyebrow index="—" label="Journal" className="mb-8" />
+            <Eyebrow index="—" label="Journal" className="mb-8" />
             <h1 className="text-h1 md:text-display font-bold text-fg mb-12 max-w-4xl text-balance">
               Notes from the studio.
             </h1>

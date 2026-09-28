@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import Eyebrow from '@/components/ui/Eyebrow';
 import CaseTile from '@/components/work/CaseTile';
 import { cases } from '@/data/cases';
 
@@ -18,7 +18,7 @@ export default function WorkIndexPage() {
       <main className="bg-canvas text-fg">
         <section className="section-padding pt-40 md:pt-56">
           <div className="container">
-            <SectionEyebrow index="—" label="All Work" className="mb-8" />
+            <Eyebrow index="—" label="All Work" className="mb-8" />
             <h1 className="text-h1 md:text-display font-bold text-fg mb-12 max-w-4xl text-balance">
               Every project we&apos;ve shipped this year.
             </h1>

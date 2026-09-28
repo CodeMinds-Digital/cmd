@@ -28,14 +28,14 @@ export default function CaseTile({ data }: CaseTileProps) {
 
 function Card({ data }: { data: CaseStub }) {
   const isComing = data.status === 'coming';
-  const className = `relative block h-full rounded-2xl border border-ink-600 bg-ink-800 overflow-hidden ${
-    isComing ? 'cursor-default' : 'hover:border-paper-400 transition-colors'
+  const className = `relative block h-full rounded-2xl border border-line bg-surface overflow-hidden ${
+    isComing ? 'cursor-default' : 'hover:border-fg-subtle transition-colors'
   }`;
 
   const inner = (
     <>
       <div
-        className="aspect-4/3 relative overflow-hidden bg-ink-800"
+        className="aspect-4/3 relative overflow-hidden bg-surface"
         style={{
           viewTransitionName: isComing ? undefined : `case-cover-${data.slug}`,
         }}
@@ -56,14 +56,14 @@ function Card({ data }: { data: CaseStub }) {
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse 70% 60% at 30% 30%, rgba(99,102,241,0.25), transparent 60%), radial-gradient(ellipse 60% 50% at 75% 70%, rgba(6,182,212,0.18), transparent 55%), #101013',
+                `radial-gradient(ellipse 70% 60% at 30% 30%, color-mix(in oklab, var(--color-accent) 24%, transparent), transparent 60%), var(--color-surface-sunk)`,
             }}
           />
         )}
 
         {isComing && (
-          <div className="absolute inset-0 flex items-center justify-center bg-ink-900/40 backdrop-blur-[1px]">
-            <span className="font-mono text-mono-sm text-paper-50 px-3 py-1 border border-paper-50/30 bg-ink-900/60 rounded-full">
+          <div className="absolute inset-0 flex items-center justify-center bg-canvas/50 backdrop-blur-[1px]">
+            <span className="font-mono text-mono-sm text-accent-fg px-3 py-1 border border-accent bg-accent rounded-full">
               {data.eta}
             </span>
           </div>
@@ -75,24 +75,24 @@ function Card({ data }: { data: CaseStub }) {
           {data.tags.map((tag, i) => (
             <span
               key={tag}
-              className="font-mono text-[10px] uppercase tracking-[0.18em] text-paper-400"
+              className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-subtle"
             >
               {tag}
               {i < data.tags.length - 1 && (
-                <span aria-hidden className="ml-1.5 text-paper-400/40">·</span>
+                <span aria-hidden className="ml-1.5 text-fg-subtle/50">·</span>
               )}
             </span>
           ))}
         </div>
 
-        <h3 className="text-h3 font-semibold text-paper-50 mb-3 leading-tight">
+        <h3 className="text-h3 font-semibold text-fg mb-3 leading-tight">
           {data.title}
         </h3>
 
-        <p className="text-body text-paper-200 mb-6">{data.brief}</p>
+        <p className="text-body text-fg-muted mb-6">{data.brief}</p>
 
         {!isComing && (
-          <span className="inline-flex items-center gap-2 text-paper-100 group-hover:text-paper-50 font-medium">
+          <span className="inline-flex items-center gap-2 text-fg group-hover:text-fg font-medium">
             Read case
             <svg
               className="w-4 h-4 transition-transform group-hover:translate-x-1"

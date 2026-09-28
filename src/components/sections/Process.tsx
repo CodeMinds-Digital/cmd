@@ -5,6 +5,7 @@ import { m, useScroll, useTransform } from 'motion/react';
 import DrawIcon from '@/components/animations/DrawIcon';
 import SplitText from '@/components/animations/SplitText';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import { highlightClass } from '@/components/ui/Highlight';
 
 function ProcessSteps({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -26,13 +27,13 @@ function ProcessSteps({ children }: { children: React.ReactNode }) {
         preserveAspectRatio="none"
         viewBox="0 0 1 100"
       >
-        <line x1="0.5" y1="0" x2="0.5" y2="100" stroke="rgb(34, 34, 42)" strokeWidth="1" />
+        <line x1="0.5" y1="0" x2="0.5" y2="100" className="stroke-line-strong" strokeWidth="1" />
         <m.line
           x1="0.5"
           y1="0"
           x2="0.5"
           y2="100"
-          stroke="rgb(165, 180, 252)"
+          className="stroke-accent"
           strokeWidth="2"
           style={{ pathLength }}
         />
@@ -92,24 +93,24 @@ export default function Process() {
   return (
     <section
       id="process"
-      className="section-padding relative bg-ink-900 border-t border-ink-700 overflow-hidden"
+      className="section-padding relative bg-canvas border-t border-line overflow-hidden"
     >
       <div className="container relative z-10">
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16 md:mb-24">
           <div>
             <SectionEyebrow index="03" label="How We Work" className="mb-6" />
-            <h2 className="text-h2 md:text-h1 font-bold text-paper-50 max-w-2xl text-balance">
-              <SplitText>From kickoff to ship</SplitText>
+            <h2 className="text-h2 md:text-h1 font-bold text-fg max-w-2xl text-balance">
+              <SplitText>From kickoff to ship </SplitText>
               <SplitText
-                className="font-serif italic font-normal text-brand-400"
+                className={highlightClass}
                 delay={0.4}
               >
                 in 4–8 weeks.
               </SplitText>
             </h2>
           </div>
-          <p className="text-body text-paper-300 max-w-xs md:text-right">
+          <p className="text-body text-fg-muted max-w-xs md:text-right">
             One sprint per phase. No status reports. No invoices for setup calls.
           </p>
         </div>
@@ -125,32 +126,32 @@ export default function Process() {
               >
                 {/* Content card */}
                 <div className="flex-1">
-                  <div className="rounded-2xl border border-ink-600 bg-ink-800 p-6 md:p-8">
+                  <div className="rounded-2xl border border-line bg-surface p-6 md:p-8">
                     <div className="flex items-center gap-4 mb-5">
-                      <div className="w-12 h-12 rounded-xl bg-ink-700 text-brand-400 flex items-center justify-center shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-surface-sunk text-accent-ink flex items-center justify-center shrink-0">
                         <DrawIcon className="w-6 h-6" d={step.iconPath} />
                       </div>
                       <div>
-                        <div className="font-mono text-mono-sm text-brand-400 mb-0.5">
+                        <div className="font-mono text-mono-sm text-accent-ink mb-0.5">
                           Step {step.index} · {step.duration}
                         </div>
-                        <h3 className="text-h3 font-semibold text-paper-50">
+                        <h3 className="text-h3 font-semibold text-fg">
                           {step.title}
                         </h3>
                       </div>
                     </div>
 
-                    <p className="text-body text-paper-200 mb-6">{step.body}</p>
+                    <p className="text-body text-fg-muted mb-6">{step.body}</p>
 
                     <ul className="space-y-2">
                       {step.deliverables.map((d) => (
                         <li
                           key={d}
-                          className="flex items-start gap-2.5 text-body text-paper-300"
+                          className="flex items-start gap-2.5 text-body text-fg-muted"
                         >
                           <span
                             aria-hidden
-                            className="font-mono text-mono-sm text-paper-400 mt-1"
+                            className="font-mono text-mono-sm text-fg-subtle mt-1"
                           >
                             ─
                           </span>
@@ -163,7 +164,7 @@ export default function Process() {
 
                 {/* Step number disc — sits on the spine */}
                 <div className="shrink-0 hidden lg:flex">
-                  <div className="w-16 h-16 rounded-full bg-ink-900 border border-brand-400 text-paper-50 flex items-center justify-center font-mono text-mono-sm">
+                  <div className="w-16 h-16 rounded-full bg-canvas border border-accent text-fg flex items-center justify-center font-mono text-mono-sm">
                     {step.index}
                   </div>
                 </div>

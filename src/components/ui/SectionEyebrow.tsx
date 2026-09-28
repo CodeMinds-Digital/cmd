@@ -17,10 +17,10 @@ export default function SectionEyebrow({
 }: SectionEyebrowProps) {
   return (
     <div
-      className={`flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500 ${className ?? ''}`}
+      className={`flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle ${className ?? ''}`}
     >
-      <span className="text-brand-600">{index}</span>
-      <span aria-hidden className="h-px w-8 bg-neutral-300" />
+      <span className="text-accent-ink">{index}</span>
+      <span aria-hidden className="h-px w-8 bg-line-strong" />
       <span>{label}</span>
     </div>
   );

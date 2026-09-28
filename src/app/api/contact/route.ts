@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
       subject: `New Contact Form Submission from ${name.replace(/[\r\n]+/g, ' ')}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333; border-bottom: 2px solid #6366f1; padding-bottom: 10px;">New Contact Form Submission</h2>
+          <h2 style="color: #333; border-bottom: 2px solid #FF4D00; padding-bottom: 10px;">New Contact Form Submission</h2>
 
           <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="color: #475569; margin-top: 0;">Contact Details:</h3>

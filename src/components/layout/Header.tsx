@@ -46,7 +46,7 @@ export default function Header() {
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? 'bg-ink-900/80 backdrop-blur-xl border-b border-ink-700'
+          ? 'bg-canvas/80 backdrop-blur-xl border-b border-line'
           : 'bg-transparent'
       }`}
     >
@@ -54,10 +54,10 @@ export default function Header() {
         {/* Wordmark */}
         <Link
           href="/"
-          className="font-semibold text-paper-50 tracking-tight hover:text-brand-400 transition-colors"
+          className="font-semibold text-fg tracking-tight hover:text-accent-ink transition-colors"
         >
-          Codeminds<span className="text-paper-400 font-mono mx-1">·</span>
-          <span className="font-normal text-paper-400">Digital</span>
+          Codeminds<span className="text-fg-subtle font-mono mx-1">·</span>
+          <span className="font-normal text-fg-subtle">Digital</span>
         </Link>
 
         {/* Desktop nav */}
@@ -70,15 +70,15 @@ export default function Header() {
                 href={item.href}
                 className={`px-4 py-2 text-sm transition-colors relative ${
                   active
-                    ? 'text-paper-50'
-                    : 'text-paper-300 hover:text-paper-50'
+                    ? 'text-fg'
+                    : 'text-fg-muted hover:text-fg'
                 }`}
               >
                 {item.label}
                 {active && (
                   <span
                     aria-hidden
-                    className="absolute left-4 right-4 -bottom-px h-px bg-brand-400"
+                    className="absolute left-4 right-4 -bottom-px h-px bg-accent"
                   />
                 )}
               </Link>
@@ -91,7 +91,7 @@ export default function Header() {
           <Magnetic>
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium rounded-full bg-paper-50 text-ink-900 hover:bg-brand-400 transition-colors group"
+              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium rounded-full bg-inverse text-inverse-fg hover:bg-accent hover:text-accent-fg transition-colors group"
             >
               Start a project
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
@@ -101,7 +101,7 @@ export default function Header() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-paper-100 p-2 -mr-2"
+          className="md:hidden text-fg p-2 -mr-2"
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((v) => !v)}
@@ -140,7 +140,7 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden bg-ink-900/95 backdrop-blur-xl border-t border-ink-700 overflow-hidden"
+            className="md:hidden bg-canvas/95 backdrop-blur-xl border-t border-line overflow-hidden"
             aria-label="Mobile primary"
           >
             <div className="container py-6 flex flex-col gap-1">
@@ -148,14 +148,14 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="py-3 text-h3 font-semibold text-paper-100 hover:text-brand-400 transition-colors"
+                  className="py-3 text-h3 font-semibold text-fg hover:text-accent-ink transition-colors"
                 >
                   {item.label}
                 </Link>
               ))}
               <Link
                 href="/#contact"
-                className="mt-4 inline-flex items-center gap-2 px-5 py-3 text-sm font-medium rounded-full bg-paper-50 text-ink-900 self-start"
+                className="mt-4 inline-flex items-center gap-2 px-5 py-3 text-sm font-medium rounded-full bg-inverse text-inverse-fg self-start"
               >
                 Start a project →
               </Link>

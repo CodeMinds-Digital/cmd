@@ -29,16 +29,18 @@ const cols = [
 
 export default function Footer() {
   return (
-    <footer className="bg-ink-900 border-t border-ink-700">
+    <footer className="bg-canvas border-t border-line">
       <div className="container py-20 md:py-24">
         {/* Big anchor — wordmark */}
         <div className="mb-16 md:mb-24">
-          <h2 className="text-h1 md:text-display font-bold text-paper-50 leading-none md:leading-(--text-display--line-height)">
+          <h2 className="text-h2 sm:text-h1 md:text-display font-bold text-fg leading-none md:leading-(--text-display--line-height)">
             Codeminds
-            <span className="font-serif italic font-normal text-brand-400">·</span>
+            <span className="text-accent-ink">·</span>
+            {/* Break opportunity so the wordmark wraps instead of overflowing on phones. */}
+            <wbr />
             Digital
           </h2>
-          <p className="font-mono text-mono-sm text-paper-400 mt-4">
+          <p className="font-mono text-mono-sm text-fg-subtle mt-4">
             Software studio · Chennai · IST
           </p>
         </div>
@@ -47,7 +49,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-16">
           {cols.map((col) => (
             <div key={col.label}>
-              <div className="font-mono text-mono-sm text-paper-400 mb-4">
+              <div className="font-mono text-mono-sm text-fg-subtle mb-4">
                 {col.label}
               </div>
               <ul className="space-y-3">
@@ -55,7 +57,7 @@ export default function Footer() {
                   <li key={item.label}>
                     <Link
                       href={item.href}
-                      className="text-body text-paper-100 hover:text-brand-400 transition-colors"
+                      className="text-body text-fg hover:text-accent-ink transition-colors"
                     >
                       {item.label}
                     </Link>
@@ -66,14 +68,14 @@ export default function Footer() {
           ))}
 
           <div>
-            <div className="font-mono text-mono-sm text-paper-400 mb-4">
+            <div className="font-mono text-mono-sm text-fg-subtle mb-4">
               Legal
             </div>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/legal/privacy"
-                  className="text-body text-paper-100 hover:text-brand-400 transition-colors"
+                  className="text-body text-fg hover:text-accent-ink transition-colors"
                 >
                   Privacy
                 </Link>
@@ -81,7 +83,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/legal/terms"
-                  className="text-body text-paper-100 hover:text-brand-400 transition-colors"
+                  className="text-body text-fg hover:text-accent-ink transition-colors"
                 >
                   Terms
                 </Link>
@@ -91,7 +93,7 @@ export default function Footer() {
         </div>
 
         {/* Anchor strip */}
-        <div className="pt-8 border-t border-ink-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-mono text-mono-sm text-paper-400">
+        <div className="pt-8 border-t border-line flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-mono text-mono-sm text-fg-subtle">
           <span>CODEMINDS DIGITAL · v2026.1</span>
           <span className="hidden md:inline">© 2026 — ALL RIGHTS RESERVED</span>
           <span>CHENNAI · INDIA</span>

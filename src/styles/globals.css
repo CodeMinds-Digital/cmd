@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 
-@custom-variant dark (&:is(.dark *));
+/* ═════════════════════════════════════════════════════════════════
+   Voltage — design tokens
+   Semantic, theme-agnostic names (canvas / surface / fg / accent …).
+   Spec: docs/superpowers/plans/2026-09-28-landing-page-modernization.md §3
+   ═════════════════════════════════════════════════════════════════ */
 
 /*
   Font families reference next/font variables that are set on <body>, not
@@ -10,240 +14,94 @@
 */
 @theme inline {
   --font-sans: var(--font-geist), system-ui, sans-serif;
-  --font-serif: var(--font-instrument-serif), Georgia, serif;
+  --font-display: var(--font-space-grotesk), var(--font-geist), system-ui, sans-serif;
   --font-mono:
     var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 @theme {
-  --color-ink-500: #3a3a45;
-  --color-ink-600: #22222a;
-  --color-ink-700: #17171b;
-  --color-ink-800: #101013;
-  --color-ink-900: #0a0a0c;
+  /*
+    Colors — light-dark(light, dark). Only the light values are live while
+    :root sets `color-scheme: light`; the dark pairs are ready for the
+    optional dark variant (plan §3.2, open question Q3).
+    Hex equivalents are noted for design parity.
+  */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-red-700: oklch(50.5% 0.190 27.5);        /* #B91C1C — form errors (5.6:1) */
 
-  --color-paper-50: #f5f5f7;
-  --color-paper-100: #e8e8ed;
-  --color-paper-200: #cfcfd9;
-  --color-paper-300: #a5a5b4;
-  --color-paper-400: #6b6c8a;
+  --color-canvas: light-dark(oklch(95.3% 0.010 87.5), oklch(17.8% 0 0));        /* #F2EFE8 · #111111 */
+  --color-surface: light-dark(oklch(100% 0 0), oklch(21.7% 0 0));               /* #FFFFFF · #1A1A19 */
+  --color-surface-sunk: light-dark(oklch(91.9% 0.014 88.7), oklch(26% 0.004 106.7)); /* #E8E4DA · #242422 */
+  --color-line: light-dark(oklch(17.8% 0 0 / 0.1), oklch(95.3% 0.010 87.5 / 0.12));
+  --color-line-strong: light-dark(oklch(17.8% 0 0 / 0.22), oklch(95.3% 0.010 87.5 / 0.26));
+  --color-fg: light-dark(oklch(17.8% 0 0), oklch(95.3% 0.010 87.5));             /* #111111 · #F2EFE8 */
+  --color-fg-muted: light-dark(oklch(46.8% 0.008 88.7), oklch(72.2% 0.013 91.6)); /* #5C5A55 · #A8A59C */
+  --color-fg-subtle: light-dark(oklch(49.6% 0.010 91.6), oklch(64% 0.012 89.8));  /* #64625C · #8F8C84 */
+  /* Accent: FILLS ONLY. Never small text on canvas (≈2.9:1). */
+  --color-accent: oklch(66.8% 0.224 37);                                          /* #FF4D00 */
+  /* Text on an accent fill — stays near-black in both schemes (≈5.7:1). */
+  --color-accent-fg: oklch(17.8% 0 0);                                            /* #111111 */
+  /* Orange text / links on canvas or surface (≥5.1:1). */
+  --color-accent-ink: light-dark(oklch(52.5% 0.173 37.6), oklch(72.6% 0.178 43.2)); /* #B83700 · #FF7A3D */
+  --color-inverse: light-dark(oklch(17.8% 0 0), oklch(95.3% 0.010 87.5));        /* #111111 · #F2EFE8 */
+  --color-inverse-fg: light-dark(oklch(95.3% 0.010 87.5), oklch(17.8% 0 0));     /* #F2EFE8 · #111111 */
 
-  --color-brand-50: #f0f4ff;
-  --color-brand-100: #e0e9ff;
-  --color-brand-200: #c7d6fe;
-  --color-brand-300: #c7d2fe;
-  --color-brand-400: #a5b4fc;
-  --color-brand-500: #818cf8;
-  --color-brand-600: #6366f1;
-  --color-brand-700: #4f46e5;
-  --color-brand-800: #3730a3;
-  --color-brand-900: #312e81;
-
-  --text-mono-xs: 10px;
-  --text-mono-xs--line-height: 1;
-  --text-mono-xs--letter-spacing: 0.22em;
-  --text-mono-sm: 11px;
+  /* Type scale — fixed sizes for now; the fluid clamp() scale lands in Phase 2. */
+  --text-mono-xs: 12px;
+  --text-mono-xs--line-height: 1.2;
+  --text-mono-xs--letter-spacing: 0.14em;
+  --text-mono-sm: 12px;
   --text-mono-sm--line-height: 1.4;
-  --text-mono-sm--letter-spacing: 0.18em;
+  --text-mono-sm--letter-spacing: 0.12em;
   --text-body: 15px;
   --text-body--line-height: 1.6;
   --text-lead: 18px;
   --text-lead--line-height: 1.55;
   --text-h3: 24px;
   --text-h3--line-height: 1.2;
-  --text-h3--letter-spacing: -0.01em;
+  --text-h3--letter-spacing: -0.015em;
   --text-h2: 40px;
   --text-h2--line-height: 1.05;
-  --text-h2--letter-spacing: -0.02em;
+  --text-h2--letter-spacing: -0.025em;
   --text-h1: 72px;
   --text-h1--line-height: 0.95;
-  --text-h1--letter-spacing: -0.025em;
+  --text-h1--letter-spacing: -0.03em;
   --text-display: 96px;
   --text-display--line-height: 0.92;
-  --text-display--letter-spacing: -0.03em;
-  --text-xs: 0.75rem;
-  --text-xs--line-height: 1rem;
-  --text-sm: 0.875rem;
-  --text-sm--line-height: 1.25rem;
-  --text-base: 1rem;
-  --text-base--line-height: 1.5rem;
-  --text-lg: 1.125rem;
-  --text-lg--line-height: 1.75rem;
-  --text-xl: 1.25rem;
-  --text-xl--line-height: 1.75rem;
-  --text-2xl: 1.5rem;
-  --text-2xl--line-height: 2rem;
-  --text-3xl: 1.875rem;
-  --text-3xl--line-height: 2.25rem;
-  --text-4xl: 2.25rem;
-  --text-4xl--line-height: 2.5rem;
-  --text-5xl: 3rem;
-  --text-5xl--line-height: 1.1;
-  --text-6xl: 3.75rem;
-  --text-6xl--line-height: 1.1;
-  --text-7xl: 4.5rem;
-  --text-7xl--line-height: 1.1;
+  --text-display--letter-spacing: -0.035em;
 
-  --radius-4xl: 2rem;
-  --radius-5xl: 2.5rem;
+  --radius-tile: 20px;
+  --radius-inner: 12px;
 
   --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-quint-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-gentle: cubic-bezier(0.25, 0.1, 0.25, 1);
 
-  --transition-duration-instant: 100ms;
-  --transition-duration-snap: 200ms;
-  --transition-duration-natural: 450ms;
-  --transition-duration-reveal: 900ms;
-
-  --shadow-soft:
-    0 1px 0 0 rgba(255, 255, 255, 0.04) inset, 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-medium:
-    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
-    0 8px 24px -8px rgba(0, 0, 0, 0.55);
-  --shadow-glow: 0 0 32px rgba(99, 102, 241, 0.18);
-
-  --backdrop-blur-xs: 2px;
-
-  --animate-fade-in: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
+  --shadow-lift: 0 8px 24px -12px oklch(17.8% 0 0 / 0.18);
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+:root {
+  color-scheme: light;
+}
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
+  /* Tailwind v4 borders default to currentColor; default to the hairline token. */
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--color-line);
   }
-}
-
-@utility container {
-  @apply mx-auto px-6 md:px-12 lg:px-20 max-w-[1280px];
-}
-
-@utility btn {
-  @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-full transition-colors duration-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900 disabled:opacity-50 disabled:cursor-not-allowed;
-}
-
-@utility btn-primary {
-  @apply btn bg-paper-50 text-ink-900 hover:bg-brand-400 hover:text-ink-900;
-}
-
-@utility btn-secondary {
-  @apply btn bg-transparent text-paper-50 border border-ink-600 hover:border-paper-300;
-}
-
-@utility btn-ghost {
-  @apply btn bg-transparent text-paper-100 hover:text-paper-50;
-}
-
-@utility btn-lg {
-  @apply px-8 py-4 text-lg;
-}
-
-@utility btn-sm {
-  @apply px-4 py-2 text-sm;
-}
-
-@utility card {
-  @apply bg-ink-800 rounded-2xl border border-ink-600 transition-colors duration-200;
-}
-
-@utility card-hover {
-  @apply card hover:border-ink-500;
-}
-
-@utility glass {
-  @apply bg-ink-800/70 backdrop-blur-xl border border-ink-600/40;
-}
-
-@utility heading-xl {
-  /* Display heading classes — used by existing sections.
-     R2 will replace these with explicit fontSize tokens. */
-  @apply text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tight text-paper-50;
-}
-
-@utility heading-lg {
-  @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-paper-50;
-}
-
-@utility heading-md {
-  @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-paper-50;
-}
-
-@utility heading-sm {
-  @apply text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-paper-50;
-}
-
-@utility text-body {
-  /* Body color only. Size and line-height (15px / 1.6) come from the
-     --text-body theme token, which won over this class in Tailwind v3. */
-  @apply text-paper-200;
-}
-
-@utility text-caption {
-  @apply text-paper-300 text-sm leading-relaxed;
-}
-
-@utility section-padding {
-  /* Section padding — R1 spec: 96 → 160px on desktop */
-  @apply py-24 md:py-32 lg:py-40;
-}
-
-@utility text-balance {
-  text-wrap: balance;
-}
-
-@utility scrollbar-none {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-@utility cv-auto {
-  @supports (content-visibility: auto) {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 1200px;
-  }
-}
-
-@layer utilities {
-  /* ═════════════════════════════════════════════════════════════════
-   R1 — Plasma Indigo dark surface system
-   Tokens live in the @theme block above (ink / paper / brand ramps);
-   this file only owns base resets, Lenis/cursor CSS, legacy class
-   stubs that haven't been rewritten in R2 yet, and a11y safety nets.
-   ═════════════════════════════════════════════════════════════════ */
-
-  /* No `* { margin: 0; padding: 0 }` reset here: Tailwind's preflight already
-     does it in the base layer, and a copy in this layer would override the
-     zero-specificity :where() selectors behind space-x/y and divide-x/y. */
 
   html {
     font-size: 16px;
-    /* Framer Motion's `useScroll({ target })` calls getComputedStyle on the
-     scroll container (window → document.documentElement) and warns if the
-     position is static. */
+    /* Motion's `useScroll({ target })` calls getComputedStyle on the scroll
+       container (window → document.documentElement) and warns if the
+       position is static. */
     position: relative;
   }
 
@@ -268,49 +126,87 @@
   h4,
   h5,
   h6 {
+    font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1.1;
   }
 
   a {
-    color: var(--color-brand-400);
+    color: var(--color-accent-ink);
     text-decoration: none;
-    transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: color 200ms var(--ease-expo-out);
   }
 
   a:hover {
-    color: var(--color-paper-50);
+    color: var(--color-fg);
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-brand-400) 30%, transparent);
-    color: var(--color-paper-50);
+    background-color: var(--color-accent);
+    color: var(--color-accent-fg);
   }
 
-  /* Scrollbar — dark surface */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-ink-900);
+    background: var(--color-canvas);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-ink-700);
+    background: var(--color-line-strong);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in srgb, var(--color-brand-600) 50%, transparent);
+    background: var(--color-accent);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand-400);
-    outline-offset: 3px;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
     border-radius: 4px;
   }
+}
 
-  /* ─── Legacy component classes — kept until R2 rewrites callers ────── */
+@utility container {
+  @apply mx-auto px-6 md:px-12 lg:px-20 max-w-[1280px];
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-full transition-colors duration-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Black pill → orange with a black label on hover. */
+@utility btn-primary {
+  @apply btn bg-inverse text-inverse-fg hover:bg-accent hover:text-accent-fg;
+}
+
+/* Outlined pill. */
+@utility btn-secondary {
+  @apply btn bg-transparent text-fg border border-line-strong hover:border-fg;
+}
+
+@utility btn-ghost {
+  @apply btn bg-transparent text-fg-muted hover:text-fg;
+}
+
+@utility btn-lg {
+  @apply px-8 py-4 text-lg;
+}
+
+@utility btn-sm {
+  @apply px-4 py-2 text-sm;
+}
+
+@utility text-body {
+  /* Body color only. Size and line-height (15px / 1.6) come from the
+     --text-body theme token. */
+  @apply text-fg-muted;
+}
+
+@utility section-padding {
+  @apply py-24 md:py-32 lg:py-40;
 }
 
 /* ─── Lenis smooth-scroll required CSS ──────────────────────────── */

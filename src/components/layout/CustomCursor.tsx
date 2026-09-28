@@ -83,7 +83,7 @@ export default function CustomCursor() {
     <>
       <m.div
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full bg-brand-500 mix-blend-difference"
+        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full bg-fg"
         style={{
           x,
           y,
@@ -97,7 +97,7 @@ export default function CustomCursor() {
       />
       <m.div
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full border border-brand-500/70 mix-blend-difference"
+        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full border border-fg/50"
         style={{
           x: ringX,
           y: ringY,

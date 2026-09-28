@@ -10,12 +10,11 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 
 - **Framework:** [Next.js 16.2.4](https://nextjs.org) (App Router · Turbopack · React 19 · React Compiler)
 - **Type system:** TypeScript (strict)
-- **Styling:** Tailwind CSS 4 (CSS-first `@theme` in `src/styles/globals.css`) with a custom dark token system (`ink` / `paper` / `brand`)
+- **Styling:** Tailwind CSS 4 (CSS-first `@theme` in `src/styles/globals.css`) with the Voltage semantic token system (`canvas` / `surface` / `fg` / `accent` …)
 - **Motion:** Motion (`motion/react`, `LazyMotion` + `m.*`) + Lenis (smooth scroll)
-- **3D:** Three.js + `@react-three/fiber` + `@react-three/drei` (custom GLSL shader on the hero, capability-gated and lazy-loaded)
 - **Email:** Nodemailer (`/api/contact`)
 - **Analytics:** Web Vitals → `/api/vitals`
-- **OG cards:** `next/og` edge runtime, Plasma Indigo palette, per-route variants
+- **OG cards:** `next/og` edge runtime, Voltage palette, per-route variants
 
 ## Routes
 
@@ -34,35 +33,31 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 
 ## Design system
 
-**Palette — Plasma Indigo (R1):**
+**Palette — Voltage (light-first).** Tokens live in `@theme` in `src/styles/globals.css` as OKLCH `light-dark()` pairs; a dark variant is defined but not enabled (`:root { color-scheme: light }`).
 
 ```
-ink-900  #0a0a0c  page background
-ink-800  #101013  section / card surface
-ink-700  #17171b  elevated cards
-ink-600  #22222a  dividers
-ink-500  #3a3a45  muted borders
-
-paper-50   #f5f5f7  primary text
-paper-100  #e8e8ed  body
-paper-200  #cfcfd9  secondary
-paper-300  #a5a5b4  dim / labels
-paper-400  #6b6c8a  mono utility / anchor
-
-brand-300  #c7d2fe  hover / active
-brand-400  #a5b4fc  canonical accent
-brand-500  #818cf8  primary fill
-brand-600  #6366f1  pressed / WebGL shader uniform
+canvas        #F2EFE8  page background (warm paper)
+surface       #FFFFFF  tiles, cards, inputs
+surface-sunk  #E8E4DA  wells, hover rows, chips
+line          #111 @10%   hairlines   ·   line-strong  #111 @22%
+fg            #111111  headings, body          16.4:1
+fg-muted      #5C5A55  secondary text           6.0:1
+fg-subtle     #64625C  mono labels (≥12px)      5.3:1
+accent        #FF4D00  FILLS ONLY — never small text on canvas
+accent-fg     #111111  text on accent fills     5.7:1
+accent-ink    #B83700  orange text / links      5.1:1
+inverse       #111111  black tiles / pills, with inverse-fg #F2EFE8
 ```
 
-**Type — Editorial pairing (R1):**
+**Type:**
 
+- **Space Grotesk** — display and headings (`font-display`; applied to `h1`–`h6` by default).
 - **Geist (sans)** — body, UI, buttons. Default everywhere.
-- **Geist Mono** — eyebrows, captions, anchors (`v2026.1`, `01 ── SERVICES`), tabular data.
-- **Instrument Serif italic** — display-only motif. ~1 italic phrase per 1.5 viewports — hero accent word, section opener accent, anchor pull-quote. Never a full heading.
+- **Geist Mono** — eyebrows, captions, anchors (`v2026.1`, `01 ── SERVICES`), tabular data. Minimum 12px.
+- **Highlight chip** (`<Highlight>` / `highlightClass`) — orange block behind one key phrase per section ("care.", "what we ship."). Replaces the old serif-italic accent.
 
-**Type scale (major-third 1.25):**
-`mono-xs` (10/0.22em) → `mono-sm` (11/0.18em) → `body` (15) → `lead` (18) → `h3` (24) → `h2` (40) → `h1` (72) → `display` (96)
+**Type scale:**
+`mono-xs` (12/0.14em) → `mono-sm` (12/0.12em) → `body` (15) → `lead` (18) → `h3` (24) → `h2` (40) → `h1` (72) → `display` (96)
 
 **Motion grammar:**
 
@@ -82,16 +77,14 @@ Located at `src/components/animations/` — internal preview at `/playground`:
 | `<DrawIcon>` | Stroke-draws SVG paths on `whileInView` via `pathLength`. |
 | `<SmoothScroll>` | Lenis smooth scroll (`autoRaf`), dynamically loaded post-hydration. |
 | `<CustomCursor>` | Springy ring + dot, `mix-blend-difference`, `(pointer: fine)`-gated. |
-| `<HeroCanvas>` | Three.js shader (custom simplex-noise GLSL with scroll-driven `uScroll` uniform). Capability-gated: prefers-reduced-motion, viewport ≤ 640px, `hardwareConcurrency < 4`, or no WebGL → renders nothing, CSS gradient fallback takes over. |
 | `<ViewTransitionLink>` | Wraps `next/link` with `document.startViewTransition()` for case-cover morphs. |
 | `<MotionRoot>` | Root `<MotionConfig>` with house easing + reduced-motion=user. |
 | `<SectionEyebrow>` | `01 ── LABEL` editorial section header chrome. |
 
 ## Performance
 
-- **Bundle split:** Three.js + r3f + drei in their own chunks (~187 KB gz combined). Loads only when `<HeroCanvas>` mounts (capability-gated).
 - **Smooth scroll:** Lenis loaded post-hydration via `<SmoothScrollLoader>`.
-- **Fonts:** 3 self-hosted variable fonts via `next/font/google` (Geist · Geist Mono · Instrument Serif).
+- **Fonts:** 3 self-hosted variable fonts via `next/font/google` (Space Grotesk · Geist · Geist Mono).
 - **Images:** AVIF/WebP via `next/image`.
 - **Web Vitals:** instrumented via `useReportWebVitals` → `/api/vitals` (with dev-mode color-coded console output). Long-task observer flags >50ms tasks in dev.
 - **Targets:** LCP < 1.8s · INP < 200ms · CLS < 0.05 · Lighthouse 95+ desktop / 85+ mobile.
@@ -124,7 +117,6 @@ src/
 │   ├── perf/                     # WebVitals, FrameBudget
 │   ├── icons/                    # IconSprite + <Icon>
 │   ├── seo/                      # StructuredData
-│   ├── three/                    # HeroCanvas (WebGL)
 │   └── ui/                       # SectionEyebrow, primitives
 ├── data/
 │   ├── cases.ts                  # case-study source of truth

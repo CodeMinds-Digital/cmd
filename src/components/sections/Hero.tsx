@@ -11,14 +11,9 @@ import {
   type Transition,
 } from 'motion/react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import Magnetic from '@/components/animations/Magnetic';
 import SplitText from '@/components/animations/SplitText';
-
-const HeroCanvas = dynamic(() => import('@/components/three/HeroCanvas'), {
-  ssr: false,
-  loading: () => null,
-});
+import Highlight from '@/components/ui/Highlight';
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -49,20 +44,8 @@ const Hero = () => {
       id="home"
       ref={sectionRef}
       style={{ position: 'relative' }}
-      className="min-h-screen min-h-dvh flex items-center justify-center overflow-hidden bg-ink-900"
+      className="min-h-screen min-h-dvh flex items-center justify-center overflow-hidden bg-canvas"
     >
-      {/* Static gradient backdrop — fallback when WebGL is gated. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-20"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 60% at 30% 30%, rgba(99,102,241,0.22) 0%, transparent 60%), radial-gradient(ellipse 70% 50% at 75% 70%, rgba(6,182,212,0.16) 0%, transparent 55%)',
-        }}
-      />
-
-      {/* WebGL shader: signature ambient backdrop. Capability-gated. */}
-      <HeroCanvas />
 
       {/* Main Content */}
       <m.div
@@ -74,13 +57,13 @@ const Hero = () => {
           <AnimatePresence>
             {isLoaded && (
               <m.div
-                className="inline-flex items-center gap-2.5 mb-12 font-mono text-mono-xs text-paper-300"
+                className="inline-flex items-center gap-2.5 mb-12 font-mono text-mono-xs text-fg-muted"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <m.span
-                  className="h-1.5 w-1.5 rounded-full bg-brand-400"
+                  className="h-1.5 w-1.5 rounded-full bg-accent"
                   animate={loop({ opacity: [1, 0.4, 1] })}
                   transition={loopTransition({
                     duration: 2,
@@ -93,26 +76,26 @@ const Hero = () => {
             )}
           </AnimatePresence>
 
-          {/* Headline — Geist sans + Instrument Serif italic motif */}
+          {/* Headline — Space Grotesk with the orange highlight chip */}
           <h1 className="mb-10 text-balance">
             <SplitText
-              className="block text-h1 md:text-display font-bold text-paper-50"
+              className="block text-h1 md:text-display font-bold text-fg"
               delay={0.2}
             >
               Software,
             </SplitText>
             <SplitText
-              className="block text-h1 md:text-display font-bold text-paper-50"
+              className="block text-h1 md:text-display font-bold text-fg"
               delay={0.55}
             >
               built with{' '}
-              <span className="font-serif italic font-normal text-brand-400">care.</span>
+              <Highlight>care.</Highlight>
             </SplitText>
           </h1>
 
           {/* Subline */}
           <m.p
-            className="text-lead text-paper-200 max-w-2xl mx-auto mb-12 text-balance"
+            className="text-lead text-fg-muted max-w-2xl mx-auto mb-12 text-balance"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 1.1 }}
@@ -153,12 +136,12 @@ const Hero = () => {
 
             <Link
               href="#work"
-              className="px-6 py-3 text-paper-200 hover:text-paper-50 transition-colors flex items-center gap-2 group"
+              className="px-6 py-3 text-fg-muted hover:text-fg transition-colors flex items-center gap-2 group"
             >
               See selected work
               <span
                 aria-hidden
-                className="inline-block h-px w-6 bg-paper-400 group-hover:w-10 group-hover:bg-paper-100 transition-all"
+                className="inline-block h-px w-6 bg-fg-subtle group-hover:w-10 group-hover:bg-fg transition-all"
               />
             </Link>
           </m.div>
@@ -168,12 +151,12 @@ const Hero = () => {
       {/* Editorial bottom anchor */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-6 z-10 flex items-center justify-between px-6 md:px-12 font-mono text-mono-sm text-paper-400"
+        className="pointer-events-none absolute inset-x-0 bottom-6 z-10 flex items-center justify-between px-6 md:px-12 font-mono text-mono-sm text-fg-subtle"
       >
         <span>Codeminds Digital · v2026.1</span>
         <span className="hidden md:inline">Chennai · India</span>
         <span className="flex items-center gap-2">
-          <span className="h-px w-8 bg-paper-400" />
+          <span className="h-px w-8 bg-fg-subtle" />
           Scroll
         </span>
       </div>

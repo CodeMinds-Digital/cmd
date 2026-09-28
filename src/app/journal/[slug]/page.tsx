@@ -53,7 +53,7 @@ export default async function JournalPostPage({
   return (
     <>
       <Header />
-      <main className="bg-ink-900 text-paper-100">
+      <main className="bg-canvas text-fg">
         <article>
           <header className="section-padding pt-40 md:pt-56 pb-0">
             <div className="container max-w-3xl">
@@ -62,19 +62,19 @@ export default async function JournalPostPage({
                 label={`Journal · ${formatDate(post.date)}`}
                 className="mb-8"
               />
-              <h1 className="text-h1 md:text-display font-bold text-paper-50 mb-8 text-balance">
+              <h1 className="text-h1 md:text-display font-bold text-fg mb-8 text-balance">
                 {post.title}
               </h1>
-              <p className="text-lead text-paper-200 mb-10">{post.excerpt}</p>
+              <p className="text-lead text-fg-muted mb-10">{post.excerpt}</p>
               <div className="flex flex-wrap gap-x-2 gap-y-1 mb-16 md:mb-20">
                 {post.tags.map((t, i) => (
                   <span
                     key={t}
-                    className="font-mono text-mono-sm text-paper-400"
+                    className="font-mono text-mono-sm text-fg-subtle"
                   >
                     {t}
                     {i < post.tags.length - 1 && (
-                      <span aria-hidden className="ml-2 text-paper-400/40">
+                      <span aria-hidden className="ml-2 text-fg-subtle/50">
                         ·
                       </span>
                     )}
@@ -86,11 +86,11 @@ export default async function JournalPostPage({
 
           <section className="section-padding pt-0">
             <div className="container max-w-3xl">
-              <div className="text-body text-paper-100 space-y-6 leading-relaxed">
+              <div className="text-body text-fg space-y-6 leading-relaxed">
                 {post.body ? (
                   <p>{post.body}</p>
                 ) : (
-                  <p className="italic text-paper-300">
+                  <p className="italic text-fg-muted">
                     Long-form post lands here as MDX in a future polish pass.
                   </p>
                 )}
@@ -99,15 +99,15 @@ export default async function JournalPostPage({
           </section>
         </article>
 
-        <section className="section-padding border-t border-ink-700">
+        <section className="section-padding border-t border-line">
           <div className="container max-w-3xl flex flex-col md:flex-row md:items-baseline md:justify-between gap-6">
             <Link
               href="/journal"
-              className="inline-flex items-center gap-2 text-paper-200 hover:text-paper-50 transition-colors group"
+              className="inline-flex items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
             >
               <span
                 aria-hidden
-                className="inline-block h-px w-6 bg-paper-400 group-hover:w-10 group-hover:bg-paper-100 transition-all"
+                className="inline-block h-px w-6 bg-fg-subtle group-hover:w-10 group-hover:bg-fg transition-all"
               />
               All posts
             </Link>
@@ -117,10 +117,10 @@ export default async function JournalPostPage({
                 href={`/journal/${next.slug}`}
                 className="group block max-w-md"
               >
-                <span className="font-mono text-mono-sm text-paper-400 mb-2 block">
+                <span className="font-mono text-mono-sm text-fg-subtle mb-2 block">
                   Next post
                 </span>
-                <span className="text-h3 font-semibold text-paper-50 group-hover:text-brand-400 transition-colors">
+                <span className="text-h3 font-semibold text-fg group-hover:text-accent-ink transition-colors">
                   {next.title} →
                 </span>
               </Link>

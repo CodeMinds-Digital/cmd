@@ -56,24 +56,24 @@ export default async function CasePage({
   return (
     <>
       <Header />
-      <main className="bg-ink-900 text-paper-100">
+      <main className="bg-canvas text-fg">
         <CaseHero data={data} />
 
         {/* For "coming" cases, show only the hero + a quiet CTA back to /work. */}
         {isComing ? (
           <section className="section-padding pt-0">
             <div className="container max-w-3xl">
-              <p className="text-lead text-paper-300 italic mb-12">
+              <p className="text-lead text-fg-muted italic mb-12">
                 Full case write-up lands when this ships. In the meantime,
                 browse what is live.
               </p>
               <Link
                 href="/work"
-                className="inline-flex items-center gap-2 text-paper-200 hover:text-paper-50 transition-colors group"
+                className="inline-flex items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
               >
                 <span
                   aria-hidden
-                  className="inline-block h-px w-6 bg-paper-400 group-hover:w-10 group-hover:bg-paper-100 transition-all"
+                  className="inline-block h-px w-6 bg-fg-subtle group-hover:w-10 group-hover:bg-fg transition-all"
                 />
                 All work
               </Link>
@@ -87,10 +87,10 @@ export default async function CasePage({
             {data.problem && (
               <section className="section-padding pt-0">
                 <div className="container max-w-3xl">
-                  <p className="font-mono text-mono-sm text-brand-400 mb-6">
+                  <p className="font-mono text-mono-sm text-accent-ink mb-6">
                     Problem
                   </p>
-                  <p className="text-h3 font-normal text-paper-100 leading-relaxed">
+                  <p className="text-h3 font-normal text-fg leading-relaxed">
                     {data.problem}
                   </p>
                 </div>
@@ -101,27 +101,27 @@ export default async function CasePage({
             {data.approach && data.approach.length > 0 && (
               <section className="section-padding pt-0">
                 <div className="container">
-                  <p className="font-mono text-mono-sm text-brand-400 mb-12">
+                  <p className="font-mono text-mono-sm text-accent-ink mb-12">
                     Approach
                   </p>
-                  <ul className="border-t border-ink-600 max-w-5xl">
+                  <ul className="border-t border-line max-w-5xl">
                     {data.approach.map((step) => (
                       <li
                         key={step.index}
-                        className="border-b border-ink-600 grid grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 px-0 md:px-4"
+                        className="border-b border-line grid grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 px-0 md:px-4"
                       >
                         <div className="col-span-2 md:col-span-1">
-                          <span className="font-mono text-mono-sm text-brand-400">
+                          <span className="font-mono text-mono-sm text-accent-ink">
                             {step.index}
                           </span>
                         </div>
                         <div className="col-span-10 md:col-span-4">
-                          <h3 className="text-h3 font-semibold text-paper-50">
+                          <h3 className="text-h3 font-semibold text-fg">
                             {step.title}
                           </h3>
                         </div>
                         <div className="col-span-12 md:col-span-7">
-                          <p className="text-body text-paper-200 max-w-2xl">
+                          <p className="text-body text-fg-muted max-w-2xl">
                             {step.body}
                           </p>
                         </div>
@@ -149,15 +149,15 @@ export default async function CasePage({
         {next && next.slug !== slug && <CaseNextLink next={next} />}
 
         {/* Bottom return */}
-        <section className="section-padding border-t border-ink-700">
+        <section className="section-padding border-t border-line">
           <div className="container">
             <Link
               href="/work"
-              className="inline-flex items-center gap-2 text-paper-200 hover:text-paper-50 transition-colors group"
+              className="inline-flex items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
             >
               <span
                 aria-hidden
-                className="inline-block h-px w-6 bg-paper-400 group-hover:w-10 group-hover:bg-paper-100 transition-all"
+                className="inline-block h-px w-6 bg-fg-subtle group-hover:w-10 group-hover:bg-fg transition-all"
               />
               All work
             </Link>

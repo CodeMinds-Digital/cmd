@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
-import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
+import { Geist, Geist_Mono, Space_Grotesk } from 'next/font/google';
 import StructuredData from '@/components/seo/StructuredData';
 import WebVitals from '@/components/perf/WebVitals';
 import FrameBudget from '@/components/perf/FrameBudget';
@@ -25,11 +25,10 @@ const geistMono = Geist_Mono({
   preload: true,
 });
 
-const instrumentSerif = Instrument_Serif({
-  weight: '400',
-  style: ['normal', 'italic'],
+// Display face for headings (Voltage). Variable font — weights 300–700.
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-instrument-serif',
+  variable: '--font-space-grotesk',
   display: 'swap',
   preload: true,
 });
@@ -88,8 +87,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#0a0a0c" />
-        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#F2EFE8" />
+        <meta name="color-scheme" content="light" />
         <link rel="icon" href="/icons/logo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icons/logo.svg" />
       </head>
@@ -97,10 +96,9 @@ export default function RootLayout({
         className={`
           ${geist.variable}
           ${geistMono.variable}
-          ${instrumentSerif.variable}
+          ${spaceGrotesk.variable}
           font-sans antialiased
-          bg-ink-900 text-paper-100
-          selection:bg-brand-400/30 selection:text-paper-50
+          bg-canvas text-fg
         `}
         suppressHydrationWarning
       >

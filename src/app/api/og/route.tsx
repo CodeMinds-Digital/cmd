@@ -4,12 +4,14 @@ export const runtime = 'edge';
 
 const size = { width: 1200, height: 630 };
 
-// Palette tokens — match the live site (Plasma Indigo).
-const ink = '#0a0a0c';
-const paper50 = '#f5f5f7';
-const paper300 = '#a5a5b4';
-const paper400 = '#6b6c8a';
-const brand400 = '#a5b4fc';
+// Palette tokens — match the live site (Voltage). Hex because Satori can't
+// read CSS variables.
+const canvas = '#F2EFE8';
+const surface = '#FFFFFF';
+const fg = '#111111';
+const fgMuted = '#5C5A55';
+const accent = '#FF4D00';
+const line = 'rgba(17,17,17,0.10)';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -26,81 +28,100 @@ export async function GET(request: Request) {
           height: '100%',
           width: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '72px',
-          background: `radial-gradient(ellipse 60% 50% at 25% 30%, rgba(99,102,241,0.40), transparent 60%), radial-gradient(ellipse 55% 45% at 80% 75%, rgba(6,182,212,0.30), transparent 60%), ${ink}`,
-          color: paper50,
+          gap: 16,
+          padding: 48,
+          background: canvas,
+          color: fg,
           fontFamily:
-            "'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            "'Space Grotesk', 'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         }}
       >
-        {/* Top row — eyebrow */}
+        {/* Headline tile */}
         <div
           style={{
+            flex: 1,
             display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            fontSize: 18,
-            letterSpacing: 4,
-            textTransform: 'uppercase',
-            color: paper300,
-            fontWeight: 500,
-          }}
-        >
-          <div
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: 999,
-              background: brand400,
-            }}
-          />
-          <span>{eyebrow}</span>
-        </div>
-
-        {/* Headline + subline */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-          <div
-            style={{
-              fontSize: 96,
-              fontWeight: 700,
-              lineHeight: 0.95,
-              letterSpacing: -3,
-              maxWidth: 1000,
-              color: paper50,
-            }}
-          >
-            {title}
-          </div>
-          <div
-            style={{
-              fontSize: 28,
-              lineHeight: 1.4,
-              color: paper300,
-              maxWidth: 950,
-            }}
-          >
-            {subtitle}
-          </div>
-        </div>
-
-        {/* Bottom anchor strip — matches the live site's mono caption */}
-        <div
-          style={{
-            display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'space-between',
-            alignItems: 'center',
-            fontSize: 18,
-            letterSpacing: 4,
-            textTransform: 'uppercase',
-            color: paper400,
-            fontFamily:
-              "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",
+            padding: 48,
+            background: surface,
+            border: `1px solid ${line}`,
+            borderRadius: 28,
           }}
         >
-          <span>codeminds.digital</span>
-          <span>v2026.1 · Chennai · India</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              fontSize: 18,
+              letterSpacing: 3,
+              textTransform: 'uppercase',
+              color: fgMuted,
+              fontWeight: 500,
+            }}
+          >
+            <div style={{ width: 10, height: 10, borderRadius: 999, background: accent }} />
+            <span>{eyebrow}</span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <div
+              style={{
+                fontSize: 84,
+                fontWeight: 700,
+                lineHeight: 0.95,
+                letterSpacing: -3,
+                maxWidth: 760,
+                color: fg,
+              }}
+            >
+              {title}
+            </div>
+            <div style={{ fontSize: 26, lineHeight: 1.4, color: fgMuted, maxWidth: 740 }}>
+              {subtitle}
+            </div>
+          </div>
+        </div>
+
+        {/* Stat + ink tiles */}
+        <div style={{ width: 300, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              padding: 32,
+              background: accent,
+              color: fg,
+              borderRadius: 28,
+            }}
+          >
+            <div style={{ fontSize: 88, fontWeight: 700, lineHeight: 1, letterSpacing: -3 }}>2–4</div>
+            <div style={{ fontSize: 18, letterSpacing: 3, textTransform: 'uppercase', marginTop: 8 }}>
+              Week delivery
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 8,
+              padding: 32,
+              background: fg,
+              color: canvas,
+              borderRadius: 28,
+              fontSize: 18,
+              letterSpacing: 3,
+              textTransform: 'uppercase',
+              fontFamily:
+                "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",
+            }}
+          >
+            <span>codeminds.digital</span>
+            <span style={{ color: accent }}>Chennai → world</span>
+          </div>
         </div>
       </div>
     ),

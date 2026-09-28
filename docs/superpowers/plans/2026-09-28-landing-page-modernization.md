@@ -98,9 +98,9 @@ Defined once in `@theme` as OKLCH. The hex is shown for design parity. Contrast 
 | `--color-line-strong` | `#111111` @ 22% | Input borders, dividers | — |
 | `--color-fg` | `#111111` | Headlines, body | ≈ 16.4 : 1 ✅ |
 | `--color-fg-muted` | `#5C5A55` | Secondary text, captions | ≈ 6.0 : 1 ✅ |
-| `--color-fg-subtle` | `#6B6963` | Mono labels (min 12 px) | ≈ 4.8 : 1 ✅ |
+| `--color-fg-subtle` | `#64625C` | Mono labels (min 12 px) | ≈ 5.3 : 1 ✅ (4.8 on `surface-sunk`) |
 | `--color-accent` | `#FF4D00` | **Fills only**: highlight chips, stat tile, CTA hover, focus ring | — |
-| `--color-accent-fg` | `#111111` | Text *on* accent at small sizes | ≈ 6.3 : 1 ✅ |
+| `--color-accent-fg` | `#111111` | Text *on* accent — all sizes, both schemes | ≈ 5.7 : 1 ✅ |
 | `--color-accent-ink` | `#B83700` | Orange **text/links** on paper | ≈ 5.1 : 1 ✅ |
 | `--color-inverse` | `#111111` | Inverted tiles/sections (dark blocks) | — |
 | `--color-inverse-fg` | `#F2EFE8` | Text on inverse | ≈ 16.4 : 1 ✅ |
@@ -254,14 +254,26 @@ Each phase is independently shippable. Phase 0 snapshots are **"before" referenc
 
 **Follow-up noted:** the `Dockerfile` builds on `node:20-alpine` (Node 20 reached end of life in April 2026). Bump it to `node:22-alpine` or `node:24-alpine` in the Phase 6 deploy step.
 
-### Phase 1b — Semantic token migration + Voltage theme (1.5 days)
-- [ ] Define the §3.1 tokens in `@theme` (OKLCH), plus `light-dark()` pairs for §3.2.
-- [ ] Codemod the **26 files** using `ink-*`/`paper-*`/`brand-*` to the semantic names: `bg-ink-900` → `bg-canvas`, `bg-ink-800` → `bg-surface`, `text-paper-50/100` → `text-fg`, `text-paper-200/300` → `text-fg-muted`, `text-paper-400` → `text-fg-subtle`, `text-brand-400` → `text-accent-ink`, `border-ink-6xx/7xx` → `border-line`, `bg-brand-*` → `bg-accent`. Drop the legacy `.heading-*`, `.card*`, `.glass`, and duplicate `.text-body`.
-- [ ] Fonts: add Space Grotesk, remove Instrument Serif. Replace every `font-serif italic` accent with `<Highlight>`.
-- [ ] `layout.tsx`: `theme-color #F2EFE8`, `color-scheme: light`, selection + focus-ring tokens.
-- [ ] Re-theme hardcoded assets: `api/og/route.tsx` (paper background, black type, orange chip), and the `public/work/*.svg` covers (orange/black on paper instead of indigo glow).
-- [ ] Remove `HeroCanvas` and three/r3f/drei. The old hero temporarily sits on plain `canvas`.
-- **Exit:** every route renders legibly in Voltage colors, and axe shows no contrast failures. Layouts are still the old ones.
+### Phase 1b — Semantic token migration + Voltage theme (1.5 days) — ✅ done 2026-09-28
+- [x] §3.1 tokens are in `@theme` as OKLCH `light-dark()` pairs (§3.2 dark values are included). `--color-*: initial` removes Tailwind's default palette, so only Voltage tokens (plus `white`/`black`/`red-700` for errors) exist.
+- [x] Codemodded 24 files from `ink-*`/`paper-*`/`brand-*`/`neutral-*` to semantic names. **Zero references remain in `src/`.** Legacy `.heading-*`, `.card*`, `.glass`, `.text-caption`, `cv-auto`, `scrollbar-none`, legacy `xs…7xl` overrides, and the old shadows are deleted. `btn-primary` is now the black pill → orange-on-hover.
+- [x] Fonts: Space Grotesk added (`font-display`, applied to `h1`–`h6` in base), Instrument Serif removed. All 9 serif-italic accents replaced by `ui/Highlight` (orange chip; `highlightClass` for `SplitText`). The pull-quote uses Space Grotesk medium.
+- [x] `layout.tsx`: `theme-color #F2EFE8`, `color-scheme: light`. Selection, focus ring, scrollbar and link colors are on tokens in `@layer base`.
+- [x] Re-themed hardcoded assets: `api/og` (paper + headline tile + orange stat tile + ink tile), 6 `public/work/*.svg` covers/screens (indigo → orange, cyan → ink, dark → paper), placeholder gradients in `CaseTile`/`CaseHero`/`CaseScreens` (tones renamed `paper`/`ink`/`mixed`), Process spine strokes, favicon gradient, and the contact-email accent.
+- [x] Removed `HeroCanvas` and uninstalled `three`, `@types/three`, `@react-three/fiber`, `@react-three/drei`. Custom cursor dropped `mix-blend-difference` (it's invisible on light) for a solid `fg` dot + ring.
+- [x] **Fixed along the way:** `SplitText` masks clipped the rounded chip and descenders (added 0.14em mask bleed, hidden offset 110% → 130%). Missing spaces between heading halves ("Let's make·something", "ship·in 4–8 weeks") were pre-existing, hidden by the serif. **Mobile horizontal overflow on every route** was pre-existing (page 629 px wide at 375) — footer wordmark gets a `<wbr>` + `h2` size below `sm`, studio H1 gets `h2` below `sm` + `hyphens-auto`. All routes are now exactly 375 px.
+- **Exit: met.** axe: **0 violations on all 10 route/width combos** (baseline: ~250 `color-contrast`). Lint clean, build green.
+
+| Metric (home) | Baseline | Phase 1b |
+|---|---|---|
+| Lighthouse mobile perf / a11y | 70 / 96 | **85 / 100** |
+| Lighthouse desktop perf / a11y | 90 / 96 | **100 / 100** |
+| Mobile LCP | 5.5 s | **3.5 s** (hero H1 word — still JS-masked until Phase 3) |
+| Home JS (gz) | 503 KB | **246 KB** |
+
+Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; regenerate with `SCREENSHOT_DIR=docs/perf/2026-09-phase1b/screenshots npm run baseline:screens`). axe output: `docs/perf/2026-09-phase1b-axe.json`.
+
+**Known, deferred to Phase 3:** the hero "care." chip grazes the comma above because of the 0.92 display line-height (the bento headline tile replaces this layout); "coming" case tiles look washed out under the `canvas/50` overlay (the bento rebuild uses `surface-sunk` tiles instead).
 
 ### Phase 2 — Primitives & motion system (1.5 days)
 - [ ] `ui/`: `Bento` (12-col grid, container-query aware), `Tile` (white/sunk/accent/inverse variants, lift + glow hooks), `Button` (black pill / outline pill / link), `Chip`, `Highlight` (orange wipe chip), `Stat` (`@property` counter), `Eyebrow`, `Marquee`.

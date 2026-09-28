@@ -7,15 +7,15 @@ import DrawIcon from '@/components/animations/DrawIcon';
 
 export default function Playground() {
   return (
-    <main className="min-h-dvh bg-neutral-50 px-6 py-20 md:px-12">
+    <main className="min-h-dvh bg-surface-sunk px-6 py-20 md:px-12">
       <header className="mx-auto mb-16 max-w-5xl">
-        <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-brand-600">
+        <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-accent-ink">
           Animation primitives
         </p>
-        <h1 className="text-4xl font-bold text-neutral-900 md:text-5xl">
+        <h1 className="text-4xl font-bold text-fg md:text-5xl">
           Playground
         </h1>
-        <p className="mt-3 max-w-2xl text-neutral-600">
+        <p className="mt-3 max-w-2xl text-fg-muted">
           Live catalog of the reusable motion primitives. Hover, click, and
           scroll to interact. Not linked from the public site — internal use
           only.
@@ -27,9 +27,9 @@ export default function Playground() {
           title="<SplitText>"
           desc="Per-word reveal, screen-reader safe (full text in sr-only label)."
         >
-          <h2 className="text-3xl font-bold text-neutral-900 md:text-5xl">
+          <h2 className="text-3xl font-bold text-fg md:text-5xl">
             <SplitText className="block">The quick brown fox</SplitText>
-            <SplitText className="block text-brand-600" delay={0.2}>
+            <SplitText className="block text-accent-ink" delay={0.2}>
               jumps over the lazy dog
             </SplitText>
           </h2>
@@ -59,7 +59,7 @@ export default function Playground() {
           <div className="grid gap-6 md:grid-cols-3">
             {[1, 2, 3].map((i) => (
               <Tilt key={i}>
-                <div className="h-48 rounded-2xl bg-linear-to-br from-brand-500 to-electric-500 p-6 text-white shadow-medium">
+                <div className="h-48 rounded-2xl bg-accent p-6 text-accent-fg shadow-lift">
                   <div className="text-sm opacity-80">Card {i}</div>
                   <div className="mt-3 text-2xl font-bold">Hover me</div>
                 </div>
@@ -72,7 +72,7 @@ export default function Playground() {
           title="<DrawIcon>"
           desc="pathLength stroke-draw on whileInView. Quint-out cubic-bezier."
         >
-          <div className="flex gap-8 text-brand-600">
+          <div className="flex gap-8 text-accent-ink">
             <DrawIcon className="h-16 w-16" d="M5 13l4 4L19 7" />
             <DrawIcon
               className="h-16 w-16"
@@ -87,7 +87,7 @@ export default function Playground() {
         </Demo>
 
         <div className="h-[60vh]" aria-hidden />
-        <p className="text-sm text-neutral-500">
+        <p className="text-sm text-fg-subtle">
           Scroll-triggered primitives demo above. Add new primitives here as
           they ship.
         </p>
@@ -106,14 +106,14 @@ function Demo({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-soft">
+    <section className="rounded-3xl border border-line bg-white p-8 shadow-lift">
       <header className="mb-6">
-        <h2 className="font-mono text-sm font-semibold text-brand-600">
+        <h2 className="font-mono text-sm font-semibold text-accent-ink">
           {title}
         </h2>
-        <p className="text-sm text-neutral-600">{desc}</p>
+        <p className="text-sm text-fg-muted">{desc}</p>
       </header>
-      <div className="rounded-2xl bg-neutral-50 p-8">{children}</div>
+      <div className="rounded-2xl bg-surface-sunk p-8">{children}</div>
     </section>
   );
 }

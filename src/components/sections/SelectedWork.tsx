@@ -5,21 +5,22 @@ import SplitText from '@/components/animations/SplitText';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
 import CaseTile from '@/components/work/CaseTile';
 import { cases } from '@/data/cases';
+import { highlightClass } from '@/components/ui/Highlight';
 
 export default function SelectedWork() {
   return (
     <section
       id="work"
-      className="section-padding relative bg-ink-900 overflow-hidden"
+      className="section-padding relative bg-canvas overflow-hidden"
     >
       <div className="container">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16 md:mb-24">
           <div>
             <SectionEyebrow index="01" label="Selected Work" className="mb-6" />
-            <h2 className="text-h2 md:text-h1 font-bold text-paper-50 max-w-2xl text-balance">
+            <h2 className="text-h2 md:text-h1 font-bold text-fg max-w-2xl text-balance">
               <SplitText>Three cases that show </SplitText>
               <SplitText
-                className="font-serif italic font-normal text-brand-400"
+                className={highlightClass}
                 delay={0.4}
               >
                 what we ship.
@@ -28,12 +29,12 @@ export default function SelectedWork() {
           </div>
           <Link
             href="/work"
-            className="text-paper-200 hover:text-paper-50 transition-colors inline-flex items-center gap-2 group whitespace-nowrap"
+            className="text-fg-muted hover:text-fg transition-colors inline-flex items-center gap-2 group whitespace-nowrap"
           >
             All work
             <span
               aria-hidden
-              className="inline-block h-px w-6 bg-paper-400 group-hover:w-10 group-hover:bg-paper-100 transition-all"
+              className="inline-block h-px w-6 bg-fg-subtle group-hover:w-10 group-hover:bg-fg transition-all"
             />
           </Link>
         </div>

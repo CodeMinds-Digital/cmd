@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
 import type { CaseStub } from '@/data/cases';
+import Highlight from '@/components/ui/Highlight';
 
 export default function CaseHero({ data }: { data: CaseStub }) {
   return (
@@ -12,26 +13,26 @@ export default function CaseHero({ data }: { data: CaseStub }) {
           label={`${data.year} · ${data.client ?? 'Confidential client'}`}
           className="mb-8"
         />
-        <h1 className="text-h1 md:text-display font-bold text-paper-50 mb-8 max-w-5xl text-balance">
+        <h1 className="text-h1 md:text-display font-bold text-fg mb-8 max-w-5xl text-balance">
           {data.title.includes(' for ') ? (
             <>
               {data.title.split(' for ')[0]}{' '}
-              <span className="font-serif italic font-normal text-brand-400">
+              <Highlight>
                 for {data.title.split(' for ')[1]}
-              </span>
+              </Highlight>
             </>
           ) : (
             data.title
           )}
         </h1>
-        <p className="text-lead text-paper-200 max-w-2xl mb-12">{data.brief}</p>
+        <p className="text-lead text-fg-muted max-w-2xl mb-12">{data.brief}</p>
 
         {data.liveUrl && (
           <Link
             href={data.liveUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 text-paper-100 hover:text-brand-400 font-medium transition-colors group mb-12 md:mb-16"
+            className="inline-flex items-center gap-2 text-fg hover:text-accent-ink font-medium transition-colors group mb-12 md:mb-16"
           >
             Visit live site
             <svg
@@ -53,7 +54,7 @@ export default function CaseHero({ data }: { data: CaseStub }) {
 
         {/* Cover plate */}
         <div
-          className="aspect-video rounded-3xl border border-ink-600 bg-ink-800 overflow-hidden mb-20 md:mb-32 relative"
+          className="aspect-video rounded-3xl border border-line bg-surface overflow-hidden mb-20 md:mb-32 relative"
           style={{
             viewTransitionName: `case-cover-${data.slug}`,
           }}
@@ -74,14 +75,14 @@ export default function CaseHero({ data }: { data: CaseStub }) {
               className="absolute inset-0"
               style={{
                 background:
-                  'radial-gradient(ellipse 70% 60% at 30% 30%, rgba(99,102,241,0.30), transparent 60%), radial-gradient(ellipse 60% 50% at 75% 70%, rgba(6,182,212,0.22), transparent 55%), #101013',
+                  `radial-gradient(ellipse 70% 60% at 30% 30%, color-mix(in oklab, var(--color-accent) 24%, transparent), transparent 60%), var(--color-surface-sunk)`,
               }}
             />
           )}
 
           {data.status === 'coming' && (
-            <div className="absolute inset-0 flex items-center justify-center bg-ink-900/40 backdrop-blur-[1px]">
-              <span className="font-mono text-mono-sm text-paper-50 px-4 py-1.5 border border-paper-50/30 bg-ink-900/60 rounded-full">
+            <div className="absolute inset-0 flex items-center justify-center bg-canvas/50 backdrop-blur-[1px]">
+              <span className="font-mono text-mono-sm text-accent-fg px-4 py-1.5 border border-accent bg-accent rounded-full">
                 {data.eta}
               </span>
             </div>

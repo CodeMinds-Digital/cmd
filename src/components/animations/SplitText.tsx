@@ -7,7 +7,7 @@ type SplitTextProps = {
   /**
    * Either a plain string (split into words) or an array of strings and
    * inline elements. Inline elements are treated as one atomic word so a
-   * styled accent (e.g. an italic serif span) can ride inside the same
+   * styled accent (e.g. a highlight chip) can ride inside the same
    * staggered reveal.
    */
   children: React.ReactNode;
@@ -23,9 +23,18 @@ type SplitTextProps = {
 };
 
 const wordVariants = {
-  hidden: { y: '110%' },
+  // Starts past the mask's extended bottom edge (see MASK_BLEED) so no
+  // sliver of the word shows before the reveal.
+  hidden: { y: '130%' },
   show: { y: '0%' },
 };
+
+/**
+ * Extra room above/below each word's clip mask, cancelled out by negative
+ * margins so layout is unchanged. Keeps descenders and inline accents (the
+ * rounded highlight chip) from being clipped by the tight 1.05 line box.
+ */
+const MASK_BLEED = '0.14em';
 
 type Segment = { kind: 'word'; content: React.ReactNode } | { kind: 'space' };
 
@@ -94,6 +103,8 @@ export default function SplitText({
                 overflow: 'hidden',
                 verticalAlign: 'bottom',
                 lineHeight: 1.05,
+                paddingBlock: MASK_BLEED,
+                marginBlock: `-${MASK_BLEED}`,
               }}
             >
               <m.span

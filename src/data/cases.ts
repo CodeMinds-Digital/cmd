@@ -12,7 +12,7 @@ export type CaseScreen = {
   alt: string;
   caption?: string;
   /** Visual treatment of the placeholder when no src. */
-  tone?: 'indigo' | 'cyan' | 'mixed';
+  tone?: 'paper' | 'ink' | 'mixed';
 };
 
 export type CaseMetricItem = {
@@ -101,13 +101,13 @@ export const cases: CaseStub[] = [
         src: '/work/fintech-screen-1.svg',
         alt: 'Home page hero — before / after comparison',
         caption: 'Home hero — before (left): 4.1s LCP, layout shift on hero video. After (right): 1.6s LCP, no CLS.',
-        tone: 'indigo',
+        tone: 'paper',
       },
       {
         src: '/work/fintech-screen-2.svg',
         alt: 'Editor view of typed Sanity schema',
         caption: 'Marketing now ships copy without engineering involvement. Every block is type-checked at the schema layer.',
-        tone: 'cyan',
+        tone: 'ink',
       },
       {
         src: '/work/fintech-screen-3.svg',

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import SplitText from '@/components/animations/SplitText';
 import Magnetic from '@/components/animations/Magnetic';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
+import { highlightClass } from '@/components/ui/Highlight';
 
 type FormState = {
   name: string;
@@ -60,16 +61,16 @@ export default function Conversation() {
   return (
     <section
       id="contact"
-      className="section-padding relative bg-ink-900 border-t border-ink-700 overflow-hidden"
+      className="section-padding relative bg-canvas border-t border-line overflow-hidden"
     >
       <div className="container">
         <SectionEyebrow index="04" label="Let's talk" className="mb-8" />
 
         {/* Closing-moment headline */}
-        <h2 className="text-h2 md:text-display font-bold text-paper-50 mb-16 md:mb-24 max-w-5xl text-balance">
-          <SplitText>Let&apos;s make</SplitText>
+        <h2 className="text-h2 md:text-display font-bold text-fg mb-16 md:mb-24 max-w-5xl text-balance">
+          <SplitText>Let&apos;s make </SplitText>
           <SplitText
-            className="font-serif italic font-normal text-brand-400"
+            className={highlightClass}
             delay={0.4}
           >
             something.
@@ -108,10 +109,10 @@ export default function Conversation() {
             />
 
             {error && (
-              <p className="font-mono text-mono-sm text-red-400">{error}</p>
+              <p className="font-mono text-mono-sm text-red-700">{error}</p>
             )}
             {success && (
-              <p className="font-mono text-mono-sm text-brand-400">
+              <p className="font-mono text-mono-sm text-accent-ink">
                 Thanks — we&apos;ll be in touch within 24 hours.
               </p>
             )}
@@ -142,14 +143,14 @@ export default function Conversation() {
                   )}
                 </button>
               </Magnetic>
-              <span className="font-mono text-mono-sm text-paper-400">
+              <span className="font-mono text-mono-sm text-fg-subtle">
                 Or email cmd@codeminds.digital
               </span>
             </div>
           </form>
 
           {/* Right: direct channels */}
-          <aside className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-ink-700">
+          <aside className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-line">
             <ChannelRow label="Email" value="cmd@codeminds.digital" href="mailto:cmd@codeminds.digital" />
             <ChannelRow label="Book a call" value="cal.com/codeminds" href="https://cal.com/codeminds" />
             <ChannelRow label="Location" value="Chennai · IST · UTC+5:30" />
@@ -158,7 +159,7 @@ export default function Conversation() {
         </div>
 
         {/* Footer caption strip */}
-        <div className="mt-24 pt-8 border-t border-ink-700 flex items-center justify-between font-mono text-mono-sm text-paper-400">
+        <div className="mt-24 pt-8 border-t border-line flex items-center justify-between font-mono text-mono-sm text-fg-subtle">
           <span>WE REPLY WITHIN 24H</span>
           <span className="hidden md:inline">CHENNAI · IST</span>
           <span>v2026.1</span>
@@ -187,7 +188,7 @@ function Field({
 }) {
   return (
     <label className="block group">
-      <span className="font-mono text-mono-sm text-paper-400 group-focus-within:text-brand-400 transition-colors">
+      <span className="font-mono text-mono-sm text-fg-subtle group-focus-within:text-accent-ink transition-colors">
         {label}
         {required && <span className="ml-1">*</span>}
       </span>
@@ -198,7 +199,7 @@ function Field({
         onChange={onChange}
         required={required}
         placeholder={placeholder}
-        className="mt-2 block w-full bg-transparent border-b border-ink-600 focus:border-paper-50 outline-hidden text-lead text-paper-50 placeholder:text-paper-400 py-2 transition-colors"
+        className="mt-2 block w-full bg-transparent border-b border-line focus:border-fg outline-hidden text-lead text-fg placeholder:text-fg-subtle py-2 transition-colors"
       />
     </label>
   );
@@ -219,7 +220,7 @@ function FieldArea({
 }) {
   return (
     <label className="block group">
-      <span className="font-mono text-mono-sm text-paper-400 group-focus-within:text-brand-400 transition-colors">
+      <span className="font-mono text-mono-sm text-fg-subtle group-focus-within:text-accent-ink transition-colors">
         {label}
         {required && <span className="ml-1">*</span>}
       </span>
@@ -229,7 +230,7 @@ function FieldArea({
         onChange={onChange}
         required={required}
         rows={4}
-        className="mt-2 block w-full bg-transparent border-b border-ink-600 focus:border-paper-50 outline-hidden text-lead text-paper-50 py-2 transition-colors resize-none"
+        className="mt-2 block w-full bg-transparent border-b border-line focus:border-fg outline-hidden text-lead text-fg py-2 transition-colors resize-none"
       />
     </label>
   );
@@ -245,11 +246,11 @@ function ChannelRow({
   href?: string;
 }) {
   const inner = (
-    <div className="flex items-baseline justify-between py-5 border-b border-ink-700 group">
-      <span className="font-mono text-mono-sm text-paper-400">{label}</span>
+    <div className="flex items-baseline justify-between py-5 border-b border-line group">
+      <span className="font-mono text-mono-sm text-fg-subtle">{label}</span>
       <span
-        className={`text-body text-paper-100 ${
-          href ? 'group-hover:text-brand-400 transition-colors' : ''
+        className={`text-body text-fg ${
+          href ? 'group-hover:text-accent-ink transition-colors' : ''
         }`}
       >
         {value}

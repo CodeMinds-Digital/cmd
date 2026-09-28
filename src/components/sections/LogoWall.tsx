@@ -18,7 +18,7 @@ type Logo = {
  * Drop client logos here. Real assets land as SVG in /public/logos/* and
  * the wordmark fallback disappears automatically once `src` is provided.
  *
- * Per spec: logos render in low-contrast `paper-300` so they read as
+ * Per spec: logos render in low-contrast `fg-muted` so they read as
  * trust-markers, not branding noise. The grayscale-ausdata pattern.
  */
 const logos: Logo[] = [
@@ -42,7 +42,7 @@ export default function LogoWall() {
   return (
     <section
       aria-labelledby="logo-wall-heading"
-      className="bg-ink-900 border-t border-ink-700 py-16 md:py-20"
+      className="bg-canvas border-t border-line py-16 md:py-20"
     >
       <div className="container">
         <SectionEyebrow
@@ -59,7 +59,7 @@ export default function LogoWall() {
           {visibleLogos.map((logo) => (
             <li
               key={logo.name}
-              className="text-paper-300/70 hover:text-paper-100 transition-colors duration-300"
+              className="text-fg-muted hover:text-fg transition-colors duration-300"
             >
               {logo.src ? (
                 <Image
@@ -78,7 +78,7 @@ export default function LogoWall() {
           ))}
         </ul>
 
-        <p className="mt-12 md:mt-16 text-center font-mono text-mono-sm text-paper-400">
+        <p className="mt-12 md:mt-16 text-center font-mono text-mono-sm text-fg-subtle">
           Some clients are NDA-bound. Real logos drop in here as releases ship.
         </p>
       </div>

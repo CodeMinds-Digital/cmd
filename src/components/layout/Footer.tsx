@@ -1,103 +1,97 @@
 import Link from 'next/link';
+import { cases } from '@/data/cases';
+import { site } from '@/data/site';
 
-const cols = [
+type FooterLink = { href: string; label: string; external?: boolean };
+
+const liveCase = cases.find((c) => c.status === 'live');
+
+const columns: { label: string; links: FooterLink[] }[] = [
   {
     label: 'Studio',
-    items: [
+    links: [
       { href: '/', label: 'Home' },
       { href: '/studio', label: 'About' },
       { href: '/#capabilities', label: 'Capabilities' },
+      { href: '/#process', label: 'How we work' },
     ],
   },
   {
     label: 'Work',
-    items: [
+    links: [
       { href: '/work', label: 'All work' },
-      { href: '/work/fintech-marketing-rebuild', label: 'Fintech rebuild' },
+      ...(liveCase ? [{ href: `/work/${liveCase.slug}`, label: 'Latest case' }] : []),
       { href: '/journal', label: 'Journal' },
     ],
   },
   {
     label: 'Contact',
-    items: [
-      { href: 'mailto:cmd@codeminds.digital', label: 'cmd@codeminds.digital' },
-      { href: 'https://cal.com/codeminds', label: 'Book a call' },
+    links: [
+      { href: `mailto:${site.email}`, label: site.email },
+      { href: site.calUrl, label: 'Book a call', external: true },
       { href: '/#contact', label: 'Project brief' },
     ],
   },
 ];
 
+/**
+ * Footer — link columns, anchor strip, and an oversized wordmark clipped by
+ * the bottom edge of the page (plan §4).
+ */
 export default function Footer() {
   return (
-    <footer className="bg-canvas border-t border-line">
-      <div className="container py-20 md:py-24">
-        {/* Big anchor — wordmark */}
-        <div className="mb-16 md:mb-24">
-          <h2 className="text-h2 sm:text-h1 md:text-display font-bold text-fg leading-none md:leading-(--text-display--line-height)">
-            Codeminds
-            <span className="text-accent-ink">·</span>
-            {/* Break opportunity so the wordmark wraps instead of overflowing on phones. */}
-            <wbr />
-            Digital
-          </h2>
-          <p className="font-mono text-mono-sm text-fg-subtle mt-4">
-            Software studio · Chennai · IST
-          </p>
-        </div>
-
-        {/* 3-column nav */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-16">
-          {cols.map((col) => (
-            <div key={col.label}>
-              <div className="font-mono text-mono-sm text-fg-subtle mb-4">
-                {col.label}
-              </div>
-              <ul className="space-y-3">
-                {col.items.map((item) => (
-                  <li key={item.label}>
-                    <Link
-                      href={item.href}
-                      className="text-body text-fg hover:text-accent-ink transition-colors"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-          <div>
-            <div className="font-mono text-mono-sm text-fg-subtle mb-4">
-              Legal
-            </div>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/legal/privacy"
-                  className="text-body text-fg hover:text-accent-ink transition-colors"
-                >
-                  Privacy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/legal/terms"
-                  className="text-body text-fg hover:text-accent-ink transition-colors"
-                >
-                  Terms
-                </Link>
-              </li>
-            </ul>
+    <footer className="overflow-hidden border-t border-line">
+      <div className="container pt-16 md:pt-24">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <p className="max-w-xs font-display text-step-2 font-bold text-fg">
+              Software, built with care — from {site.city}.
+            </p>
+            <p className="mt-3 text-body">
+              {site.booking.open ? 'Booking new projects.' : 'Currently fully booked.'} We reply within{' '}
+              {site.replyWithin}.
+            </p>
           </div>
+
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-8">
+            {columns.map((col) => (
+              <div key={col.label}>
+                <h2 className="mb-4 font-mono text-mono-xs uppercase text-fg-subtle">{col.label}</h2>
+                <ul className="space-y-3">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        target={link.external ? '_blank' : undefined}
+                        rel={link.external ? 'noreferrer' : undefined}
+                        className="text-step-0 text-fg underline-offset-4 hover:text-accent-ink hover:underline"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
         </div>
 
-        {/* Anchor strip */}
-        <div className="pt-8 border-t border-line flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-mono text-mono-sm text-fg-subtle">
-          <span>CODEMINDS DIGITAL · v2026.1</span>
-          <span className="hidden md:inline">© 2026 — ALL RIGHTS RESERVED</span>
-          <span>CHENNAI · INDIA</span>
+        <div className="mt-16 flex flex-col gap-3 border-t border-line pt-6 font-mono text-mono-xs uppercase text-fg-subtle md:flex-row md:items-center md:justify-between">
+          <span>
+            {site.name} · {site.version}
+          </span>
+          <span>© {new Date().getFullYear()} — All rights reserved</span>
+          <span>
+            {site.city} · {site.country}
+          </span>
         </div>
+      </div>
+
+      {/* Oversized wordmark, cut off by the page's bottom edge. Decorative. */}
+      <div aria-hidden className="container mt-10 h-[0.68em] select-none text-[clamp(3rem,17vw,13.75rem)] md:mt-16">
+        <p className="flex items-baseline font-display font-bold leading-[0.8] tracking-[-0.06em] text-fg">
+          codeminds<span className="text-accent">.</span>
+        </p>
       </div>
     </footer>
   );

@@ -6,7 +6,6 @@ import WebVitals from '@/components/perf/WebVitals';
 import FrameBudget from '@/components/perf/FrameBudget';
 import CustomCursor from '@/components/layout/CustomCursor';
 import SmoothScroll from '@/components/animations/SmoothScrollLoader';
-import MotionRoot from '@/components/animations/MotionRoot';
 import IconSprite from '@/components/icons/IconSprite';
 import MotionRuntime from '@/components/islands/MotionRuntime';
 
@@ -23,15 +22,25 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-geist-mono',
   display: 'swap',
+  // Preloaded: mono labels sit in the hero, and a late swap reflows them.
   preload: true,
+  // Fall back to a real monospace (≈0.6em advance, like Geist Mono) rather
+  // than size-adjusted Arial, which is proportional and rewraps labels on swap.
+  adjustFontFallback: false,
+  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
 });
 
 // Display face for headings (Voltage). Variable font — weights 300–700.
+// Uses a hand-tuned fallback ('Space Grotesk Fallback' in globals.css):
+// next/font's automatic one is ~3.6% narrower than Space Grotesk on bold
+// headlines, which rewrapped the hero H1 when the font swapped in (CLS).
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
   display: 'swap',
   preload: true,
+  adjustFontFallback: false,
+  fallback: ['Space Grotesk Fallback', 'Arial', 'sans-serif'],
 });
 
 export const viewport = {
@@ -86,7 +95,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      // Font variables live on <html> so every CSS variable built from them
+      // (e.g. --font-display in @theme) resolves at :root too.
+      className={`${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <meta name="theme-color" content="#F2EFE8" />
         <meta name="color-scheme" content="light" />
@@ -106,13 +121,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`
-          ${geist.variable}
-          ${geistMono.variable}
-          ${spaceGrotesk.variable}
-          font-sans antialiased
-          bg-canvas text-fg
-        `}
+        className="bg-canvas font-sans text-fg antialiased"
         suppressHydrationWarning
       >
         <IconSprite />
@@ -121,12 +130,16 @@ export default function RootLayout({
         <FrameBudget />
         <SmoothScroll />
         <MotionRuntime />
-        <MotionRoot>
-          <CustomCursor />
-          <div id="root" className="relative min-h-screen">
-            {children}
-          </div>
-        </MotionRoot>
+        <a
+          href="#main"
+          className="fixed left-4 top-4 z-[10000] -translate-y-24 rounded-full bg-inverse px-5 py-3 text-sm font-medium text-inverse-fg transition-transform focus:translate-y-0"
+        >
+          Skip to content
+        </a>
+        <CustomCursor />
+        <div id="root" className="relative min-h-screen">
+          {children}
+        </div>
       </body>
     </html>
   );

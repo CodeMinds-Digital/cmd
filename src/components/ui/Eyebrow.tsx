@@ -7,6 +7,8 @@ type EyebrowProps = {
   label: string;
   /** Background it sits on: canvas (default), inverse (black) or accent (orange). */
   tone?: EyebrowTone;
+  /** Render as a heading when the eyebrow *is* the section title. */
+  as?: 'div' | 'h2';
   className?: string;
 };
 
@@ -21,15 +23,15 @@ const TONES: Record<EyebrowTone, { text: string; index: string; rule: string }> 
  * Section header chrome: `01 ── SERVICES` in tracked-out mono, sits above
  * the heading. 12px minimum for legibility (plan §3.3).
  */
-export default function Eyebrow({ index, label, tone = 'default', className }: EyebrowProps) {
+export default function Eyebrow({ index, label, tone = 'default', as: Tag = 'div', className }: EyebrowProps) {
   const t = TONES[tone];
   return (
-    <div
-      className={`flex items-center gap-3 font-mono text-mono-xs uppercase ${t.text}${className ? ` ${className}` : ''}`}
+    <Tag
+      className={`flex items-center gap-3 font-mono text-mono-xs font-normal uppercase ${t.text}${className ? ` ${className}` : ''}`}
     >
       <span className={t.index}>{index}</span>
       <span aria-hidden className={`h-px w-8 ${t.rule}`} />
       <span>{label}</span>
-    </div>
+    </Tag>
   );
 }

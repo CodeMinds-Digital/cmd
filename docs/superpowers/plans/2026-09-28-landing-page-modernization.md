@@ -331,23 +331,33 @@ Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; re
 - **Verified against a production build (SMTP unset, nothing sent):** per-IP 5 allowed then 429 `Retry-After: 600`; other IPs unaffected; forged leftmost XFF doesn't bypass; invalid payloads don't consume tokens; global cap trips on the 31st distinct IP; text/plain → 415; 20 KB → 413. Via the real form: 6th submit shows "Too many messages… Try again in 10 min" and keeps the visitor's text.
 - **Deployment note:** the limiter is per-process. Dokploy runs one container today; if it's ever scaled to more than one replica, move the buckets to Redis/Upstash behind the same `take()` interface.
 
-### Phase 5 — Responsive, a11y & performance pass (1.5 days)
-- [ ] Bento breakpoint audit at 360, 390, 768, 1024, 1280, 1440, 1920, and landscape phone. No horizontal scroll, tap targets ≥ 44 px, and tile content never clips at 200% zoom.
-- [ ] `svh` for above-the-fold sizing; `safe-area-inset` on the header and footer.
-- [ ] WCAG 2.2 AA:
-  - Verify every §3.1 pair with a script (`culori` in a test) so contrast is checked in CI.
-  - Enforce the accent rules.
-  - Skip link, visible focus on every tile link.
-  - Marquee duplicates set to `aria-hidden`.
-  - Clock tile gets `aria-live="off"`.
-- [ ] `prefers-reduced-motion` and `prefers-reduced-transparency` (no grain, no blur) variants.
-- [ ] Lighthouse CI budgets:
-  - LCP < 1.5 s (mobile 4G)
-  - INP < 150 ms
-  - CLS < 0.02
-  - **home JS < 80 KB gz** (measured **503 KB** in Phase 0; three.js + r3f alone is 229 KB and currently downloads on mobile too)
-  - Lighthouse ≥ 95 mobile / 100 desktop
-- [ ] Preload only Space Grotesk 700 and Geist 400 latin subsets.
+### Phase 5 — Responsive, a11y & performance pass (1.5 days) — ✅ done 2026-09-29
+**Budget reset (agreed):** home JS target **≤ 200 KB gz** (was < 80 KB, which is below the Next 16 App Router framework floor).
+
+- [x] **`motion` removed from the site entirely** (not just home): `Magnetic` + `CustomCursor` → pointer events + a small rAF easing helper (`lib/ease-toward.ts`), no React state per frame. `Tilt` → CSS variables + transition. `DrawIcon` → CSS `stroke-dashoffset` via the in-view runtime. `CaseNextLink` → `group-hover:translate-x-3`. `useReducedMotion` → `lib/use-media-query.ts`. `MotionRoot` deleted. **Lenis now loads only for fine pointers** (phones never download it).
+- [x] `experimental.inlineCss`: the 12 KB stylesheet is inlined, removing a render-blocking request.
+- [x] **Fonts / CLS** (0.026 → ~0.001):
+  - **Bug fix:** next/font variables moved from `<body>` to `<html>`. `--font-display` was invalid at `:root`, so **every heading relying on the base `h1–h6` rule — including the hero H1 — had been rendering in Geist, not Space Grotesk, since Phase 1b.**
+  - Geist Mono falls back to a real monospace (`adjustFontFallback: false`) instead of size-adjusted Arial, which is proportional and rewrapped mono labels on swap. It's kept preloaded (deviation from plan: unpreloading it *raised* CLS).
+  - Hand-tuned `Space Grotesk Fallback` (`size-adjust 113.66%`, overrides scaled to match) so the H1 wraps identically before and after the swap.
+- [x] **Tap targets ≥ 44 px** on every interactive element at 375 px (header wordmark, footer links, contact channel links, inner-page back links); automated audit clean on all routes.
+- [x] **Breakpoints:** all 7 routes × 10 sizes (320, 360, 390, 640 ≈ 200 % zoom, 768, 1024, 1280, 1440, 1920, 844×390 landscape) fit with no horizontal overflow. Fixes: footer grid goes side-by-side from `lg` (email overflowed at 768); inner-page H1s moved to fluid `text-step-5` (the case H1 overflowed at 320).
+- [x] **WCAG 2.2 AA + best-practice:** skip link + `id="main"` on every page. axe suite now includes `best-practice` rules, which found **heading-order** skips on the case page, `/work` and `/studio` (fixed: section labels → `h2`, `Eyebrow as="h2"`, case tile titles → `h2`). **0 violations on all routes.**
+- [x] **Contrast in CI:** `tests/unit/contrast.test.mjs` parses the OKLCH tokens from `globals.css` and asserts every text/background pair ≥ 4.5:1 in light **and** dark. It caught that the error red had no dark value (2.9:1) → new `--color-danger` light-dark token. 43 unit tests pass.
+- [x] `prefers-reduced-transparency` drops the header blur; reduced motion covered everywhere.
+- [x] **Lighthouse CI** (`lighthouserc.json`, `npm run lhci`): DevTools throttling, 3 runs, median, on `/` and the case page. Assertions: perf ≥ 0.95, a11y = 1, BP/SEO ≥ 0.95, LCP ≤ 1500 ms, CLS ≤ 0.02, TBT ≤ 200 ms, scripts ≤ 200 KB. **All pass.** (No CI workflow exists in the repo yet — see Phase 6.)
+- **Safe areas:** `env(safe-area-inset-*)` padding is in place but `viewport-fit=cover` is deliberately not enabled; iOS keeps content inside the safe area by default.
+- **Measurement note:** a macOS `mediaanalysisd` spike (load avg 86) inflated TBT in one run. An A/B of layout suspects under 4× CPU throttling at normal load showed no single culprit (all ≈ 90–240 ms), and the re-run passed.
+
+| Home | Baseline | Phase 3 | **Phase 5** |
+|---|---|---|---|
+| Lighthouse mobile (DevTools throttling) | — | 96–97 | **97–100** |
+| Mobile LCP (DevTools throttling) | 5.5 s (simulated) | 1.8 s | **1.11–1.21 s** |
+| CLS | 0 | 0.016 | **0.001** |
+| TBT | 340 ms | 130–160 ms | **63–174 ms** |
+| Home JS (gz, measured in browser) | 503 KB | 244 KB | **187 KB mobile / 192 KB desktop** |
+| Lighthouse desktop | 90 | 100 | **100** |
+| a11y (Lighthouse / axe) | 96 / ~250 issues | 100 / 0 | **100 / 0 incl. best-practice** |
 
 ### Phase 6 — Verify & ship (0.5 day)
 - [ ] Review Playwright visual diffs and accept the new baselines. Axe must show zero serious or critical issues.

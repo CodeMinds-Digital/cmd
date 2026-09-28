@@ -2,7 +2,7 @@
 
 import Link, { type LinkProps } from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useReducedMotion } from 'motion/react';
+import { usePrefersReducedMotion } from '@/lib/use-media-query';
 import React, { useCallback } from 'react';
 
 type Props = LinkProps & {
@@ -29,7 +29,7 @@ export default function ViewTransitionLink({
   ...rest
 }: Props) {
   const router = useRouter();
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {

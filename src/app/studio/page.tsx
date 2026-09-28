@@ -45,12 +45,12 @@ export default function StudioPage() {
   return (
     <>
       <Header active="/studio" />
-      <main className="bg-canvas text-fg">
+      <main id="main" className="bg-canvas text-fg">
         {/* Hero */}
         <section className="section-padding pt-40 md:pt-56">
           <div className="container">
             <Eyebrow index="—" label="Studio" className="mb-8" />
-            <h1 className="text-h2 sm:text-h1 md:text-display font-bold text-fg mb-12 max-w-5xl text-balance hyphens-auto">
+            <h1 className="text-step-5 font-bold text-fg mb-12 max-w-5xl text-balance hyphens-auto">
               A small studio with{' '}
               <Highlight>
                 disproportionate output.
@@ -68,7 +68,7 @@ export default function StudioPage() {
         {/* Beliefs */}
         <section className="section-padding pt-0">
           <div className="container">
-            <Eyebrow index="01" label="What we believe" className="mb-12" />
+            <Eyebrow as="h2" index="01" label="What we believe" className="mb-12" />
             <ul className="border-t border-line max-w-5xl">
               {beliefs.map((b) => (
                 <li
@@ -97,7 +97,7 @@ export default function StudioPage() {
         {/* Stack */}
         <section className="section-padding pt-0">
           <div className="container">
-            <Eyebrow index="02" label="Stack we ship" className="mb-12" />
+            <Eyebrow as="h2" index="02" label="Stack we ship" className="mb-12" />
             <ul className="border-t border-line max-w-3xl">
               {stack.map((s) => (
                 <li

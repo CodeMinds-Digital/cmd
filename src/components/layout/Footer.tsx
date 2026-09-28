@@ -42,8 +42,8 @@ export default function Footer() {
   return (
     <footer className="overflow-hidden border-t border-line">
       <div className="container pt-16 md:pt-24">
-        <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-4">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-4">
             <p className="max-w-xs font-display text-step-2 font-bold text-fg">
               Software, built with care — from {site.city}.
             </p>
@@ -53,18 +53,18 @@ export default function Footer() {
             </p>
           </div>
 
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-8">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-8">
             {columns.map((col) => (
               <div key={col.label}>
-                <h2 className="mb-4 font-mono text-mono-xs uppercase text-fg-subtle">{col.label}</h2>
-                <ul className="space-y-3">
+                <h2 className="mb-2 font-mono text-mono-xs uppercase text-fg-subtle">{col.label}</h2>
+                <ul>
                   {col.links.map((link) => (
                     <li key={link.label}>
                       <Link
                         href={link.href}
                         target={link.external ? '_blank' : undefined}
                         rel={link.external ? 'noreferrer' : undefined}
-                        className="text-step-0 text-fg underline-offset-4 hover:text-accent-ink hover:underline"
+                        className="inline-flex min-h-11 items-center text-step-0 text-fg underline-offset-4 hover:text-accent-ink hover:underline"
                       >
                         {link.label}
                       </Link>

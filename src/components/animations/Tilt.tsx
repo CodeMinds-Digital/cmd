@@ -1,13 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import {
-  m,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useReducedMotion,
-} from 'motion/react';
+import { usePrefersReducedMotion } from '@/lib/use-media-query';
 
 type TiltProps = {
   children: React.ReactNode;
@@ -18,62 +12,41 @@ type TiltProps = {
   lift?: number;
 };
 
-export default function Tilt({
-  children,
-  className,
-  max = 8,
-  lift = 6,
-}: TiltProps) {
+/**
+ * Pointer-parallax 3D tilt + lift. Writes CSS variables on pointer move;
+ * a CSS transition smooths them (styles/motion.css `.tilt`). Mouse only;
+ * touch and reduced motion bypass it.
+ */
+export default function Tilt({ children, className, max = 8, lift = 6 }: TiltProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
 
-  const px = useMotionValue(0);
-  const py = useMotionValue(0);
-  const lifted = useMotionValue(0);
-
-  const sx = useSpring(px, { stiffness: 220, damping: 22, mass: 0.4 });
-  const sy = useSpring(py, { stiffness: 220, damping: 22, mass: 0.4 });
-  const sLift = useSpring(lifted, { stiffness: 240, damping: 26 });
-
-  const rotateY = useTransform(sx, [-0.5, 0.5], [-max, max]);
-  const rotateX = useTransform(sy, [-0.5, 0.5], [max, -max]);
-  const yOffset = useTransform(sLift, (v) => -v);
+  const set = (rx: number, ry: number, l: number) => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty('--tilt-rx', `${rx}deg`);
+    el.style.setProperty('--tilt-ry', `${ry}deg`);
+    el.style.setProperty('--tilt-lift', `${-l}px`);
+  };
 
   const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (prefersReducedMotion || e.pointerType !== 'mouse') return;
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    px.set((e.clientX - rect.left) / rect.width - 0.5);
-    py.set((e.clientY - rect.top) / rect.height - 0.5);
+    if (reduced || e.pointerType !== 'mouse' || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    set(-py * 2 * max, px * 2 * max, lift);
   };
-
-  const onEnter = () => {
-    if (prefersReducedMotion) return;
-    lifted.set(lift);
-  };
-  const onLeave = () => {
-    px.set(0);
-    py.set(0);
-    lifted.set(0);
-  };
+  const onLeave = () => set(0, 0, 0);
 
   return (
-    <m.div
+    <div
       ref={ref}
-      className={className}
+      className={`tilt${className ? ` ${className}` : ''}`}
       onPointerMove={onMove}
-      onPointerEnter={onEnter}
       onPointerLeave={onLeave}
       onPointerCancel={onLeave}
-      style={{
-        rotateX,
-        rotateY,
-        y: yOffset,
-        transformStyle: 'preserve-3d',
-        transformPerspective: 900,
-      }}
     >
       {children}
-    </m.div>
+    </div>
   );
 }

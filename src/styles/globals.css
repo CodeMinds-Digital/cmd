@@ -8,10 +8,10 @@
    ═════════════════════════════════════════════════════════════════ */
 
 /*
-  Font families reference next/font variables that are set on <body>, not
-  :root. `inline` makes each font-* utility use the var() directly so it
-  resolves where the utility is applied, instead of at :root (where it would
-  be undefined and silently drop the whole stack).
+  Font families reference next/font variables, which layout.tsx sets on
+  <html> so they also resolve at :root (base styles like h1 use
+  var(--font-display)). `inline` additionally bakes the var() into each
+  font-* utility.
 */
 @theme inline {
   --font-sans: var(--font-geist), system-ui, sans-serif;
@@ -32,7 +32,7 @@
   --color-current: currentColor;
   --color-white: #fff;
   --color-black: #000;
-  --color-red-700: oklch(50.5% 0.190 27.5);        /* #B91C1C — form errors (5.6:1) */
+  --color-danger: light-dark(oklch(50.5% 0.190 27.5), oklch(71.1% 0.166 22.2)); /* #B91C1C · #F87171 — form errors */
 
   --color-canvas: light-dark(oklch(95.3% 0.010 87.5), oklch(17.8% 0 0));        /* #F2EFE8 · #111111 */
   --color-surface: light-dark(oklch(100% 0 0), oklch(21.7% 0 0));               /* #FFFFFF · #1A1A19 */
@@ -117,6 +117,20 @@
 
 :root {
   color-scheme: light;
+}
+
+/*
+  Metric-matched fallback for Space Grotesk (see layout.tsx). size-adjust is
+  tuned to the width of bold headline text; the ascent/descent overrides are
+  scaled by the same factor so line boxes don't change when the font swaps.
+*/
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial');
+  size-adjust: 113.66%;
+  ascent-override: 86.57%;
+  descent-override: 25.69%;
+  line-gap-override: 0%;
 }
 
 @layer base {

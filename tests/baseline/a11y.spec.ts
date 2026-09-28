@@ -20,7 +20,7 @@ for (const route of ROUTES) {
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.goto(route.path, { waitUntil: 'networkidle' });
       const { violations } = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'])
         .analyze();
       results[`${route.name}@${width}`] = violations.map((v) => ({
         id: v.id,

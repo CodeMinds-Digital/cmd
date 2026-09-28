@@ -53,7 +53,7 @@ export default async function JournalPostPage({
   return (
     <>
       <Header active="/journal" activeIsPage={false} />
-      <main className="bg-canvas text-fg">
+      <main id="main" className="bg-canvas text-fg">
         <article>
           <header className="section-padding pt-40 md:pt-56 pb-0">
             <div className="container max-w-3xl">
@@ -62,7 +62,7 @@ export default async function JournalPostPage({
                 label={`Journal · ${formatDate(post.date)}`}
                 className="mb-8"
               />
-              <h1 className="text-h1 md:text-display font-bold text-fg mb-8 text-balance">
+              <h1 className="text-step-5 font-bold text-fg mb-8 text-balance">
                 {post.title}
               </h1>
               <p className="text-lead text-fg-muted mb-10">{post.excerpt}</p>
@@ -103,7 +103,7 @@ export default async function JournalPostPage({
           <div className="container max-w-3xl flex flex-col md:flex-row md:items-baseline md:justify-between gap-6">
             <Link
               href="/journal"
-              className="inline-flex items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
+              className="inline-flex min-h-11 items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
             >
               <span
                 aria-hidden

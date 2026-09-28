@@ -1,6 +1,4 @@
-'use client';
-
-import { m } from 'motion/react';
+import type React from 'react';
 
 type DrawIconProps = {
   d: string;
@@ -14,37 +12,23 @@ type DrawIconProps = {
 };
 
 /**
- * Stroke-draws an SVG path on mount. Animates from a faintly-visible
- * starting state (so the icon is not invisible if the animation never
- * runs) to the fully drawn path.
+ * Stroke-draws an SVG path when it scrolls into view (CSS stroke-dashoffset,
+ * triggered by <MotionRuntime>; see styles/motion.css `.draw-path`). Starts
+ * from a faintly visible state, and renders fully drawn without JS or with
+ * reduced motion.
  */
-export default function DrawIcon({
-  d,
-  className,
-  strokeWidth = 2,
-  duration = 1.2,
-  delay = 0,
-}: DrawIconProps) {
+export default function DrawIcon({ d, className, strokeWidth = 2, duration = 1.2, delay = 0 }: DrawIconProps) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      aria-hidden
-      focusable="false"
-    >
-      <m.path
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden focusable="false">
+      <path
         d={d}
+        pathLength={1}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{ pathLength: 0.4, opacity: 0.6 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{
-          pathLength: { duration, delay, ease: [0.22, 1, 0.36, 1] },
-          opacity: { duration: duration * 0.4, delay },
-        }}
+        className="draw-path"
+        data-inview=""
+        style={{ '--draw-dur': `${duration}s`, '--draw-delay': `${delay}s` } as React.CSSProperties}
       />
     </svg>
   );

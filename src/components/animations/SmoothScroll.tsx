@@ -1,16 +1,15 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { usePrefersReducedMotion } from '@/lib/use-media-query';
 import Lenis from 'lenis';
 
 /**
  * Lenis smooth scroll, driven by its own requestAnimationFrame loop
- * (`autoRaf`). Nothing on the site uses GSAP ScrollTrigger any more, so the
- * old GSAP ticker bridge is gone.
+ * (`autoRaf`). Mounted by <SmoothScrollLoader> for fine pointers only.
  */
 export default function SmoothScroll() {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (prefersReducedMotion) return;

@@ -15,11 +15,11 @@ export default function WorkIndexPage() {
   return (
     <>
       <Header active="/work" />
-      <main className="bg-canvas text-fg">
+      <main id="main" className="bg-canvas text-fg">
         <section className="section-padding pt-40 md:pt-56">
           <div className="container">
             <Eyebrow index="—" label="All Work" className="mb-8" />
-            <h1 className="text-h1 md:text-display font-bold text-fg mb-12 max-w-4xl text-balance">
+            <h1 className="text-step-5 font-bold text-fg mb-12 max-w-4xl text-balance">
               Every project we&apos;ve shipped this year.
             </h1>
             <p className="text-lead text-fg-muted max-w-2xl mb-20 md:mb-32">

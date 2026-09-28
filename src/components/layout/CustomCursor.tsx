@@ -1,113 +1,86 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import {
-  m,
-  useMotionValue,
-  useSpring,
-  useReducedMotion,
-} from 'motion/react';
+import { useEffect, useRef } from 'react';
+import { easeToward } from '@/lib/ease-toward';
+import { useMediaQuery } from '@/lib/use-media-query';
 
-const HOVER_SELECTOR = 'a, button, [data-cursor="hover"]';
+const HOVER_SELECTOR = 'a, button, label, [data-cursor="hover"]';
 
+/**
+ * Dot + trailing ring cursor for fine pointers. The dot tracks the pointer
+ * exactly; the ring eases behind it in a rAF loop that only runs while the
+ * ring is catching up. Hover / press / hidden states are data attributes
+ * styled in CSS (styles/motion.css), so nothing here re-renders.
+ */
 export default function CustomCursor() {
-  const prefersReducedMotion = useReducedMotion();
-  const [enabled, setEnabled] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [pressed, setPressed] = useState(false);
-  const [hidden, setHidden] = useState(true);
-
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-  const ringX = useSpring(x, { stiffness: 220, damping: 26, mass: 0.4 });
-  const ringY = useSpring(y, { stiffness: 220, damping: 26, mass: 0.4 });
+  const enabled = useMediaQuery('(pointer: fine) and (prefers-reduced-motion: no-preference)');
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion) return;
-    const fine = window.matchMedia('(pointer: fine)');
-    const update = () => setEnabled(fine.matches);
-    update();
-    fine.addEventListener('change', update);
-    return () => fine.removeEventListener('change', update);
-  }, [prefersReducedMotion]);
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+    if (!enabled || !dot || !ring) return;
 
-  useEffect(() => {
-    if (!enabled) return;
+    const root = document.documentElement;
+    const pos = { x: -100, y: -100, rx: -100, ry: -100, raf: 0, last: 0 };
+    const place = (el: HTMLElement, x: number, y: number) => {
+      el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    };
+
+    const tick = (now: number) => {
+      const dt = pos.last ? Math.min(64, now - pos.last) : 16.67;
+      pos.last = now;
+      pos.rx = easeToward(pos.rx, pos.x, 0.22, dt);
+      pos.ry = easeToward(pos.ry, pos.y, 0.22, dt);
+      place(ring, pos.rx, pos.ry);
+      if (pos.rx !== pos.x || pos.ry !== pos.y) pos.raf = requestAnimationFrame(tick);
+      else pos.raf = 0;
+    };
 
     const onMove = (e: PointerEvent) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-      if (hidden) setHidden(false);
+      pos.x = e.clientX;
+      pos.y = e.clientY;
+      place(dot, pos.x, pos.y);
+      root.removeAttribute('data-cursor-hidden');
+      if (!pos.raf) {
+        pos.last = 0;
+        pos.raf = requestAnimationFrame(tick);
+      }
     };
-    const onDown = () => setPressed(true);
-    const onUp = () => setPressed(false);
-    const onLeave = () => setHidden(true);
-    const onEnter = () => setHidden(false);
-    const onOver = (e: MouseEvent) => {
-      const target = e.target as Element | null;
-      if (target?.closest?.(HOVER_SELECTOR)) setHovering(true);
-    };
-    const onOut = (e: MouseEvent) => {
-      const target = e.target as Element | null;
-      if (target?.closest?.(HOVER_SELECTOR)) setHovering(false);
-    };
+    const setAttr = (name: string, on: boolean) => root.toggleAttribute(name, on);
+    const onDown = () => setAttr('data-cursor-pressed', true);
+    const onUp = () => setAttr('data-cursor-pressed', false);
+    const onLeave = () => setAttr('data-cursor-hidden', true);
+    const onOver = (e: MouseEvent) =>
+      setAttr('data-cursor-hover', e.target instanceof Element && !!e.target.closest(HOVER_SELECTOR));
 
+    root.classList.add('has-custom-cursor');
+    root.setAttribute('data-cursor-hidden', '');
     window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('pointerdown', onDown);
     window.addEventListener('pointerup', onUp);
     document.addEventListener('mouseleave', onLeave);
-    document.addEventListener('mouseenter', onEnter);
     document.addEventListener('mouseover', onOver);
-    document.addEventListener('mouseout', onOut);
-
-    document.documentElement.classList.add('has-custom-cursor');
 
     return () => {
+      cancelAnimationFrame(pos.raf);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerdown', onDown);
       window.removeEventListener('pointerup', onUp);
       document.removeEventListener('mouseleave', onLeave);
-      document.removeEventListener('mouseenter', onEnter);
       document.removeEventListener('mouseover', onOver);
-      document.removeEventListener('mouseout', onOut);
-      document.documentElement.classList.remove('has-custom-cursor');
+      root.classList.remove('has-custom-cursor');
+      ['data-cursor-hidden', 'data-cursor-hover', 'data-cursor-pressed'].forEach((a) => root.removeAttribute(a));
     };
-  }, [enabled, hidden, x, y]);
+  }, [enabled]);
 
   if (!enabled) return null;
 
-  const dotSize = pressed ? 14 : hovering ? 8 : 6;
-  const ringSize = hovering ? 56 : pressed ? 24 : 36;
-
   return (
     <>
-      <m.div
-        aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full bg-fg"
-        style={{
-          x,
-          y,
-          width: dotSize,
-          height: dotSize,
-          translateX: '-50%',
-          translateY: '-50%',
-          opacity: hidden ? 0 : 1,
-        }}
-        transition={{ type: 'spring', stiffness: 600, damping: 28 }}
-      />
-      <m.div
-        aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full border border-fg/50"
-        style={{
-          x: ringX,
-          y: ringY,
-          width: ringSize,
-          height: ringSize,
-          translateX: '-50%',
-          translateY: '-50%',
-          opacity: hidden ? 0 : hovering ? 0.9 : 0.5,
-        }}
-      />
+      <div ref={dotRef} aria-hidden className="cursor-dot" />
+      <div ref={ringRef} aria-hidden className="cursor-ring" />
     </>
   );
 }

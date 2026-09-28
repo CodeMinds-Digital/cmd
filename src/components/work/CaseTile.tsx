@@ -85,9 +85,9 @@ function Card({ data }: { data: CaseStub }) {
           ))}
         </div>
 
-        <h3 className="text-h3 font-semibold text-fg mb-3 leading-tight">
+        <h2 className="text-h3 font-semibold text-fg mb-3 leading-tight">
           {data.title}
-        </h3>
+        </h2>
 
         <p className="text-body text-fg-muted mb-6">{data.brief}</p>
 

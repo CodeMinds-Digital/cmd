@@ -33,7 +33,7 @@ const STACK = ['Next.js', 'SwiftUI', 'React Native', 'Postgres', 'Tailwind', 'Ex
 
 export default function Playground() {
   return (
-    <main className="min-h-dvh bg-canvas px-6 py-20 md:px-12">
+    <main id="main" className="min-h-dvh bg-canvas px-6 py-20 md:px-12">
       <header className="mx-auto mb-16 max-w-6xl">
         <Eyebrow index="—" label="Voltage primitives" className="mb-4" />
         <h1 className="text-step-5 font-bold text-fg">

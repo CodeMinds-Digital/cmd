@@ -56,7 +56,7 @@ export default async function CasePage({
   return (
     <>
       <Header active="/work" activeIsPage={false} />
-      <main className="bg-canvas text-fg">
+      <main id="main" className="bg-canvas text-fg">
         <CaseHero data={data} />
 
         {/* For "coming" cases, show only the hero + a quiet CTA back to /work. */}
@@ -69,7 +69,7 @@ export default async function CasePage({
               </p>
               <Link
                 href="/work"
-                className="inline-flex items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
+                className="inline-flex min-h-11 items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
               >
                 <span
                   aria-hidden
@@ -87,9 +87,9 @@ export default async function CasePage({
             {data.problem && (
               <section className="section-padding pt-0">
                 <div className="container max-w-3xl">
-                  <p className="font-mono text-mono-sm text-accent-ink mb-6">
+                  <h2 className="font-mono text-mono-sm font-normal text-accent-ink mb-6">
                     Problem
-                  </p>
+                  </h2>
                   <p className="text-h3 font-normal text-fg leading-relaxed">
                     {data.problem}
                   </p>
@@ -101,9 +101,9 @@ export default async function CasePage({
             {data.approach && data.approach.length > 0 && (
               <section className="section-padding pt-0">
                 <div className="container">
-                  <p className="font-mono text-mono-sm text-accent-ink mb-12">
+                  <h2 className="font-mono text-mono-sm font-normal text-accent-ink mb-12">
                     Approach
-                  </p>
+                  </h2>
                   <ul className="border-t border-line max-w-5xl">
                     {data.approach.map((step) => (
                       <li
@@ -153,7 +153,7 @@ export default async function CasePage({
           <div className="container">
             <Link
               href="/work"
-              className="inline-flex items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
+              className="inline-flex min-h-11 items-center gap-2 text-fg-muted hover:text-fg transition-colors group"
             >
               <span
                 aria-hidden

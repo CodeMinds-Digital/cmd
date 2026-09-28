@@ -323,3 +323,73 @@
     animation: status-pulse 2s ease-in-out infinite;
   }
 }
+
+/* ─── Magnetic click ripple (created by <Magnetic>) ─────────────── */
+@keyframes magnetic-ripple {
+  from { transform: scale(0); opacity: 0.45; }
+  to { transform: scale(1); opacity: 0; }
+}
+.magnetic-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.55) 0%, rgb(255 255 255 / 0) 65%);
+  mix-blend-mode: screen;
+  animation: magnetic-ripple 650ms var(--ease-quint-out) forwards;
+}
+
+/* ─── Custom cursor (<CustomCursor>) ────────────────────────────── */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 9999px;
+  transition:
+    width 200ms var(--ease-expo-out),
+    height 200ms var(--ease-expo-out),
+    opacity 200ms var(--ease-expo-out);
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-fg);
+}
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in oklab, var(--color-fg) 50%, transparent);
+  opacity: 0.5;
+}
+html[data-cursor-hover] .cursor-dot { width: 8px; height: 8px; }
+html[data-cursor-hover] .cursor-ring { width: 56px; height: 56px; opacity: 0.9; }
+html[data-cursor-pressed] .cursor-dot { width: 14px; height: 14px; }
+html[data-cursor-pressed] .cursor-ring { width: 24px; height: 24px; }
+html[data-cursor-hidden] :is(.cursor-dot, .cursor-ring) { opacity: 0; }
+
+/* ─── Tilt (<Tilt>) ─────────────────────────────────────────────── */
+.tilt {
+  transform: perspective(900px) translateY(var(--tilt-lift, 0px)) rotateX(var(--tilt-rx, 0deg))
+    rotateY(var(--tilt-ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 450ms var(--ease-expo-out);
+}
+
+/* ─── Stroke draw (<DrawIcon>) ──────────────────────────────────── */
+@keyframes draw-path {
+  from { stroke-dashoffset: 0.6; opacity: 0.6; }
+}
+.draw-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js-motion .draw-path {
+    animation: draw-path var(--draw-dur, 1.2s) var(--ease-quint-out) var(--draw-delay, 0s) both paused;
+  }
+  html.js-motion .draw-path[data-inview='true'] {
+    animation-play-state: running;
+  }
+}

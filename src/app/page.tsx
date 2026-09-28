@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="relative">
+      <main id="main" className="relative">
         <Hero />
         <SelectedWork />
         <TrustStrip />

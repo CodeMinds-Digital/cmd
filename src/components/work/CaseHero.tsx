@@ -13,7 +13,7 @@ export default function CaseHero({ data }: { data: CaseStub }) {
           label={`${data.year} · ${data.client ?? 'Confidential client'}`}
           className="mb-8"
         />
-        <h1 className="text-h1 md:text-display font-bold text-fg mb-8 max-w-5xl text-balance">
+        <h1 className="text-step-5 font-bold text-fg mb-8 max-w-5xl text-balance">
           {data.title.includes(' for ') ? (
             <>
               {data.title.split(' for ')[0]}{' '}

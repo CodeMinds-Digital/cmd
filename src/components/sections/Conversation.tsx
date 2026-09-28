@@ -42,7 +42,7 @@ export default function Conversation() {
             </div>
             <dl className="divide-y divide-inverse-fg/10 border-y border-inverse-fg/10">
               {channels.map((c) => (
-                <div key={c.label} className="flex items-baseline justify-between gap-4 py-4">
+                <div key={c.label} className="flex min-h-14 items-center justify-between gap-4 py-1">
                   <dt className="font-mono text-mono-xs uppercase text-inverse-fg/70">{c.label}</dt>
                   <dd className="text-right text-step-0">
                     {c.href ? (
@@ -50,7 +50,7 @@ export default function Conversation() {
                         href={c.href}
                         target={c.href.startsWith('http') ? '_blank' : undefined}
                         rel={c.href.startsWith('http') ? 'noreferrer' : undefined}
-                        className="text-inverse-fg underline decoration-inverse-fg/30 underline-offset-4 hover:text-accent hover:decoration-accent"
+                        className="inline-flex min-h-11 items-center text-inverse-fg underline decoration-inverse-fg/30 underline-offset-4 hover:text-accent hover:decoration-accent"
                       >
                         {c.value}
                       </a>

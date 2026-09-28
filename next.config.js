@@ -10,6 +10,9 @@ const nextConfig = {
   experimental: {
     // The contact form is the only server action; its payload is < 10 KB.
     serverActions: { bodySizeLimit: '64kb' },
+    // Inline the (small) global stylesheet into the HTML: saves a render-
+    // blocking round trip before first paint on slow mobile connections.
+    inlineCss: true,
   },
   allowedDevOrigins: ['192.168.1.2'],
   output: 'standalone',

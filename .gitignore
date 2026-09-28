@@ -142,3 +142,6 @@ backups/
 # Local baseline screenshots (large; regenerate with npm run baseline:screens)
 docs/perf/*/screenshots/
 docs/perf/*/diff/
+
+# Lighthouse CI reports
+/.lighthouseci/

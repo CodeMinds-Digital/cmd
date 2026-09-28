@@ -29,7 +29,7 @@ export default function Header({ active, activeIsPage = true }: HeaderProps) {
         <div className="site-header-bar flex h-14 items-center justify-between rounded-full md:h-16">
           <Link
             href="/"
-            className="flex items-center gap-2 font-display text-lg font-bold tracking-tight text-fg hover:text-fg"
+            className="flex min-h-11 items-center gap-2 font-display text-lg font-bold tracking-tight text-fg hover:text-fg"
           >
             <span aria-hidden className="size-2.5 rounded-full bg-accent" />
             codeminds

@@ -59,7 +59,7 @@ export default function ContactForm() {
   return (
     <form ref={formRef} action={formAction} className="space-y-6">
       {error && (
-        <p role="alert" tabIndex={-1} className="rounded-inner border border-red-700/30 bg-red-700/5 px-4 py-3 text-sm text-red-700">
+        <p role="alert" tabIndex={-1} className="rounded-inner border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
           {error.message}
         </p>
       )}
@@ -119,7 +119,7 @@ function SubmitButton() {
 }
 
 const inputClasses =
-  'mt-2 block w-full rounded-inner border border-line-strong bg-canvas px-4 py-3 text-step-0 text-fg placeholder:text-fg-subtle transition-colors focus:border-fg focus:outline-2 focus:outline-offset-2 focus:outline-accent aria-invalid:border-red-700';
+  'mt-2 block w-full rounded-inner border border-line-strong bg-canvas px-4 py-3 text-step-0 text-fg placeholder:text-fg-subtle transition-colors focus:border-fg focus:outline-2 focus:outline-offset-2 focus:outline-accent aria-invalid:border-danger';
 
 function Field({
   label,
@@ -159,7 +159,7 @@ function Field({
         <input type="text" {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)} {...shared} />
       )}
       {error && (
-        <p id={errorId} className="mt-2 text-sm text-red-700">
+        <p id={errorId} className="mt-2 text-sm text-danger">
           {error}
         </p>
       )}
@@ -203,7 +203,7 @@ function PillGroup({
         ))}
       </div>
       {error && (
-        <p id={errorId} className="mt-2 text-sm text-red-700">
+        <p id={errorId} className="mt-2 text-sm text-danger">
           {error}
         </p>
       )}

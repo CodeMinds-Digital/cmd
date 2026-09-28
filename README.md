@@ -11,7 +11,7 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 - **Framework:** [Next.js 16.2.4](https://nextjs.org) (App Router · Turbopack · React 19 · React Compiler)
 - **Type system:** TypeScript (strict)
 - **Styling:** Tailwind CSS 4 (CSS-first `@theme` in `src/styles/globals.css`) with the Voltage semantic token system (`canvas` / `surface` / `fg` / `accent` …)
-- **Motion:** Motion (`motion/react`, `LazyMotion` + `m.*`) + Lenis (smooth scroll)
+- **Motion:** CSS-first (`src/styles/motion.css`: in-view triggers + scroll-driven animations) with small pointer/rAF islands — no animation library. Lenis for smooth wheel scrolling on fine pointers only
 - **Contact:** `submitContact` server action + `/api/contact` JSON route → Nodemailer. Shared zod schema, honeypot, per-IP + global rate limits (in-memory; single instance)
 - **Analytics:** Web Vitals → `/api/vitals`
 - **OG cards:** `next/og` edge runtime, Voltage palette, per-route variants
@@ -63,7 +63,7 @@ inverse       #111111  black tiles / pills, with inverse-fg #F2EFE8
 
 - House easings: `expo-out` `[0.16, 1, 0.3, 1]` (95% of enters), `quint-out` `[0.22, 1, 0.36, 1]` (clip-path), `gentle` `[0.25, 0.1, 0.25, 1]`
 - Durations: `instant` 100ms · `snap` 200ms · `natural` 450ms · `reveal` 900ms
-- Single `<MotionConfig reducedMotion="user">` at root + per-component `useReducedMotion()` guards on `useTransform` motion values
+- Every animation is gated on `prefers-reduced-motion: no-preference`; JS islands use `usePrefersReducedMotion()` (`src/lib/use-media-query.ts`)
 
 ## Animation primitives
 
@@ -72,13 +72,12 @@ Located at `src/components/animations/` — internal preview at `/playground`:
 | Primitive | Purpose |
 |---|---|
 | `<SplitText>` | Per-word masked reveal, server-rendered (text is in the HTML); CSS animation on load or in view. Inline elements (e.g. a highlight chip) ride along as atomic words. Screen-reader safe. |
-| `<Magnetic>` | Pointer-pulled CTA wrapper + click ripple. Touch and reduced-motion bypass. |
-| `<Tilt>` | Pointer-parallax 3D tilt for cards. |
-| `<DrawIcon>` | Stroke-draws SVG paths on `whileInView` via `pathLength`. |
+| `<Magnetic>` | Pointer-pulled CTA wrapper (rAF easing, no re-renders) + CSS click ripple. Touch and reduced-motion bypass. |
+| `<Tilt>` | Pointer-parallax 3D tilt for cards via CSS variables + transition. |
+| `<DrawIcon>` | Stroke-draws SVG paths when in view (CSS `stroke-dashoffset`). |
 | `<SmoothScroll>` | Lenis smooth scroll (`autoRaf`), dynamically loaded post-hydration. |
-| `<CustomCursor>` | Springy ring + dot, `mix-blend-difference`, `(pointer: fine)`-gated. |
+| `<CustomCursor>` | Dot + trailing ring (rAF easing, state via data attributes), fine pointers + no reduced motion only. |
 | `<ViewTransitionLink>` | Wraps `next/link` with `document.startViewTransition()` for case-cover morphs. |
-| `<MotionRoot>` | Root `<MotionConfig>` with house easing + reduced-motion=user. |
 
 ### Voltage UI primitives (`src/components/ui/`) and motion system
 
@@ -112,7 +111,8 @@ npm run dev          # dev server on http://localhost:3000
 npm run build        # production build
 npm run analyze      # webpack bundle analyzer (HTML report in .next/analyze/)
 npm run lighthouse   # Lighthouse CLI against localhost (requires Chrome + lighthouse global)
-npm run test:unit    # unit tests (Node's built-in runner): rate limiter, client IP, HTML escaping
+npm run test:unit    # unit tests (Node's built-in runner): rate limiter, client IP, HTML escaping, token contrast
+npm run lhci         # build + Lighthouse CI against the budgets in lighthouserc.json
 npm run baseline:screens  # full-page screenshots of every route (Playwright)
 npm run baseline:a11y     # axe accessibility scan of every route
 ```

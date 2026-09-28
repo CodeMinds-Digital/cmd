@@ -10,7 +10,8 @@
     "analyze": "ANALYZE=true next build --webpack",
     "lighthouse": "lighthouse http://localhost:3000 --preset=desktop --view --output=html --output-path=./lighthouse-report.html",
     "baseline:screens": "playwright test tests/baseline/screenshots.spec.ts",
-    "baseline:a11y": "playwright test tests/baseline/a11y.spec.ts --workers=1"
+    "baseline:a11y": "playwright test tests/baseline/a11y.spec.ts --workers=1",
+    "test:unit": "node --test tests/unit/"
   },
   "dependencies": {
     "@types/nodemailer": "^7.0.1",

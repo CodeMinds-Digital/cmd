@@ -7,6 +7,10 @@ const nextConfig = {
   reactStrictMode: true,
   // Automatic memoization (babel-plugin-react-compiler).
   reactCompiler: true,
+  experimental: {
+    // The contact form is the only server action; its payload is < 10 KB.
+    serverActions: { bodySizeLimit: '64kb' },
+  },
   allowedDevOrigins: ['192.168.1.2'],
   output: 'standalone',
   // Pin the workspace root to this project; a stray lockfile higher up the

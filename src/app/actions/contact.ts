@@ -1,6 +1,9 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { z } from 'zod';
+import { clientIp } from '@/lib/client-ip';
+import { takeContactToken } from '@/lib/contact-rate-limit';
 import { deliverContact } from '@/lib/contact';
 import { contactSchema } from '@/lib/contact-schema';
 import { HONEYPOT_FIELD, type ContactField, type ContactFormState } from '@/lib/contact-options';
@@ -35,6 +38,16 @@ export async function submitContact(
       fieldErrors: Object.fromEntries(
         Object.entries(fieldErrors).map(([k, v]) => [k, v?.[0]]),
       ) as Partial<Record<ContactField, string>>,
+      values: raw,
+    };
+  }
+
+  const limit = takeContactToken(clientIp(await headers()));
+  if (!limit.ok) {
+    return {
+      status: 'error',
+      message: `Too many messages from your network. Try again in ${limit.retryAfterMinutes} min, or email cmd@codeminds.digital.`,
+      fieldErrors: {},
       values: raw,
     };
   }

@@ -320,13 +320,16 @@ Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; re
 
 **⚠️ JS budget needs resetting (for Phase 5).** The remaining home JS is React DOM ≈ 69 KB + Next runtime ≈ 50 KB + `motion` ≈ 42 KB + app code. Next 16 App Router's framework floor is ~120 KB gz, so the plan's **< 80 KB target is not reachable** on this stack. Proposed Phase 5 target: **≤ 200 KB**, by replacing the last `motion` users on the home page (`Magnetic`, `CustomCursor`, `useReducedMotion` in `SmoothScroll`/`ViewTransitionLink`/`MotionRoot`) with CSS + pointer events. Simulated mobile LCP (3.6 s) mostly reflects that JS under 4× CPU throttling.
 
-### Phase 4 — Server action & backend hardening (0.5 day)
-- [ ] `app/actions/contact.ts`:
-  - Zod parse → honeypot reject → token-bucket rate limit keyed by IP. It's in memory for now; use Redis/Upstash if Dokploy runs >1 replica.
-  - `escapeHtml` on every interpolated value, and a plain-text body alongside the HTML.
-  - Budget and timeline included in the email.
-- [ ] Keep `/api/contact` as a thin wrapper over the same function, or delete it if nothing external uses it.
-- [ ] Confirm `backups/` (which contains `lead.json`) is git-ignored and excluded by `.dockerignore`.
+### Phase 4 — Server action & backend hardening (0.5 day) — ✅ done 2026-09-28
+- [x] Zod parse → honeypot → **rate limit** → delivery, in both the `submitContact` server action and `/api/contact` (validation, escaping, plain-text body and budget/timeline in the email landed in Phase 3).
+- [x] `lib/rate-limit.ts`: in-memory token bucket with bounded memory (idle-key eviction, `maxKeys`). `lib/contact-rate-limit.ts` policy: **per IP 5 burst, +1 / 10 min**; **global 30 burst, +1 / 2 min** (caps SMTP abuse from many IPs). Only valid, would-send submissions consume tokens.
+- [x] `lib/client-ip.ts`: trusts Traefik's `X-Real-IP`, else the **rightmost** `X-Forwarded-For` hop (the leftmost is client-forgeable), else a shared `'unknown'` bucket.
+- [x] `/api/contact` hardening: requires `application/json` (415 otherwise — forces a CORS preflight, so other sites can't post via a plain HTML form), 16 KB body cap (413), 429 with `Retry-After`. Server actions capped at `bodySizeLimit: '64kb'`.
+- [x] `/api/contact` is kept as a thin wrapper over the shared schema and delivery code, for any external callers.
+- [x] `backups/` confirmed git-ignored and excluded by `.dockerignore`.
+- [x] **Tests:** `npm run test:unit` (Node's built-in runner, no new deps) — 11 tests covering the limiter (burst, refill, retry-after, clock restart, partial refill, eviction), IP extraction (forged XFF), and HTML escaping. It **caught an eviction off-by-one** that let the map exceed `maxKeys`.
+- **Verified against a production build (SMTP unset, nothing sent):** per-IP 5 allowed then 429 `Retry-After: 600`; other IPs unaffected; forged leftmost XFF doesn't bypass; invalid payloads don't consume tokens; global cap trips on the 31st distinct IP; text/plain → 415; 20 KB → 413. Via the real form: 6th submit shows "Too many messages… Try again in 10 min" and keeps the visitor's text.
+- **Deployment note:** the limiter is per-process. Dokploy runs one container today; if it's ever scaled to more than one replica, move the buckets to Redis/Upstash behind the same `take()` interface.
 
 ### Phase 5 — Responsive, a11y & performance pass (1.5 days)
 - [ ] Bento breakpoint audit at 360, 390, 768, 1024, 1280, 1440, 1920, and landscape phone. No horizontal scroll, tap targets ≥ 44 px, and tile content never clips at 200% zoom.

@@ -12,7 +12,7 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 - **Type system:** TypeScript (strict)
 - **Styling:** Tailwind CSS 4 (CSS-first `@theme` in `src/styles/globals.css`) with the Voltage semantic token system (`canvas` / `surface` / `fg` / `accent` …)
 - **Motion:** Motion (`motion/react`, `LazyMotion` + `m.*`) + Lenis (smooth scroll)
-- **Email:** Nodemailer (`/api/contact`)
+- **Contact:** `submitContact` server action + `/api/contact` JSON route → Nodemailer. Shared zod schema, honeypot, per-IP + global rate limits (in-memory; single instance)
 - **Analytics:** Web Vitals → `/api/vitals`
 - **OG cards:** `next/og` edge runtime, Voltage palette, per-route variants
 
@@ -112,6 +112,9 @@ npm run dev          # dev server on http://localhost:3000
 npm run build        # production build
 npm run analyze      # webpack bundle analyzer (HTML report in .next/analyze/)
 npm run lighthouse   # Lighthouse CLI against localhost (requires Chrome + lighthouse global)
+npm run test:unit    # unit tests (Node's built-in runner): rate limiter, client IP, HTML escaping
+npm run baseline:screens  # full-page screenshots of every route (Playwright)
+npm run baseline:a11y     # axe accessibility scan of every route
 ```
 
 ## Project structure

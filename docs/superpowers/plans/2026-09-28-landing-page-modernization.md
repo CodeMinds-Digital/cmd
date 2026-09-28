@@ -287,15 +287,38 @@ Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; re
 - **Verified:** no-JS → 0/5 tiles hidden, all wipes full, no word offset. Reduced motion → final states, marquee static without duplicate. JS + wheel scroll → every trigger fires (0 pending), counters land on target. Scroll bar scrubs (0.5 → 1). Glow tracks the pointer. Clock live. **Fail-safe with all JS blocked: hidden at 0.5 s, revealed by 4.7 s.** No console errors or hydration warnings. axe clean on all routes + playground. Existing pages: hero pixel-identical; only diffs are 12 px eyebrows (−3 px each). Home JS 246 → 247 KB gz.
 - **Test note:** Lenis overrides programmatic `window.scrollTo`, so scroll-dependent tests must use wheel events.
 
-### Phase 3 — Section rebuilds per §4 (3 days, one PR per section)
-- [ ] Header (popover menu, condense, hide-on-scroll via IO sentinel, `aria-current`).
-- [ ] Hero bento (the H1 is server-rendered and visible, which makes it the LCP element; the stat and status values come from `data/site.ts`).
-- [ ] Selected Work bento + `<ViewTransition>` cover morph + metric chip.
-- [ ] Trust strip (marquee or stat tiles, gated on `logos.filter(l => l.approved).length >= 4`).
-- [ ] Capabilities 2×2 bento, with data moved to `data/capabilities.ts`.
-- [ ] Process inverse section with a horizontal track and `view()` progress bar, with data moved to `data/process.ts`.
-- [ ] Conversation orange band and `ContactForm` island: shared Zod schema, inline `aria-describedby` errors, budget and timeline pill radio groups, honeypot, `useFormStatus`, `useOptimistic` success.
-- [ ] Footer with the clipped wordmark; fix or remove the `/legal/*` links.
+### Phase 3 — Section rebuilds per §4 (3 days, one commit per section) — ✅ done 2026-09-28
+- [x] **Header** (`8ef2c50`): server component. Scroll-driven condense into a floating pill (`--condense`, with a `data-scrolled` fallback), hide on scroll down / show on scroll up via `HeaderController` (attribute toggles, no React state), native `popover` mobile menu (Esc, light dismiss, focus return, closes on in-page links), `aria-current` passed per page.
+- [x] **Hero bento** (`8ef2c50`): the H1 is plain server-rendered text, so it's the LCP element and never hidden. Tiles: headline · orange 2–4 wk stat (counter) · black disciplines · booking status · live Chennai time. Facts come from `data/site.ts`.
+- [x] **Selected Work** (`e311211`): the live case is an 8-col feature tile (cover keeps its `view-transition-name` morph, metric chips, stretched link). "Coming" cases are compact sunk tiles with an ETA chip.
+- [x] **Trust strip** (`daa203d`): logo marquee once ≥ 4 logos have `approved: true` in `data/logos.ts`, otherwise 3 stat tiles. The placeholder third-party names are **deleted**.
+- [x] **Capabilities** (`63e93c3`): 2×2 bento, with data in `data/capabilities.ts`.
+- [x] **Process** (`819778d`): inverse section, 4-step horizontal track with a scroll-driven `.progress-x` bar on desktop and a vertical rail on mobile. Data in `data/process.ts`.
+- [x] **Conversation** (`01476a0`): orange band. `ContactForm` island on `useActionState` + `useFormStatus` → `submitContact` server action. Zod validation, inline `aria-invalid`/`aria-describedby` errors, submitted values restored after errors, focus moved to the first problem, honeypot, optional budget + timeline pills. `lib/contact.ts` (delivery) and the schema are shared with `/api/contact`.
+- [x] **Footer** (`c1b5bab`): link columns, anchor strip, oversized wordmark clipped at the bottom edge (sized so it fits the content width at 375–1920 px). The dead `/legal/*` links are removed.
+- [x] **Wrap-up** (`d240e24`): zod had leaked into the client bundle through shared constants (+90 KB gz). Split into `lib/contact-options.ts` (plain) and `lib/contact-schema.ts` (server). Also replaced the leftover serif-italic text inside the case SVGs.
+
+**Deviations from the plan (deliberate):**
+- **Capability proof points are always visible**, not revealed on hover. The tiles aren't focusable, so a hover reveal would hide content from keyboard users. The hover effect is an arrow nudge instead.
+- **No `useOptimistic` "sent" state.** Showing success before the email actually sends would be misleading; `useFormStatus` gives the pending state instead.
+- **Case-cover morph keeps the existing `ViewTransitionLink`** rather than React's experimental `<ViewTransition>`. It already works, and the plan's risk table allowed this fallback.
+- **Open questions resolved with conservative defaults**, each a one-line change: Q1 → stat tiles until logos are approved; Q2 → budget/timeline are *optional* fields; Q4 → no slot count (`site.booking.detail = null`).
+
+**Verified:**
+- JS + wheel scroll: all 18 reveal tiles, wipes and headings complete, 0 pending, no console errors. No-JS and reduced motion: nothing hidden.
+- Contact form: server validation (invalid email, blank message), field values + radio choice restored, "not configured" fallback, honeypot silent success, **no-JS submission works**, focus management, and the `/api/contact` JSON errors (400/503). Tested with SMTP creds unset — no email sent.
+- Header: condense, hide/show, popover open / Esc / focus return / hash-link close, `aria-current`.
+- axe: 0 violations on all 10 route/width combos + playground. No horizontal overflow on any route at 375 px.
+
+| Home | Baseline | Phase 1b | Phase 3 |
+|---|---|---|---|
+| Lighthouse mobile (simulated) perf / a11y | 70 / 96 | 85 / 100 | **85 / 100** |
+| Lighthouse mobile (**DevTools throttling**, 2 runs) | — | — | **96–97**, LCP 1.8 s, TBT 130–160 ms, CLS 0.016 |
+| Lighthouse desktop perf / a11y | 90 / 96 | 100 / 100 | **100 / 100** |
+| Observed LCP (trace, mobile) | — | 2.31 s | **0.89 s** (= FCP; the H1 is LCP) |
+| Home JS (gz) | 503 KB | 246 KB | **244 KB** |
+
+**⚠️ JS budget needs resetting (for Phase 5).** The remaining home JS is React DOM ≈ 69 KB + Next runtime ≈ 50 KB + `motion` ≈ 42 KB + app code. Next 16 App Router's framework floor is ~120 KB gz, so the plan's **< 80 KB target is not reachable** on this stack. Proposed Phase 5 target: **≤ 200 KB**, by replacing the last `motion` users on the home page (`Magnetic`, `CustomCursor`, `useReducedMotion` in `SmoothScroll`/`ViewTransitionLink`/`MotionRoot`) with CSS + pointer events. Simulated mobile LCP (3.6 s) mostly reflects that JS under 4× CPU throttling.
 
 ### Phase 4 — Server action & backend hardening (0.5 day)
 - [ ] `app/actions/contact.ts`:

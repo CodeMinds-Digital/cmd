@@ -20,7 +20,7 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 
 | Route | Purpose |
 |---|---|
-| `/` | Home — Hero · Selected Work · Logos · Capabilities · Process · Conversation |
+| `/` | Home — Hero bento · Selected Work · Trust strip · Capabilities · Process · Conversation |
 | `/work` | All case studies index |
 | `/work/[slug]` | Case study — facts · problem · approach · screens · result · pull-quote · next case |
 | `/studio` | About — beliefs, stack, closing CTA |

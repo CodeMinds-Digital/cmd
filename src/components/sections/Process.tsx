@@ -20,7 +20,7 @@ export default function Process() {
       <div className="container">
         <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
           <div>
-            <Eyebrow index="03" label="How we work" inverse className="mb-5" />
+            <Eyebrow index="03" label="How we work" tone="inverse" className="mb-5" />
             <h2 className="max-w-2xl text-step-4 font-bold text-inverse-fg text-balance">
               <SplitText inView>
                 From kickoff to ship <Highlight delayMs={500}>in 4–8 weeks.</Highlight>

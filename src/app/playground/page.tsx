@@ -158,7 +158,7 @@ export default function Playground() {
           <div className="space-y-4">
             <Eyebrow index="01" label="Selected work" />
             <div className="rounded-inner bg-inverse p-4">
-              <Eyebrow index="03" label="How we work" inverse />
+              <Eyebrow index="03" label="How we work" tone="inverse" />
             </div>
           </div>
         </Demo>
@@ -176,7 +176,7 @@ export default function Playground() {
         </Demo>
 
         <section className="timeline-section rounded-tile bg-inverse p-8 text-inverse-fg">
-          <Eyebrow index="—" label="Scroll-driven progress" inverse className="mb-6" />
+          <Eyebrow index="—" label="Scroll-driven progress" tone="inverse" className="mb-6" />
           <p className="mb-6 max-w-xl text-step-1 text-inverse-fg/80">
             The bar fills as this section scrolls through the viewport (<code>view()</code>{' '}
             timeline). Browsers without scroll-driven animations show it full.

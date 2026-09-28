@@ -98,6 +98,11 @@
   border-radius: 0.14em;
 }
 
+.highlight-inverse {
+  background-image: linear-gradient(var(--color-inverse), var(--color-inverse));
+  color: var(--color-inverse-fg);
+}
+
 /* ─── Stat counter ──────────────────────────────────────────────── */
 /* Renders --to as text through a CSS counter; animates from --from. */
 .stat-num {

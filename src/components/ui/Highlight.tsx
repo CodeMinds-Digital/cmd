@@ -17,6 +17,7 @@ export default function Highlight({
   className,
   wipe = true,
   delayMs,
+  inverse = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -24,8 +25,12 @@ export default function Highlight({
   wipe?: boolean;
   /** Wipe delay in ms (default 250, see --wipe-delay). */
   delayMs?: number;
+  /** Black chip with paper text — for use on the orange band. */
+  inverse?: boolean;
 }) {
-  const classes = [wipe ? highlightClass : 'highlight', className].filter(Boolean).join(' ');
+  const classes = [wipe ? highlightClass : 'highlight', inverse && 'highlight-inverse', className]
+    .filter(Boolean)
+    .join(' ');
   return (
     <span
       className={classes}

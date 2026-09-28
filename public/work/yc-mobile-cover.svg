@@ -31,7 +31,7 @@
   <!-- Title -->
   <g font-family="Geist, system-ui, sans-serif">
     <text x="80" y="220" font-size="56" font-weight="600" fill="#111111">iOS + Android</text>
-    <text x="80" y="280" font-size="42" font-weight="400" fill="#FF4D00" font-style="italic" font-family="'Instrument Serif', Georgia, serif">in a single sprint.</text>
+    <text x="80" y="280" font-size="42" fill="#FF4D00" font-family="'Space Grotesk', Geist, system-ui, sans-serif" font-weight="700">in a single sprint.</text>
   </g>
 
   <!-- Twin phones -->

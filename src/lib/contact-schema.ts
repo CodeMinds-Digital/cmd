@@ -1,22 +1,10 @@
 import { z } from 'zod';
+import { BUDGETS, CONTACT_LIMITS, TIMELINES, type ContactField } from '@/lib/contact-options';
 
 /**
- * Contact form contract, shared by the client form (field names, options,
- * limits) and the server (validation). The server is authoritative.
+ * Server-side validation for the contact form. Plain options/limits/types
+ * live in contact-options.ts so the client bundle never imports zod.
  */
-
-export const BUDGETS = ['$15–30k', '$30–60k', '$60k+', 'Not sure yet'] as const;
-export const TIMELINES = ['ASAP', '1–3 months', 'Just exploring'] as const;
-
-export const CONTACT_LIMITS = {
-  name: 200,
-  email: 320,
-  project: 200,
-  message: 5000,
-} as const;
-
-/** Hidden field real people never fill in; bots usually do. */
-export const HONEYPOT_FIELD = 'company_website';
 
 const emptyToUndefined = (v: unknown) => (typeof v === 'string' && v.trim() === '' ? undefined : v);
 
@@ -45,15 +33,12 @@ export const contactSchema = z.object({
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;
-export type ContactField = keyof ContactInput;
 
-export type ContactFormState =
-  | { status: 'idle' }
-  | { status: 'success' }
-  | {
-      status: 'error';
-      message: string;
-      fieldErrors: Partial<Record<ContactField, string>>;
-      /** Submitted values, so the form can repopulate after a server round-trip. */
-      values: Partial<Record<ContactField, string>>;
-    };
+// Compile-time check: the schema's keys and ContactField must stay in sync.
+type _SameKeys = [keyof ContactInput] extends [ContactField]
+  ? [ContactField] extends [keyof ContactInput]
+    ? true
+    : never
+  : never;
+const _fieldsMatch: _SameKeys = true;
+void _fieldsMatch;

@@ -2,12 +2,8 @@
 
 import { z } from 'zod';
 import { deliverContact } from '@/lib/contact';
-import {
-  contactSchema,
-  HONEYPOT_FIELD,
-  type ContactField,
-  type ContactFormState,
-} from '@/lib/contact-schema';
+import { contactSchema } from '@/lib/contact-schema';
+import { HONEYPOT_FIELD, type ContactField, type ContactFormState } from '@/lib/contact-options';
 
 const FIELDS: ContactField[] = ['name', 'email', 'project', 'budget', 'timeline', 'message'];
 

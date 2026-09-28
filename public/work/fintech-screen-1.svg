@@ -74,7 +74,7 @@
       <!-- Hero -->
       <rect x="0" y="0" width="640" height="220" rx="14" fill="#FFFFFF" stroke="#DDD8CC"/>
       <text x="20" y="60" font-family="Geist, system-ui, sans-serif" font-size="34" font-weight="700" fill="#111111">Move money,</text>
-      <text x="20" y="98" font-family="'Instrument Serif', Georgia, serif" font-size="32" font-style="italic" fill="#FF4D00">in seconds.</text>
+      <text x="20" y="98" font-family="'Space Grotesk', Geist, system-ui, sans-serif" font-weight="700" font-size="32" fill="#FF4D00">in seconds.</text>
       <rect x="20" y="130" width="220" height="36" rx="18" fill="#111111"/>
       <text x="130" y="153" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="13" font-weight="500" fill="#F2EFE8">Open an account →</text>
       <rect x="260" y="130" width="180" height="36" rx="18" fill="none" stroke="#C9C3B5"/>
@@ -117,7 +117,7 @@
       <g transform="translate(0, 480)">
         <text x="20" y="20" font-family="ui-monospace, monospace" font-size="11" letter-spacing="3" fill="#64625C">RESULT</text>
         <text x="20" y="92" font-family="Geist, system-ui, sans-serif" font-size="64" font-weight="700" fill="#111111">+47%</text>
-        <text x="160" y="92" font-family="'Instrument Serif', Georgia, serif" font-size="32" font-style="italic" fill="#FF4D00">conversion lift</text>
+        <text x="160" y="92" font-family="'Space Grotesk', Geist, system-ui, sans-serif" font-weight="700" font-size="32" fill="#FF4D00">conversion lift</text>
       </g>
     </g>
 

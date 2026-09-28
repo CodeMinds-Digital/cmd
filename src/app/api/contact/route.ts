@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { deliverContact } from '@/lib/contact';
-import { contactSchema, HONEYPOT_FIELD } from '@/lib/contact-schema';
+import { HONEYPOT_FIELD } from '@/lib/contact-options';
+import { contactSchema } from '@/lib/contact-schema';
 
 /**
  * JSON contact endpoint, kept for external callers. The site's own form uses

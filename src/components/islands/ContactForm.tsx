@@ -12,7 +12,7 @@ import {
   TIMELINES,
   type ContactField,
   type ContactFormState,
-} from '@/lib/contact-schema';
+} from '@/lib/contact-options';
 import { site } from '@/data/site';
 
 const initialState: ContactFormState = { status: 'idle' };

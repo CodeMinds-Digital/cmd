@@ -32,7 +32,7 @@
   <!-- Title block -->
   <g font-family="Geist, system-ui, sans-serif">
     <text x="80" y="220" font-size="56" font-weight="600" fill="#111111">Marketing rebuild</text>
-    <text x="80" y="280" font-size="42" font-weight="400" fill="#FF4D00" font-style="italic" font-family="'Instrument Serif', Georgia, serif">for a fintech</text>
+    <text x="80" y="280" font-size="42" fill="#FF4D00" font-family="'Space Grotesk', Geist, system-ui, sans-serif" font-weight="700">for a fintech</text>
   </g>
 
   <!-- Performance arc — falls then rises -->

@@ -8,10 +8,10 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 
 ## Stack
 
-- **Framework:** [Next.js 16.2.4](https://nextjs.org) (App Router · Turbopack · React 19)
+- **Framework:** [Next.js 16.2.4](https://nextjs.org) (App Router · Turbopack · React 19 · React Compiler)
 - **Type system:** TypeScript (strict)
-- **Styling:** Tailwind CSS 3.4 with a custom dark token system (`ink` / `paper` / `brand`)
-- **Motion:** Framer Motion 11 + Lenis (smooth scroll) + GSAP (ScrollTrigger)
+- **Styling:** Tailwind CSS 4 (CSS-first `@theme` in `src/styles/globals.css`) with a custom dark token system (`ink` / `paper` / `brand`)
+- **Motion:** Motion (`motion/react`, `LazyMotion` + `m.*`) + Lenis (smooth scroll)
 - **3D:** Three.js + `@react-three/fiber` + `@react-three/drei` (custom GLSL shader on the hero, capability-gated and lazy-loaded)
 - **Email:** Nodemailer (`/api/contact`)
 - **Analytics:** Web Vitals → `/api/vitals`
@@ -80,7 +80,7 @@ Located at `src/components/animations/` — internal preview at `/playground`:
 | `<Magnetic>` | Pointer-pulled CTA wrapper + click ripple. Touch and reduced-motion bypass. |
 | `<Tilt>` | Pointer-parallax 3D tilt for cards. |
 | `<DrawIcon>` | Stroke-draws SVG paths on `whileInView` via `pathLength`. |
-| `<SmoothScroll>` | Lenis ↔ GSAP ScrollTrigger bridge, dynamically loaded post-hydration. |
+| `<SmoothScroll>` | Lenis smooth scroll (`autoRaf`), dynamically loaded post-hydration. |
 | `<CustomCursor>` | Springy ring + dot, `mix-blend-difference`, `(pointer: fine)`-gated. |
 | `<HeroCanvas>` | Three.js shader (custom simplex-noise GLSL with scroll-driven `uScroll` uniform). Capability-gated: prefers-reduced-motion, viewport ≤ 640px, `hardwareConcurrency < 4`, or no WebGL → renders nothing, CSS gradient fallback takes over. |
 | `<ViewTransitionLink>` | Wraps `next/link` with `document.startViewTransition()` for case-cover morphs. |
@@ -90,7 +90,7 @@ Located at `src/components/animations/` — internal preview at `/playground`:
 ## Performance
 
 - **Bundle split:** Three.js + r3f + drei in their own chunks (~187 KB gz combined). Loads only when `<HeroCanvas>` mounts (capability-gated).
-- **Smooth scroll:** Lenis + GSAP loaded post-hydration via `<SmoothScrollLoader>`.
+- **Smooth scroll:** Lenis loaded post-hydration via `<SmoothScrollLoader>`.
 - **Fonts:** 3 self-hosted variable fonts via `next/font/google` (Geist · Geist Mono · Instrument Serif).
 - **Images:** AVIF/WebP via `next/image`.
 - **Web Vitals:** instrumented via `useReportWebVitals` → `/api/vitals` (with dev-mode color-coded console output). Long-task observer flags >50ms tasks in dev.

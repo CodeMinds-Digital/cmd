@@ -15,7 +15,7 @@ export default function CaseMetric({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 max-w-6xl">
           {metrics.map((m) => (
             <div key={m.label}>
-              <div className="text-h1 md:text-display font-bold text-paper-50 leading-none mb-3 tracking-tight">
+              <div className="text-h1 md:text-display font-bold text-paper-50 leading-none mb-3 tracking-tight md:leading-(--text-display--line-height) md:tracking-(--text-display--letter-spacing)">
                 {m.value}
               </div>
               <div className="font-mono text-mono-sm text-paper-400 border-t border-ink-600 pt-3">

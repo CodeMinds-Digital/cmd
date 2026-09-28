@@ -25,7 +25,6 @@ export default function WebVitals() {
     if (process.env.NODE_ENV === 'development') {
       const color =
         label === 'good' ? '#10b981' : label === 'poor' ? '#ef4444' : '#f59e0b';
-      // eslint-disable-next-line no-console
       console.log(
         `%c[vitals] ${metric.name} %c${metric.value.toFixed(1)} %c${label}`,
         'color:#6366f1;font-weight:600',

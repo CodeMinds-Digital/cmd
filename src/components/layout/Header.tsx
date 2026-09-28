@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'motion/react';
 import Magnetic from '@/components/animations/Magnetic';
 
 const navItems = [
@@ -32,13 +32,16 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close mobile menu on navigation.
-  useEffect(() => {
+  // Close mobile menu on navigation — adjust state during render instead of
+  // in an effect (https://react.dev/learn/you-might-not-need-an-effect).
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (pathname !== menuPath) {
+    setMenuPath(pathname);
     setMobileOpen(false);
-  }, [pathname]);
+  }
 
   return (
-    <motion.header
+    <m.header
       animate={{ y: hidden ? '-100%' : '0%' }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
@@ -132,7 +135,7 @@ export default function Header() {
       {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.nav
+          <m.nav
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -157,9 +160,9 @@ export default function Header() {
                 Start a project →
               </Link>
             </div>
-          </motion.nav>
+          </m.nav>
         )}
       </AnimatePresence>
-    </motion.header>
+    </m.header>
   );
 }

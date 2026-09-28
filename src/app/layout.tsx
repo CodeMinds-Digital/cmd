@@ -29,7 +29,7 @@ const instrumentSerif = Instrument_Serif({
   weight: '400',
   style: ['normal', 'italic'],
   subsets: ['latin'],
-  variable: '--font-serif',
+  variable: '--font-instrument-serif',
   display: 'swap',
   preload: true,
 });
@@ -108,9 +108,9 @@ export default function RootLayout({
         <StructuredData />
         <WebVitals />
         <FrameBudget />
-        <CustomCursor />
         <SmoothScroll />
         <MotionRoot>
+          <CustomCursor />
           <div id="root" className="relative min-h-screen">
             {children}
           </div>

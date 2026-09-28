@@ -1,5 +1,8 @@
 'use client';
 
+/* eslint-disable react-hooks/immutability, react-hooks/set-state-in-effect --
+   Legacy WebGL hero; deleted in Phase 1b (Voltage has no shader backdrop). */
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';

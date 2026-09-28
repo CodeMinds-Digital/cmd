@@ -59,7 +59,7 @@ export default function Playground() {
           <div className="grid gap-6 md:grid-cols-3">
             {[1, 2, 3].map((i) => (
               <Tilt key={i}>
-                <div className="h-48 rounded-2xl bg-gradient-to-br from-brand-500 to-electric-500 p-6 text-white shadow-medium">
+                <div className="h-48 rounded-2xl bg-linear-to-br from-brand-500 to-electric-500 p-6 text-white shadow-medium">
                   <div className="text-sm opacity-80">Card {i}</div>
                   <div className="mt-3 text-2xl font-bold">Hover me</div>
                 </div>

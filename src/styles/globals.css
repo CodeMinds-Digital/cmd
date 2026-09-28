@@ -1,183 +1,316 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-/* ═════════════════════════════════════════════════════════════════
-   R1 — Plasma Indigo dark surface system
-   Tokens live in tailwind.config.js (ink / paper / brand ramps);
-   this file only owns base resets, Lenis/cursor CSS, legacy class
-   stubs that haven't been rewritten in R2 yet, and a11y safety nets.
-   ═════════════════════════════════════════════════════════════════ */
+@custom-variant dark (&:is(.dark *));
 
-:root {
-  --color-ink-900: 10 10 12;
-  --color-ink-800: 16 16 19;
-  --color-ink-700: 23 23 27;
-  --color-paper-50: 245 245 247;
-  --color-paper-100: 232 232 237;
-  --color-paper-300: 165 165 180;
-  --color-brand-400: 165 180 252;
-  --color-brand-600: 99 102 241;
+/*
+  Font families reference next/font variables that are set on <body>, not
+  :root. `inline` makes each font-* utility use the var() directly so it
+  resolves where the utility is applied, instead of at :root (where it would
+  be undefined and silently drop the whole stack).
+*/
+@theme inline {
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+@theme {
+  --color-ink-500: #3a3a45;
+  --color-ink-600: #22222a;
+  --color-ink-700: #17171b;
+  --color-ink-800: #101013;
+  --color-ink-900: #0a0a0c;
 
-html {
-  font-size: 16px;
-  /* Framer Motion's `useScroll({ target })` calls getComputedStyle on the
-     scroll container (window → document.documentElement) and warns if the
-     position is static. */
-  position: relative;
-}
+  --color-paper-50: #f5f5f7;
+  --color-paper-100: #e8e8ed;
+  --color-paper-200: #cfcfd9;
+  --color-paper-300: #a5a5b4;
+  --color-paper-400: #6b6c8a;
 
-body {
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
-}
+  --color-brand-50: #f0f4ff;
+  --color-brand-100: #e0e9ff;
+  --color-brand-200: #c7d6fe;
+  --color-brand-300: #c7d2fe;
+  --color-brand-400: #a5b4fc;
+  --color-brand-500: #818cf8;
+  --color-brand-600: #6366f1;
+  --color-brand-700: #4f46e5;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-}
+  --text-mono-xs: 10px;
+  --text-mono-xs--line-height: 1;
+  --text-mono-xs--letter-spacing: 0.22em;
+  --text-mono-sm: 11px;
+  --text-mono-sm--line-height: 1.4;
+  --text-mono-sm--letter-spacing: 0.18em;
+  --text-body: 15px;
+  --text-body--line-height: 1.6;
+  --text-lead: 18px;
+  --text-lead--line-height: 1.55;
+  --text-h3: 24px;
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h2: 40px;
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h1: 72px;
+  --text-h1--line-height: 0.95;
+  --text-h1--letter-spacing: -0.025em;
+  --text-display: 96px;
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.03em;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.1;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1.1;
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: 1.1;
 
-a {
-  color: rgb(var(--color-brand-400));
-  text-decoration: none;
-  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
-}
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
 
-a:hover {
-  color: rgb(var(--color-paper-50));
-}
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quint-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-gentle: cubic-bezier(0.25, 0.1, 0.25, 1);
 
-::selection {
-  background-color: rgb(var(--color-brand-400) / 0.3);
-  color: rgb(var(--color-paper-50));
-}
+  --transition-duration-instant: 100ms;
+  --transition-duration-snap: 200ms;
+  --transition-duration-natural: 450ms;
+  --transition-duration-reveal: 900ms;
 
-/* Scrollbar — dark surface */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: rgb(var(--color-ink-900));
-}
-::-webkit-scrollbar-thumb {
-  background: rgb(var(--color-ink-700));
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--color-brand-600) / 0.5);
-}
+  --shadow-soft:
+    0 1px 0 0 rgba(255, 255, 255, 0.04) inset, 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-medium:
+    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+    0 8px 24px -8px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 32px rgba(99, 102, 241, 0.18);
 
-:focus-visible {
-  outline: 2px solid rgb(var(--color-brand-400));
-  outline-offset: 3px;
-  border-radius: 4px;
-}
+  --backdrop-blur-xs: 2px;
 
-/* ─── Legacy component classes — kept until R2 rewrites callers ────── */
-@layer components {
-  .container {
-    @apply mx-auto px-6 md:px-12 lg:px-20 max-w-[1280px];
+  --animate-fade-in: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
+}
 
-  .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900 disabled:opacity-50 disabled:cursor-not-allowed;
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
+}
 
-  .btn-primary {
-    @apply btn bg-paper-50 text-ink-900 hover:bg-brand-400 hover:text-ink-900;
-  }
+@utility container {
+  @apply mx-auto px-6 md:px-12 lg:px-20 max-w-[1280px];
+}
 
-  .btn-secondary {
-    @apply btn bg-transparent text-paper-50 border border-ink-600 hover:border-paper-300;
-  }
+@utility btn {
+  @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-full transition-colors duration-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900 disabled:opacity-50 disabled:cursor-not-allowed;
+}
 
-  .btn-ghost {
-    @apply btn bg-transparent text-paper-100 hover:text-paper-50;
-  }
+@utility btn-primary {
+  @apply btn bg-paper-50 text-ink-900 hover:bg-brand-400 hover:text-ink-900;
+}
 
-  .btn-lg {
-    @apply px-8 py-4 text-lg;
-  }
+@utility btn-secondary {
+  @apply btn bg-transparent text-paper-50 border border-ink-600 hover:border-paper-300;
+}
 
-  .btn-sm {
-    @apply px-4 py-2 text-sm;
-  }
+@utility btn-ghost {
+  @apply btn bg-transparent text-paper-100 hover:text-paper-50;
+}
 
-  .card {
-    @apply bg-ink-800 rounded-2xl border border-ink-600 transition-colors duration-200;
-  }
+@utility btn-lg {
+  @apply px-8 py-4 text-lg;
+}
 
-  .card-hover {
-    @apply card hover:border-ink-500;
-  }
+@utility btn-sm {
+  @apply px-4 py-2 text-sm;
+}
 
-  .glass {
-    @apply bg-ink-800/70 backdrop-blur-xl border border-ink-600/40;
-  }
+@utility card {
+  @apply bg-ink-800 rounded-2xl border border-ink-600 transition-colors duration-200;
+}
 
+@utility card-hover {
+  @apply card hover:border-ink-500;
+}
+
+@utility glass {
+  @apply bg-ink-800/70 backdrop-blur-xl border border-ink-600/40;
+}
+
+@utility heading-xl {
   /* Display heading classes — used by existing sections.
      R2 will replace these with explicit fontSize tokens. */
-  .heading-xl {
-    @apply text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tight text-paper-50;
-  }
-  .heading-lg {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-paper-50;
-  }
-  .heading-md {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-paper-50;
-  }
-  .heading-sm {
-    @apply text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-paper-50;
-  }
+  @apply text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tight text-paper-50;
+}
 
-  /* Body utilities */
-  .text-body {
-    @apply text-paper-200 leading-relaxed;
-  }
-  .text-caption {
-    @apply text-paper-300 text-sm leading-relaxed;
-  }
+@utility heading-lg {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-paper-50;
+}
 
+@utility heading-md {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-paper-50;
+}
+
+@utility heading-sm {
+  @apply text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-paper-50;
+}
+
+@utility text-body {
+  /* Body color only. Size and line-height (15px / 1.6) come from the
+     --text-body theme token, which won over this class in Tailwind v3. */
+  @apply text-paper-200;
+}
+
+@utility text-caption {
+  @apply text-paper-300 text-sm leading-relaxed;
+}
+
+@utility section-padding {
   /* Section padding — R1 spec: 96 → 160px on desktop */
-  .section-padding {
-    @apply py-24 md:py-32 lg:py-40;
+  @apply py-24 md:py-32 lg:py-40;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility cv-auto {
+  @supports (content-visibility: auto) {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1200px;
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* ═════════════════════════════════════════════════════════════════
+   R1 — Plasma Indigo dark surface system
+   Tokens live in the @theme block above (ink / paper / brand ramps);
+   this file only owns base resets, Lenis/cursor CSS, legacy class
+   stubs that haven't been rewritten in R2 yet, and a11y safety nets.
+   ═════════════════════════════════════════════════════════════════ */
+
+  /* No `* { margin: 0; padding: 0 }` reset here: Tailwind's preflight already
+     does it in the base layer, and a copy in this layer would override the
+     zero-specificity :where() selectors behind space-x/y and divide-x/y. */
+
+  html {
+    font-size: 16px;
+    /* Framer Motion's `useScroll({ target })` calls getComputedStyle on the
+     scroll container (window → document.documentElement) and warns if the
+     position is static. */
+    position: relative;
   }
 
-  .scrollbar-none {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
+  body {
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    font-feature-settings:
+      'kern' 1,
+      'liga' 1,
+      'calt' 1,
+      'ss01' 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
   }
 
-  @supports (content-visibility: auto) {
-    .cv-auto {
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 1200px;
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
   }
+
+  a {
+    color: var(--color-brand-400);
+    text-decoration: none;
+    transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  a:hover {
+    color: var(--color-paper-50);
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-brand-400) 30%, transparent);
+    color: var(--color-paper-50);
+  }
+
+  /* Scrollbar — dark surface */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink-900);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-700);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-brand-600) 50%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ─── Legacy component classes — kept until R2 rewrites callers ────── */
 }
 
 /* ─── Lenis smooth-scroll required CSS ──────────────────────────── */

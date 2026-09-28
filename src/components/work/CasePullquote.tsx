@@ -16,7 +16,7 @@ export default function CasePullquote({
 
         <figure>
           <blockquote
-            className="text-h2 md:text-h1 font-serif italic font-normal text-paper-50 leading-tight tracking-tight mb-10 text-balance"
+            className="text-h2 md:text-h1 font-serif italic font-normal text-paper-50 leading-tight tracking-tight md:leading-(--text-h1--line-height) mb-10 text-balance"
             cite={testimonial.author}
           >
             <span aria-hidden className="text-brand-400 mr-2">&ldquo;</span>

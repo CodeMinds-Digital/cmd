@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { m, useScroll, useTransform } from 'motion/react';
 import DrawIcon from '@/components/animations/DrawIcon';
 import SplitText from '@/components/animations/SplitText';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
@@ -27,7 +27,7 @@ function ProcessSteps({ children }: { children: React.ReactNode }) {
         viewBox="0 0 1 100"
       >
         <line x1="0.5" y1="0" x2="0.5" y2="100" stroke="rgb(34, 34, 42)" strokeWidth="1" />
-        <motion.line
+        <m.line
           x1="0.5"
           y1="0"
           x2="0.5"
@@ -127,7 +127,7 @@ export default function Process() {
                 <div className="flex-1">
                   <div className="rounded-2xl border border-ink-600 bg-ink-800 p-6 md:p-8">
                     <div className="flex items-center gap-4 mb-5">
-                      <div className="w-12 h-12 rounded-xl bg-ink-700 text-brand-400 flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-ink-700 text-brand-400 flex items-center justify-center shrink-0">
                         <DrawIcon className="w-6 h-6" d={step.iconPath} />
                       </div>
                       <div>
@@ -162,7 +162,7 @@ export default function Process() {
                 </div>
 
                 {/* Step number disc — sits on the spine */}
-                <div className="flex-shrink-0 hidden lg:flex">
+                <div className="shrink-0 hidden lg:flex">
                   <div className="w-16 h-16 rounded-full bg-ink-900 border border-brand-400 text-paper-50 flex items-center justify-center font-mono text-mono-sm">
                     {step.index}
                   </div>

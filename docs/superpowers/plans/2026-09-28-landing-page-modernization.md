@@ -230,13 +230,29 @@ Each phase is independently shippable. Phase 0 snapshots are **"before" referenc
 - [x] **Hotfix, independent of the redesign:** escape HTML in `/api/contact`. Fail closed when `EMAIL_USER`/`EMAIL_PASS` are missing. Include the `project` field.
 - [x] Hide the placeholder third-party logo names in production until real logos are approved.
 
-### Phase 1a — Toolchain upgrade (1 day)
-- [ ] Tailwind 3.4 → v4 via `npx @tailwindcss/upgrade`, with `@tailwindcss/postcss`. Delete `tailwind.config.js`.
-- [ ] `framer-motion` → `motion` (`motion/react` imports), and `LazyMotion features={domAnimation} strict`.
-- [ ] Enable `reactCompiler: true`. Fix any bailouts, or use `'use memo'` opt-in mode.
-- [ ] Uninstall `gsap`; switch Lenis to `autoRaf`.
-- [ ] Delete the dead files listed in §5.
-- **Exit:** the build is green and the visuals are unchanged (still the old dark theme).
+### Phase 1a — Toolchain upgrade (1 day) — ✅ done 2026-09-28
+- [x] Tailwind 3.4 → v4.3 via `npx @tailwindcss/upgrade`, with `@tailwindcss/postcss` (autoprefixer removed). `tailwind.config.js` deleted; tokens now live in `@theme` in `globals.css`.
+- [x] `framer-motion` → `motion` v13 (`motion/react`) in 12 files. All `motion.*` became `m.*` under `LazyMotion features={domAnimation} strict`. `CustomCursor` moved inside `MotionRoot`.
+- [x] `reactCompiler: true` (+ `babel-plugin-react-compiler`). The only bailouts are in `HeroCanvas` (deleted in 1b) and the Hero mount gate (rebuilt in Phase 3), both suppressed with a reason.
+- [x] `gsap` uninstalled; Lenis uses `autoRaf`.
+- [x] Deleted `ScrollReveal.tsx`, `LoadingAnimation.tsx`, and root `index.js`. `Tilt` and `HeroCanvas` stay until the phases that replace them.
+- [x] **Added:** ESLint 9 flat config (`eslint.config.mjs`, `next/core-web-vitals` + `next/typescript`, which includes the React Compiler rules). `npm run lint` → `eslint .`, clean.
+- [x] **Added:** `outputFileTracingRoot` / `turbopack.root` pinned to the project (a stray `~/package-lock.json` was being picked as the workspace root).
+- [x] **Added:** `tests/baseline/compare.mjs` pixel-diff tool, and `SCREENSHOT_DIR` override for comparison captures.
+- **Exit: met.** All 40 screenshots are **0.000% pixel diff** against the Phase 0 baseline. Motion smoke test matches baseline: word reveal, header hide, cursor springs, Lenis, and mobile menu open/close-on-navigate all work, with no console errors. Home JS 503 → **476 KB gz**; other routes 274 → **246 KB gz**.
+
+**Tailwind v4 regressions caught by the pixel diff and fixed** (none were flagged by the upgrade tool):
+
+| Regression | Cause | Fix |
+|---|---|---|
+| Whole site rendered in the system font | `@theme` resolves `--font-sans: var(--font-geist)` at `:root`, but next/font sets `--font-geist` on `<body>` | Font tokens moved to `@theme inline` |
+| Serif font var was self-referential | Tailwind's `--font-serif` and next/font's `--font-serif` share a name | next/font variable renamed `--font-instrument-serif` |
+| `bg-ink-*` would resolve to an invalid value | Legacy `:root { --color-ink-900: 10 10 12 }` RGB-triplet vars shadowed v4's theme vars | Triplet block removed; `rgb(var(--x) / a)` → `var(--x)` / `color-mix()` |
+| `space-y-*` stopped spacing (−24 px per footer column) | v4 wraps it in zero-specificity `:where()`; the legacy `* { margin: 0 }` reset in the same layer won | Duplicate reset removed (preflight already does it) |
+| `.text-body` line-height 24 → 24.375 px | Legacy `@utility text-body { leading-relaxed }` now beats the `--text-body` token | Utility trimmed to color only |
+| `leading-none` / `tracking-tight` now override `md:text-display` / `md:text-h1` | v4 font-size utilities read `--tw-leading` / `--tw-tracking`, so explicit leading wins at every breakpoint | Added `md:leading-(--text-*--line-height)` / `md:tracking-(…)` in Footer, CaseMetric, CaseNextLink, CasePullquote |
+
+**Follow-up noted:** the `Dockerfile` builds on `node:20-alpine` (Node 20 reached end of life in April 2026). Bump it to `node:22-alpine` or `node:24-alpine` in the Phase 6 deploy step.
 
 ### Phase 1b — Semantic token migration + Voltage theme (1.5 days)
 - [ ] Define the §3.1 tokens in `@theme` (OKLCH), plus `light-dark()` pairs for §3.2.

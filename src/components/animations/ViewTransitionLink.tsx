@@ -2,7 +2,7 @@
 
 import Link, { type LinkProps } from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'motion/react';
 import React, { useCallback } from 'react';
 
 type Props = LinkProps & {

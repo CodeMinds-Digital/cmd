@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  motion,
+  m,
   AnimatePresence,
   useReducedMotion,
   useScroll,
   useTransform,
   type TargetAndTransition,
   type Transition,
-} from 'framer-motion';
+} from 'motion/react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import Magnetic from '@/components/animations/Magnetic';
@@ -25,7 +25,10 @@ const Hero = () => {
   const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
 
+  // Mount-gate for the status pill's enter animation. The Phase 3 hero rebuild
+  // server-renders the pill and drops this state entirely.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoaded(true);
   }, []);
 
@@ -46,7 +49,7 @@ const Hero = () => {
       id="home"
       ref={sectionRef}
       style={{ position: 'relative' }}
-      className="min-h-screen min-h-[100dvh] flex items-center justify-center overflow-hidden bg-ink-900"
+      className="min-h-screen min-h-dvh flex items-center justify-center overflow-hidden bg-ink-900"
     >
       {/* Static gradient backdrop — fallback when WebGL is gated. */}
       <div
@@ -62,7 +65,7 @@ const Hero = () => {
       <HeroCanvas />
 
       {/* Main Content */}
-      <motion.div
+      <m.div
         className="container relative z-10"
         style={prefersReducedMotion ? undefined : { y: contentY, opacity: contentOpacity }}
       >
@@ -70,13 +73,13 @@ const Hero = () => {
           {/* Status — quiet, type-driven */}
           <AnimatePresence>
             {isLoaded && (
-              <motion.div
+              <m.div
                 className="inline-flex items-center gap-2.5 mb-12 font-mono text-mono-xs text-paper-300"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <motion.span
+                <m.span
                   className="h-1.5 w-1.5 rounded-full bg-brand-400"
                   animate={loop({ opacity: [1, 0.4, 1] })}
                   transition={loopTransition({
@@ -86,7 +89,7 @@ const Hero = () => {
                   })}
                 />
                 Booking new projects
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
@@ -108,7 +111,7 @@ const Hero = () => {
           </h1>
 
           {/* Subline */}
-          <motion.p
+          <m.p
             className="text-lead text-paper-200 max-w-2xl mx-auto mb-12 text-balance"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -116,10 +119,10 @@ const Hero = () => {
           >
             A digital studio for web, mobile, and AI. Two-to-four-week delivery
             from Chennai → worldwide.
-          </motion.p>
+          </m.p>
 
           {/* CTAs */}
-          <motion.div
+          <m.div
             className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -158,9 +161,9 @@ const Hero = () => {
                 className="inline-block h-px w-6 bg-paper-400 group-hover:w-10 group-hover:bg-paper-100 transition-all"
               />
             </Link>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Editorial bottom anchor */}
       <div

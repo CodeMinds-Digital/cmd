@@ -5,8 +5,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Automatic memoization (babel-plugin-react-compiler).
+  reactCompiler: true,
   allowedDevOrigins: ['192.168.1.2'],
   output: 'standalone',
+  // Pin the workspace root to this project; a stray lockfile higher up the
+  // tree otherwise makes Next infer the wrong root for tracing/Turbopack.
+  outputFileTracingRoot: __dirname,
+  turbopack: { root: __dirname },
   outputFileTracingExcludes: {
     '*': [
       'docs/**',

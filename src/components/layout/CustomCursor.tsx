@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import {
-  motion,
+  m,
   useMotionValue,
   useSpring,
   useReducedMotion,
-} from 'framer-motion';
+} from 'motion/react';
 
 const HOVER_SELECTOR = 'a, button, [data-cursor="hover"]';
 
@@ -81,9 +81,9 @@ export default function CustomCursor() {
 
   return (
     <>
-      <motion.div
+      <m.div
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full bg-brand-500 mix-blend-difference"
+        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full bg-brand-500 mix-blend-difference"
         style={{
           x,
           y,
@@ -95,9 +95,9 @@ export default function CustomCursor() {
         }}
         transition={{ type: 'spring', stiffness: 600, damping: 28 }}
       />
-      <motion.div
+      <m.div
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full border border-brand-500/70 mix-blend-difference"
+        className="pointer-events-none fixed left-0 top-0 z-9999 rounded-full border border-brand-500/70 mix-blend-difference"
         style={{
           x: ringX,
           y: ringY,

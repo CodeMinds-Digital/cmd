@@ -19,7 +19,7 @@ export default function CaseScreens({ screens }: { screens: CaseScreen[] }) {
           {screens.map((s, i) => (
             <li key={i}>
               <div
-                className="relative aspect-[16/10] rounded-2xl border border-ink-600 overflow-hidden"
+                className="relative aspect-16/10 rounded-2xl border border-ink-600 overflow-hidden"
                 style={{
                   background: s.src ? undefined : tonePresets[s.tone ?? 'indigo'],
                 }}

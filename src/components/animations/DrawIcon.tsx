@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'motion/react';
 
 type DrawIconProps = {
   d: string;
@@ -34,7 +34,7 @@ export default function DrawIcon({
       aria-hidden
       focusable="false"
     >
-      <motion.path
+      <m.path
         d={d}
         strokeWidth={strokeWidth}
         strokeLinecap="round"

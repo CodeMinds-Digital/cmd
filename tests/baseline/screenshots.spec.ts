@@ -1,5 +1,5 @@
 import { test, type Page } from '@playwright/test';
-import { ROUTES, WIDTHS, OUT_DIR } from './routes';
+import { ROUTES, WIDTHS, SCREENSHOT_DIR } from './routes';
 
 /**
  * Phase 0 "before" screenshots. These are reference images, not assertions:
@@ -33,7 +33,7 @@ for (const motion of ['motion', 'reduced'] as const) {
         await page.goto(route.path, { waitUntil: 'networkidle' });
         await revealAll(page);
         await page.screenshot({
-          path: `${OUT_DIR}/screenshots/${route.name}-${width}-${motion}.png`,
+          path: `${SCREENSHOT_DIR}/${route.name}-${width}-${motion}.png`,
           fullPage: true,
         });
       });

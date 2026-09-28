@@ -2,12 +2,12 @@
 
 import React, { useRef } from 'react';
 import {
-  motion,
+  m,
   useMotionValue,
   useSpring,
   useTransform,
   useReducedMotion,
-} from 'framer-motion';
+} from 'motion/react';
 
 type TiltProps = {
   children: React.ReactNode;
@@ -58,7 +58,7 @@ export default function Tilt({
   };
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       className={className}
       onPointerMove={onMove}
@@ -74,6 +74,6 @@ export default function Tilt({
       }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

@@ -2,12 +2,12 @@
 
 import React, { useRef, useState } from 'react';
 import {
-  motion,
+  m,
   AnimatePresence,
   useMotionValue,
   useSpring,
   useReducedMotion,
-} from 'framer-motion';
+} from 'motion/react';
 
 type Ripple = { id: number; x: number; y: number; size: number };
 
@@ -71,7 +71,7 @@ export default function Magnetic({
   };
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       className={className}
       onPointerMove={handleMove}
@@ -90,7 +90,7 @@ export default function Magnetic({
       {children}
       <AnimatePresence>
         {ripples.map((r) => (
-          <motion.span
+          <m.span
             key={r.id}
             aria-hidden
             initial={{ scale: 0, opacity: 0.45 }}
@@ -112,6 +112,6 @@ export default function Magnetic({
           />
         ))}
       </AnimatePresence>
-    </motion.div>
+    </m.div>
   );
 }

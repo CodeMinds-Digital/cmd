@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'motion/react';
 import React from 'react';
 
 type SplitTextProps = {
@@ -72,7 +72,7 @@ export default function SplitText({
   return (
     <span className={className}>
       <span className="sr-only">{srText(children)}</span>
-      <motion.span
+      <m.span
         aria-hidden
         initial="hidden"
         {...animateProp}
@@ -96,7 +96,7 @@ export default function SplitText({
                 lineHeight: 1.05,
               }}
             >
-              <motion.span
+              <m.span
                 variants={wordVariants}
                 transition={{
                   duration,
@@ -105,11 +105,11 @@ export default function SplitText({
                 style={{ display: 'inline-block' }}
               >
                 {seg.content}
-              </motion.span>
+              </m.span>
             </span>
           ),
         )}
-      </motion.span>
+      </m.span>
     </span>
   );
 }

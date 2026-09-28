@@ -112,7 +112,7 @@ export default function Conversation() {
             )}
             {success && (
               <p className="font-mono text-mono-sm text-brand-400">
-                Thanks — we'll be in touch within 24 hours.
+                Thanks — we&apos;ll be in touch within 24 hours.
               </p>
             )}
 
@@ -198,7 +198,7 @@ function Field({
         onChange={onChange}
         required={required}
         placeholder={placeholder}
-        className="mt-2 block w-full bg-transparent border-b border-ink-600 focus:border-paper-50 outline-none text-lead text-paper-50 placeholder:text-paper-400 py-2 transition-colors"
+        className="mt-2 block w-full bg-transparent border-b border-ink-600 focus:border-paper-50 outline-hidden text-lead text-paper-50 placeholder:text-paper-400 py-2 transition-colors"
       />
     </label>
   );
@@ -229,7 +229,7 @@ function FieldArea({
         onChange={onChange}
         required={required}
         rows={4}
-        className="mt-2 block w-full bg-transparent border-b border-ink-600 focus:border-paper-50 outline-none text-lead text-paper-50 py-2 transition-colors resize-none"
+        className="mt-2 block w-full bg-transparent border-b border-ink-600 focus:border-paper-50 outline-hidden text-lead text-paper-50 py-2 transition-colors resize-none"
       />
     </label>
   );

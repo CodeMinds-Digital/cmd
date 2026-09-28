@@ -10,3 +10,6 @@ export const ROUTES = [
 export const WIDTHS = [375, 768, 1280, 1920] as const;
 
 export const OUT_DIR = 'docs/perf/2026-09-baseline';
+
+/** Where screenshots are written. Override to capture a comparison set. */
+export const SCREENSHOT_DIR = process.env.SCREENSHOT_DIR ?? `${OUT_DIR}/screenshots`;

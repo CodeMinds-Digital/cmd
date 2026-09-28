@@ -53,7 +53,7 @@ export default function CaseHero({ data }: { data: CaseStub }) {
 
         {/* Cover plate */}
         <div
-          className="aspect-[16/9] rounded-3xl border border-ink-600 bg-ink-800 overflow-hidden mb-20 md:mb-32 relative"
+          className="aspect-video rounded-3xl border border-ink-600 bg-ink-800 overflow-hidden mb-20 md:mb-32 relative"
           style={{
             viewTransitionName: `case-cover-${data.slug}`,
           }}

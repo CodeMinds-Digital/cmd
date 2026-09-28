@@ -35,7 +35,7 @@ function Card({ data }: { data: CaseStub }) {
   const inner = (
     <>
       <div
-        className="aspect-[4/3] relative overflow-hidden bg-ink-800"
+        className="aspect-4/3 relative overflow-hidden bg-ink-800"
         style={{
           viewTransitionName: isComing ? undefined : `case-cover-${data.slug}`,
         }}

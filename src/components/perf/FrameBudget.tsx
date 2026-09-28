@@ -26,7 +26,6 @@ export default function FrameBudget() {
       for (const entry of list.getEntries()) {
         if (entry.duration < THRESHOLD) continue;
         if (performance.now() - startedAt < grace) continue;
-        // eslint-disable-next-line no-console
         console.warn(
           `%c[frame-budget] %c${entry.duration.toFixed(0)}ms %ctask blocked the main thread`,
           'color:#f59e0b;font-weight:600',

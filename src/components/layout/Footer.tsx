@@ -33,7 +33,7 @@ export default function Footer() {
       <div className="container py-20 md:py-24">
         {/* Big anchor — wordmark */}
         <div className="mb-16 md:mb-24">
-          <h2 className="text-h1 md:text-display font-bold text-paper-50 leading-none">
+          <h2 className="text-h1 md:text-display font-bold text-paper-50 leading-none md:leading-(--text-display--line-height)">
             Codeminds
             <span className="font-serif italic font-normal text-brand-400">·</span>
             Digital

@@ -6,7 +6,6 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
     if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
       console.log('[vitals]', data);
     }
     // TODO: forward to analytics provider (Vercel Analytics, PostHog, Datadog, etc.)

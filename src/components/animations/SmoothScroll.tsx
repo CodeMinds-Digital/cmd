@@ -1,15 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'motion/react';
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
+/**
+ * Lenis smooth scroll, driven by its own requestAnimationFrame loop
+ * (`autoRaf`). Nothing on the site uses GSAP ScrollTrigger any more, so the
+ * old GSAP ticker bridge is gone.
+ */
 export default function SmoothScroll() {
   const prefersReducedMotion = useReducedMotion();
 
@@ -20,18 +19,10 @@ export default function SmoothScroll() {
       duration: 1.1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      autoRaf: true,
     });
 
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const tick = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-
     return () => {
-      gsap.ticker.remove(tick);
       lenis.destroy();
     };
   }, [prefersReducedMotion]);

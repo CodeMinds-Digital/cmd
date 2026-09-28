@@ -1,13 +1,15 @@
 import type React from 'react';
 import Link from 'next/link';
 
-export type TileTone = 'surface' | 'sunk' | 'accent' | 'inverse';
+export type TileTone = 'surface' | 'sunk' | 'accent' | 'inverse' | 'inverse-raised';
 
 const TONES: Record<TileTone, string> = {
   surface: 'bg-surface text-fg border border-line',
   sunk: 'bg-surface-sunk text-fg border border-line',
   accent: 'bg-accent text-accent-fg border border-accent',
   inverse: 'bg-inverse text-inverse-fg border border-inverse',
+  // A tile sitting on an inverse (black) section.
+  'inverse-raised': 'bg-inverse-fg/[0.06] text-inverse-fg border border-inverse-fg/10',
 };
 
 type TileProps = {

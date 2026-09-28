@@ -52,7 +52,7 @@ export default async function JournalPostPage({
 
   return (
     <>
-      <Header />
+      <Header active="/journal" activeIsPage={false} />
       <main className="bg-canvas text-fg">
         <article>
           <header className="section-padding pt-40 md:pt-56 pb-0">

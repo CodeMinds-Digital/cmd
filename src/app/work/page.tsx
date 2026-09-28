@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function WorkIndexPage() {
   return (
     <>
-      <Header />
+      <Header active="/work" />
       <main className="bg-canvas text-fg">
         <section className="section-padding pt-40 md:pt-56">
           <div className="container">

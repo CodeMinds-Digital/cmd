@@ -55,7 +55,7 @@ export default async function CasePage({
 
   return (
     <>
-      <Header />
+      <Header active="/work" activeIsPage={false} />
       <main className="bg-canvas text-fg">
         <CaseHero data={data} />
 

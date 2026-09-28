@@ -44,7 +44,7 @@ const stack = [
 export default function StudioPage() {
   return (
     <>
-      <Header />
+      <Header active="/studio" />
       <main className="bg-canvas text-fg">
         {/* Hero */}
         <section className="section-padding pt-40 md:pt-56">

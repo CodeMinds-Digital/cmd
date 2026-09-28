@@ -1,168 +1,112 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { m, AnimatePresence } from 'motion/react';
 import Magnetic from '@/components/animations/Magnetic';
+import HeaderController from '@/components/islands/HeaderController';
+import Button from '@/components/ui/Button';
+import { site } from '@/data/site';
 
-const navItems = [
-  { href: '/work', label: 'Work' },
-  { href: '/studio', label: 'Studio' },
-  { href: '/journal', label: 'Journal' },
-];
+type HeaderProps = {
+  /** Nav href of the current section, e.g. "/work". */
+  active?: string;
+  /** True when the current URL *is* `active` (vs. a page inside it). */
+  activeIsPage?: boolean;
+};
 
-export default function Header() {
-  const pathname = usePathname();
-  const [hidden, setHidden] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 8);
-      // Hide on scroll down past the hero, show on scroll up.
-      if (y > 200 && y > lastY) setHidden(true);
-      else setHidden(false);
-      lastY = y;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Close mobile menu on navigation — adjust state during render instead of
-  // in an effect (https://react.dev/learn/you-might-not-need-an-effect).
-  const [menuPath, setMenuPath] = useState(pathname);
-  if (pathname !== menuPath) {
-    setMenuPath(pathname);
-    setMobileOpen(false);
-  }
+/**
+ * Site header. Server-rendered; behaviour lives in CSS + one small island:
+ * - Condenses from transparent into a floating white pill over the first
+ *   80px of scroll (`.condense-on-scroll` → `--condense`, styles/motion.css).
+ * - Hides on scroll down / shows on scroll up (<HeaderController>).
+ * - Mobile menu is a native popover: Esc, light-dismiss and focus return
+ *   come from the browser.
+ */
+export default function Header({ active, activeIsPage = true }: HeaderProps) {
+  const current = (href: string) =>
+    href === active ? (activeIsPage ? ('page' as const) : ('true' as const)) : undefined;
 
   return (
-    <m.header
-      animate={{ y: hidden ? '-100%' : '0%' }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? 'bg-canvas/80 backdrop-blur-xl border-b border-line'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="container flex items-center justify-between h-16 md:h-20">
-        {/* Wordmark */}
-        <Link
-          href="/"
-          className="font-semibold text-fg tracking-tight hover:text-accent-ink transition-colors"
-        >
-          Codeminds<span className="text-fg-subtle font-mono mx-1">·</span>
-          <span className="font-normal text-fg-subtle">Digital</span>
-        </Link>
+    <header data-site-header className="site-header condense-on-scroll fixed inset-x-0 top-0 z-50">
+      <div className="container">
+        <div className="site-header-bar flex h-14 items-center justify-between rounded-full md:h-16">
+          <Link
+            href="/"
+            className="flex items-center gap-2 font-display text-lg font-bold tracking-tight text-fg hover:text-fg"
+          >
+            <span aria-hidden className="size-2.5 rounded-full bg-accent" />
+            codeminds
+            <span className="sr-only"> digital — home</span>
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
-          {navItems.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return (
+          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+            {site.nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2 text-sm transition-colors relative ${
-                  active
-                    ? 'text-fg'
-                    : 'text-fg-muted hover:text-fg'
-                }`}
+                aria-current={current(item.href)}
+                className="relative rounded-full px-4 py-2 text-sm text-fg-muted transition-colors hover:text-fg aria-[current]:text-fg"
               >
                 {item.label}
-                {active && (
-                  <span
-                    aria-hidden
-                    className="absolute left-4 right-4 -bottom-px h-px bg-accent"
-                  />
+                {item.href === active && (
+                  <span aria-hidden className="absolute inset-x-4 -bottom-px h-0.5 rounded-full bg-accent" />
                 )}
               </Link>
-            );
-          })}
-        </nav>
+            ))}
+          </nav>
 
-        {/* Right CTA */}
-        <div className="hidden md:block">
-          <Magnetic>
-            <Link
-              href="/#contact"
-              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium rounded-full bg-inverse text-inverse-fg hover:bg-accent hover:text-accent-fg transition-colors group"
-            >
-              Start a project
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
-            </Link>
-          </Magnetic>
-        </div>
+          <div className="hidden md:block">
+            <Magnetic>
+              <Button href="/#contact" size="sm" arrow>
+                Start a project
+              </Button>
+            </Magnetic>
+          </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden text-fg p-2 -mr-2"
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((v) => !v)}
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden
+          <button
+            type="button"
+            popoverTarget="site-menu"
+            className="-mr-2 grid size-11 place-items-center rounded-full text-fg md:hidden"
+            aria-label="Open menu"
           >
-            {mobileOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
+            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7h16M4 12h16M4 17h10" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <m.nav
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden bg-canvas/95 backdrop-blur-xl border-t border-line overflow-hidden"
-            aria-label="Mobile primary"
+      {/* Mobile menu — native popover (top layer, Esc + light dismiss built in). */}
+      <div id="site-menu" popover="auto" className="menu-popover md:hidden" aria-label="Menu">
+        <div className="mb-6 flex items-center justify-between">
+          <span className="font-mono text-mono-xs uppercase text-fg-subtle">Menu</span>
+          <button
+            type="button"
+            popoverTarget="site-menu"
+            popoverTargetAction="hide"
+            className="-mr-2 grid size-11 place-items-center rounded-full text-fg"
+            aria-label="Close menu"
           >
-            <div className="container py-6 flex flex-col gap-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="py-3 text-h3 font-semibold text-fg hover:text-accent-ink transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <Link
-                href="/#contact"
-                className="mt-4 inline-flex items-center gap-2 px-5 py-3 text-sm font-medium rounded-full bg-inverse text-inverse-fg self-start"
-              >
-                Start a project →
-              </Link>
-            </div>
-          </m.nav>
-        )}
-      </AnimatePresence>
-    </m.header>
+            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav aria-label="Mobile primary" className="flex flex-col">
+          {site.nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={current(item.href)}
+              className="border-b border-line py-4 font-display text-step-4 font-bold text-fg hover:text-accent-ink aria-[current]:text-accent-ink"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+        <Button href="/#contact" size="lg" arrow className="mt-8 w-full">
+          Start a project
+        </Button>
+      </div>
+
+      <HeaderController />
+    </header>
   );
 }

@@ -83,16 +83,19 @@
 }
 
 /* ─── Highlight chip ────────────────────────────────────────────── */
-/* Painted as a background-image so it can wipe in left → right, per line. */
+/* Painted as a background-image so it can wipe in left → right.
+   inline-block + line-height 1 sizes the chip from the font size instead of
+   the font's (much taller) glyph box, so it doesn't swallow the neighbouring
+   lines of a tightly-set heading. */
 .highlight {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.04em 0.12em 0.08em;
   background-image: linear-gradient(var(--color-accent), var(--color-accent));
   background-repeat: no-repeat;
   background-size: 100% 100%;
   color: var(--color-accent-fg);
   border-radius: 0.14em;
-  padding-inline: 0.12em;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 /* ─── Stat counter ──────────────────────────────────────────────── */
@@ -240,5 +243,78 @@
   }
   .marquee-group[aria-hidden='true'] {
     display: none;
+  }
+}
+
+/* ─── Site header ───────────────────────────────────────────────── */
+/* --condense (0 → 1) comes from `.condense-on-scroll` (scroll timeline) or,
+   where that's unsupported / motion is reduced, from [data-scrolled]. */
+.site-header {
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--condense) * 12px);
+  transition: transform 450ms var(--ease-expo-out);
+}
+.site-header[data-scrolled] {
+  --condense: 1;
+}
+.site-header[data-hidden] {
+  transform: translateY(-120%);
+}
+.site-header-bar {
+  /* The pill grows outward by 20px each side as it gains padding, so the
+     content itself never shifts horizontally. */
+  margin-inline: calc(var(--condense) * -20px);
+  padding-inline: calc(var(--condense) * 20px);
+  background: color-mix(in oklab, var(--color-surface) calc(var(--condense) * 100%), transparent);
+  border: 1px solid color-mix(in oklab, var(--color-line) calc(var(--condense) * 100%), transparent);
+  box-shadow: 0 10px 30px -18px oklch(17.8% 0 0 / calc(var(--condense) * 0.35));
+  backdrop-filter: blur(calc(var(--condense) * 12px));
+}
+@media (prefers-reduced-transparency: reduce) {
+  .site-header-bar {
+    backdrop-filter: none;
+  }
+}
+
+/* ─── Mobile menu popover ───────────────────────────────────────── */
+.menu-popover {
+  position: fixed;
+  inset: calc(env(safe-area-inset-top, 0px) + 8px) 8px auto 8px;
+  width: auto;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-tile);
+  background: var(--color-surface);
+  color: var(--color-fg);
+  box-shadow: var(--shadow-lift);
+  opacity: 0;
+  translate: 0 -12px;
+  transition:
+    opacity 200ms var(--ease-expo-out),
+    translate 350ms var(--ease-expo-out),
+    display 350ms allow-discrete,
+    overlay 350ms allow-discrete;
+}
+.menu-popover:popover-open {
+  opacity: 1;
+  translate: 0 0;
+}
+@starting-style {
+  .menu-popover:popover-open {
+    opacity: 0;
+    translate: 0 -12px;
+  }
+}
+.menu-popover::backdrop {
+  background: oklch(17.8% 0 0 / 0.25);
+}
+
+/* ─── Live status dot ───────────────────────────────────────────── */
+@keyframes status-pulse {
+  50% { opacity: 0.35; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .booking-dot {
+    animation: status-pulse 2s ease-in-out infinite;
   }
 }

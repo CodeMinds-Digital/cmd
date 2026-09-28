@@ -1,6 +1,6 @@
 import Hero from '@/components/sections/Hero';
 import SelectedWork from '@/components/sections/SelectedWork';
-import LogoWall from '@/components/sections/LogoWall';
+import TrustStrip from '@/components/sections/TrustStrip';
 import Capabilities from '@/components/sections/Capabilities';
 import Process from '@/components/sections/Process';
 import Conversation from '@/components/sections/Conversation';
@@ -14,7 +14,7 @@ export default function Home() {
       <main className="relative">
         <Hero />
         <SelectedWork />
-        <LogoWall />
+        <TrustStrip />
         <Capabilities />
         <Process />
         <Conversation />

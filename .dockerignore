@@ -67,3 +67,10 @@ backups/
 .superpowers/
 .qodo/
 .claude/
+
+# Local tooling output and other tools' worktrees
+.kilo/
+.lighthouseci/
+test-results/
+playwright-report/
+blob-report/

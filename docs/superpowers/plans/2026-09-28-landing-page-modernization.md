@@ -359,11 +359,25 @@ Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; re
 | Lighthouse desktop | 90 | 100 | **100** |
 | a11y (Lighthouse / axe) | 96 / ~250 issues | 100 / 0 | **100 / 0 incl. best-practice** |
 
-### Phase 6 — Verify & ship (0.5 day)
-- [ ] Review Playwright visual diffs and accept the new baselines. Axe must show zero serious or critical issues.
-- [ ] Cross-browser: Chrome, Safari 18+, Firefox (the scroll-timeline fallback path), iOS Safari, and Android Chrome.
-- [ ] Update the `README.md` design-system section (palette, type, motion) and mark the 2026-04-28 spec's R1 visuals as superseded.
-- [ ] Deploy to Dokploy staging, then production.
+### Phase 6 — Verify & ship (0.5 day) — 🟡 verified locally; deploy pending approval
+- [x] **Cross-browser** (Playwright: Chromium 153, WebKit 26.6, Firefox 155) on `/`: no console errors; all reveals/wipes complete on wheel scroll; header condenses; native popover menu opens and closes on Esc; contact form server validation + focus management; no overflow at 375/1280.
+  - **Firefox 155 has no scroll-driven animations** → the fallback path works as designed: header condenses via `data-scrolled` (`--condense: 1`), the Process progress bar renders full.
+  - Firefox's `text-wrap: balance` wraps the hero H1 as "Software, / built / with care." (vs. two lines elsewhere) — acceptable.
+  - WebKit animates the `@property` counters and settles on the correct values.
+  - A nested highlight inside an in-view SplitText can stay `data-inview=""` in Firefox after a fast scroll; harmless, because the parent's trigger already runs its wipe.
+- [x] **Dockerfile:** `node:20-alpine` → **`node:24-alpine`** (LTS), plus a `HEALTHCHECK` (wget on `/`). `.dockerignore` now excludes `.kilo/`, `.lighthouseci/` and Playwright output.
+- [x] **Standalone artifact verified** (Docker isn't installed on the dev machine, so the image's runtime was reproduced: `.next/standalone` + `.next/static` + `public`, `node server.js`): all 8 routes 200, unknown route 404, fonts/SVGs/OG image served, gzip on (home 57 KB transferred), server action paths incl. no-JS, `/api/contact` 400/503/429 with `X-Real-IP`.
+- [x] README design-system, primitives, scripts and stack sections updated. The 2026-04-28 spec is marked as superseded for R1 visuals.
+- [ ] **CI workflow** (lint, typecheck, unit tests, build, Lighthouse CI) — drafted on request; not added without approval since it runs on every push.
+- [ ] **Deploy:** push `development`, deploy to Dokploy staging, smoke-test, then production — **needs owner approval** (see open items).
+
+**Before first production deploy — operator checklist**
+1. Dokploy env: `EMAIL_USER`, `EMAIL_PASS` (the contact form now **fails closed with 503** if they're missing), `NEXT_PUBLIC_SITE_URL`.
+2. Confirm Traefik sets `X-Real-IP` / appends `X-Forwarded-For` (default) — the rate limiter keys on it.
+3. Keep the app at **1 replica** (in-memory rate limits) or move the limiter to Redis first.
+4. After deploy: send one real test enquiry; check the Docker health status goes `healthy`.
+
+**Watch item:** home HTML is 329 KB raw (inlined CSS 69 KB + RSC payload 210 KB) but 57 KB gzipped, and LCP is within budget. Revisit if more content is added to the home page.
 
 **Total estimate:** ~10 working days for one engineer (+1 day vs v1 for the token migration and re-theming the other routes and assets).
 

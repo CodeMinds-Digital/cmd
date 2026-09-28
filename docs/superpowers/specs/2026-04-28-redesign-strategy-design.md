@@ -2,6 +2,7 @@
 
 **Date:** 2026-04-28
 **Status:** Approved, ready for implementation planning
+**Update 2026-09-29:** the R1 *visual* decisions below (Plasma Indigo palette, Instrument Serif motif, dark-only premise, WebGL hero) are **superseded by the Voltage theme** — see [2026-09-28 landing page modernization plan](../plans/2026-09-28-landing-page-modernization.md) §3. Voice, audience, copy and IA decisions still stand.
 **Scope:** Full re-implementation of the public marketing site
 **Estimated effort:** 5 phases (R1–R5), each independently shippable
 

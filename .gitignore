@@ -145,3 +145,6 @@ docs/perf/*/diff/
 
 # Lighthouse CI reports
 /.lighthouseci/
+
+# Brand guide build output
+/scripts/brand/.out/

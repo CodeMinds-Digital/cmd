@@ -1,7 +1,7 @@
 # Technology, AI & Infrastructure Showcase — Plan
 
 **Date:** 2026-10-15
-**Status:** Proposal — awaiting layout choice + answers to §8
+**Status:** ✅ Implemented 2026-10-15 (Option A, all §8 recommendations accepted)
 **Source brief:** user-supplied prompt "Landing Page Enhancement: Technology, AI & Infrastructure Showcase", adapted to the shipped Voltage design ([modernization plan](2026-09-28-landing-page-modernization.md)).
 
 ---
@@ -175,5 +175,23 @@ Highest-risk step first: **Phase 1** (a logo we can't legally or visually use ch
 
 | Phase | Status |
 |---|---|
-| Plan | ✅ drafted 2026-10-15 — awaiting approval |
-| 1–6 | ⏳ not started |
+| Plan | ✅ approved 2026-10-15 — "go with these recommendations" (A · all items listed · SwiftUI kept, Expo folded · Codex as text · proposed copy · stats dropped) |
+| 1 Logo sourcing | ✅ 11 Simple Icons marks vendored in `src/components/icons/brand.ts`; provenance + guidelines links in `docs/brand/logo-sources.md` |
+| 2 Data + `TechLogo` | ✅ `src/data/stack.ts`, `src/components/ui/TechLogo.tsx` |
+| 3 Stack strip | ✅ `StackStrip`/`StackBand` under the hero; `TrustStrip` now client-logos-only and swaps into this slot at ≥ 4 approved logos (strip then moves into Capabilities) |
+| 4 Capabilities 3×2 | ✅ AI apps & agents (6 services) · Cloud & infrastructure (inverse, 7 services) · AI-native delivery; `on-inverse` chip tone |
+| 5 Quality gates | ✅ see below |
+| 6 Docs | ✅ README, this record |
+
+### Deviations found during execution
+- **D7 · iOS uses a generic phone glyph.** Simple Icons' `ios` mark is just the word "iOS" (rendered "iOS iOS"), and Apple's guidelines don't permit third-party use of the Apple logo. Same treatment as Codex.
+- **D8 · Pause control added to `Marquee` (WCAG 2.2.2, Level A).** Hover-only pause excluded keyboard and touch users (the strip has no focusable items, so `:focus-within` never fires). A visually-hidden checkbox in a 44 px round label pauses via CSS `:has()` — works without JS, hidden under reduced motion. Benefits the future client-logo marquee too.
+- **Copy to confirm before launch:** the "AI-native delivery" proof line ("Engineers own the architecture and review every AI-assisted change before merge") and the new services lists are claims about how the studio works — verify they're true as written.
+
+### Verification evidence
+- Strip: moves ≈ 23–38 px/s; pause by **toggle** (keyboard Space, click, and **no-JS click**) → 0 px movement, resumes on second press; pause on **hover** → 0 px; focus ring visible; toggle 44×44. Reduced motion: no animation, duplicate hidden, wrapped row, toggle hidden.
+- A11y structure: "Built with" heading, list "Technologies and tools we use" (18 items), duplicate `aria-hidden` + `inert`, all marks `aria-hidden` with visible labels. axe (WCAG 2.2 AA + best-practice): **0 violations on all routes**.
+- No horizontal overflow on 6 routes × 7 widths (320–1920). No console errors.
+- Cross-browser: Chromium 153, WebKit 26.6, Firefox 155 — moving, toggle pause, hover pause, 6 tiles, 0 overflow, 0 errors.
+- Lighthouse CI (DevTools throttling, median of 3): all budgets pass. Home perf 100, LCP 0.88–0.97 s, TBT 30–45 ms, CLS 0.001, **JS unchanged at 167 KB**; HTML 57 → 75 KB transferred (inline marks + new tiles). Case page perf 100, LCP median 1.34 s.
+- `npm run test:unit` 43/43.

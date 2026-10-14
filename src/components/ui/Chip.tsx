@@ -1,12 +1,14 @@
 import type React from 'react';
 
-export type ChipTone = 'sunk' | 'accent' | 'outline' | 'inverse';
+export type ChipTone = 'sunk' | 'accent' | 'outline' | 'inverse' | 'on-inverse';
 
 const TONES: Record<ChipTone, string> = {
   sunk: 'bg-surface-sunk text-fg-muted',
   accent: 'bg-accent text-accent-fg',
   outline: 'border border-line-strong text-fg-muted',
   inverse: 'bg-inverse text-inverse-fg',
+  // Outline chip for use on an inverse (black) surface.
+  'on-inverse': 'border border-inverse-fg/25 text-inverse-fg/80',
 };
 
 /**

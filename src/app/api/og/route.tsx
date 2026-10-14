@@ -8,8 +8,9 @@ const size = { width: 1200, height: 630 };
 // read CSS variables.
 const canvas = '#F2EFE8';
 const surface = '#FFFFFF';
-const fg = '#111111';
-const fgMuted = '#5C5A55';
+const fg = '#091321'; // navy-black text
+const inverse = '#0F1B2D'; // Midnight navy surface
+const fgMuted = '#4D5767';
 const accent = '#FF4D00';
 const line = 'rgba(17,17,17,0.10)';
 
@@ -109,7 +110,7 @@ export async function GET(request: Request) {
               flexDirection: 'column',
               gap: 8,
               padding: 32,
-              background: fg,
+              background: inverse,
               color: canvas,
               borderRadius: 28,
               fontSize: 18,

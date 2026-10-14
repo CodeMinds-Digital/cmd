@@ -304,7 +304,7 @@
   padding-inline: calc(var(--condense) * 20px);
   background: color-mix(in oklab, var(--color-surface) calc(var(--condense) * 100%), transparent);
   border: 1px solid color-mix(in oklab, var(--color-line) calc(var(--condense) * 100%), transparent);
-  box-shadow: 0 10px 30px -18px oklch(17.8% 0 0 / calc(var(--condense) * 0.35));
+  box-shadow: 0 10px 30px -18px oklch(18.5% 0.032 258 / calc(var(--condense) * 0.35));
   backdrop-filter: blur(calc(var(--condense) * 12px));
 }
 @media (prefers-reduced-transparency: reduce) {
@@ -344,7 +344,7 @@
   }
 }
 .menu-popover::backdrop {
-  background: oklch(17.8% 0 0 / 0.25);
+  background: oklch(18.5% 0.032 258 / 0.25);
 }
 
 /* ─── Live status dot ───────────────────────────────────────────── */

@@ -30,20 +30,20 @@ export async function deliverContact(input: ContactInput): Promise<DeliveryResul
 
   // Every user-supplied value is escaped before it reaches the HTML body.
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #111111;">
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #091321;">
       <h2 style="border-bottom: 2px solid #FF4D00; padding-bottom: 10px;">New project enquiry</h2>
       <table style="border-collapse: collapse; margin: 16px 0;">
         ${rows
           .map(
             ([k, v]) =>
-              `<tr><td style="padding: 4px 16px 4px 0; color: #5C5A55;">${escapeHtml(k)}</td><td style="padding: 4px 0;"><strong>${escapeHtml(v)}</strong></td></tr>`,
+              `<tr><td style="padding: 4px 16px 4px 0; color: #4D5767;">${escapeHtml(k)}</td><td style="padding: 4px 0;"><strong>${escapeHtml(v)}</strong></td></tr>`,
           )
           .join('')}
       </table>
       <div style="background: #F2EFE8; padding: 20px; border-radius: 12px; line-height: 1.6;">
         ${escapeHtml(input.message).replace(/\r?\n/g, '<br>')}
       </div>
-      <p style="margin-top: 16px; font-size: 12px; color: #5C5A55;">Submitted ${escapeHtml(submittedAt)} IST via codeminds.digital</p>
+      <p style="margin-top: 16px; font-size: 12px; color: #4D5767;">Submitted ${escapeHtml(submittedAt)} IST via codeminds.digital</p>
     </div>`;
 
   const text = [

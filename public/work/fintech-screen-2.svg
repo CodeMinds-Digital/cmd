@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Typed CMS schema editor view">
   <defs>
     <linearGradient id="s2Glow" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#111111" stop-opacity="0.20"/>
-      <stop offset="60%" stop-color="#111111" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#091321" stop-opacity="0.20"/>
+      <stop offset="60%" stop-color="#091321" stop-opacity="0"/>
     </linearGradient>
   </defs>
 
@@ -16,7 +16,7 @@
   <g transform="translate(80, 80)">
     <rect width="1440" height="48" fill="#FFFFFF"/>
     <line x1="0" y1="48" x2="1440" y2="48" stroke="#DDD8CC"/>
-    <circle cx="20" cy="24" r="5" fill="#111111"/>
+    <circle cx="20" cy="24" r="5" fill="#091321"/>
     <circle cx="40" cy="24" r="5" fill="#FF4D00"/>
     <circle cx="60" cy="24" r="5" fill="#C9C3B5"/>
     <text x="100" y="29" font-family="ui-monospace, monospace" font-size="13" fill="#3A3935">studio.codeminds.digital</text>
@@ -37,9 +37,9 @@
     <g font-family="Geist, system-ui, sans-serif" font-size="14" fill="#3A3935">
       <!-- Active item -->
       <rect x="12" y="60" width="296" height="36" rx="8" fill="#FFFFFF" stroke="#C9C3B5"/>
-      <circle cx="32" cy="78" r="3" fill="#111111"/>
-      <text x="48" y="83" fill="#111111">page · home</text>
-      <text x="280" y="83" text-anchor="end" font-family="ui-monospace, monospace" font-size="10" fill="#111111" letter-spacing="2">●</text>
+      <circle cx="32" cy="78" r="3" fill="#091321"/>
+      <text x="48" y="83" fill="#091321">page · home</text>
+      <text x="280" y="83" text-anchor="end" font-family="ui-monospace, monospace" font-size="10" fill="#091321" letter-spacing="2">●</text>
 
       <text x="48" y="130">page · pricing</text>
       <text x="48" y="160">page · features</text>
@@ -68,7 +68,7 @@
 
     <!-- Title -->
     <g transform="translate(40, 80)" font-family="Geist, system-ui, sans-serif">
-      <text font-size="32" font-weight="700" fill="#111111">page · home</text>
+      <text font-size="32" font-weight="700" fill="#091321">page · home</text>
       <text y="36" font-size="14" fill="#3A3935" opacity="0.7">/  ·  Marketing landing — bound to the home route.</text>
     </g>
 
@@ -80,7 +80,7 @@
         <text font-family="ui-monospace, monospace" font-size="12" letter-spacing="2" y="24" fill="#FF4D00">title</text>
         <text font-family="ui-monospace, monospace" font-size="11" letter-spacing="2" y="42" fill="#64625C">string · required · max 80</text>
         <rect x="280" y="6" width="700" height="48" rx="8" fill="#F2EFE8" stroke="#DDD8CC"/>
-        <text x="296" y="36" font-size="16" fill="#111111">Move money, in seconds.</text>
+        <text x="296" y="36" font-size="16" fill="#091321">Move money, in seconds.</text>
       </g>
       <line x1="0" y1="80" x2="1040" y2="80" stroke="#DDD8CC"/>
 
@@ -96,7 +96,7 @@
         <text font-family="ui-monospace, monospace" font-size="12" letter-spacing="2" y="24" fill="#FF4D00">primaryCta</text>
         <text font-family="ui-monospace, monospace" font-size="11" letter-spacing="2" y="42" fill="#64625C">reference · cta</text>
         <rect x="280" y="6" width="340" height="48" rx="8" fill="#F2EFE8" stroke="#DDD8CC"/>
-        <text x="296" y="36" font-size="14" fill="#111111">→ cta.open-account</text>
+        <text x="296" y="36" font-size="14" fill="#091321">→ cta.open-account</text>
         <rect x="640" y="6" width="340" height="48" rx="8" fill="#F2EFE8" stroke="#DDD8CC"/>
         <text x="656" y="36" font-size="14" fill="#3A3935">href: /signup</text>
       </g>
@@ -107,21 +107,21 @@
         <text font-family="ui-monospace, monospace" font-size="11" letter-spacing="2" y="42" fill="#64625C">array&lt;block&gt; · ordered · drag-drop</text>
         <g transform="translate(280, 0)">
           <rect width="700" height="48" rx="8" fill="#F2EFE8" stroke="#C9C3B5"/>
-          <circle cx="24" cy="24" r="4" fill="#111111"/>
-          <text x="44" y="29" font-family="Geist, system-ui, sans-serif" font-size="14" fill="#111111">01 · trust-bar</text>
-          <text x="660" y="29" text-anchor="end" font-family="ui-monospace, monospace" font-size="10" letter-spacing="2" fill="#111111">PUBLISHED</text>
+          <circle cx="24" cy="24" r="4" fill="#091321"/>
+          <text x="44" y="29" font-family="Geist, system-ui, sans-serif" font-size="14" fill="#091321">01 · trust-bar</text>
+          <text x="660" y="29" text-anchor="end" font-family="ui-monospace, monospace" font-size="10" letter-spacing="2" fill="#091321">PUBLISHED</text>
         </g>
         <g transform="translate(280, 60)">
           <rect width="700" height="48" rx="8" fill="#F2EFE8" stroke="#DDD8CC"/>
           <circle cx="24" cy="24" r="4" fill="#FF4D00"/>
-          <text x="44" y="29" font-family="Geist, system-ui, sans-serif" font-size="14" fill="#111111">02 · feature-grid</text>
+          <text x="44" y="29" font-family="Geist, system-ui, sans-serif" font-size="14" fill="#091321">02 · feature-grid</text>
           <text x="660" y="29" text-anchor="end" font-family="ui-monospace, monospace" font-size="10" letter-spacing="2" fill="#FF4D00">DRAFT</text>
         </g>
         <g transform="translate(280, 120)">
           <rect width="700" height="48" rx="8" fill="#F2EFE8" stroke="#DDD8CC"/>
-          <circle cx="24" cy="24" r="4" fill="#111111"/>
-          <text x="44" y="29" font-family="Geist, system-ui, sans-serif" font-size="14" fill="#111111">03 · pull-quote</text>
-          <text x="660" y="29" text-anchor="end" font-family="ui-monospace, monospace" font-size="10" letter-spacing="2" fill="#111111">PUBLISHED</text>
+          <circle cx="24" cy="24" r="4" fill="#091321"/>
+          <text x="44" y="29" font-family="Geist, system-ui, sans-serif" font-size="14" fill="#091321">03 · pull-quote</text>
+          <text x="660" y="29" text-anchor="end" font-family="ui-monospace, monospace" font-size="10" letter-spacing="2" fill="#091321">PUBLISHED</text>
         </g>
         <g transform="translate(280, 180)">
           <rect width="700" height="48" rx="8" fill="#F2EFE8" stroke="#DDD8CC" stroke-dasharray="4 6"/>
@@ -133,7 +133,7 @@
     <!-- Footer save bar -->
     <g transform="translate(40, 720)">
       <rect width="1040" height="48" rx="8" fill="#FFFFFF" stroke="#DDD8CC"/>
-      <circle cx="24" cy="24" r="4" fill="#111111"/>
+      <circle cx="24" cy="24" r="4" fill="#091321"/>
       <text x="44" y="29" font-family="ui-monospace, monospace" font-size="12" letter-spacing="2" fill="#3A3935">CHANGES PENDING · TYPE-CHECK PASSED · 0 ERRORS</text>
       <rect x="900" y="8" width="120" height="32" rx="16" fill="#FF4D00"/>
       <text x="960" y="29" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" letter-spacing="2" fill="#F2EFE8">PUBLISH</text>

@@ -4,7 +4,7 @@ import type React from 'react';
  * Voltage highlight chip — the orange rounded block behind one key phrase per
  * section ("care.", "what we ship."). It wipes in left → right when it enters
  * the viewport (styles/motion.css). Text on the accent fill always uses
- * `accent-fg` (#111) so it passes AA at any size.
+ * `accent-fg` (navy-black #091321) so it passes AA at any size.
  *
  * `highlightClass` is exported for components that take a className instead
  * of children (e.g. <SplitText className={highlightClass}>, whose root already

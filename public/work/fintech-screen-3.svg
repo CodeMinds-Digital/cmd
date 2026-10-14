@@ -16,7 +16,7 @@
   <g transform="translate(80, 80)">
     <rect width="1440" height="48" fill="#FFFFFF"/>
     <line x1="0" y1="48" x2="1440" y2="48" stroke="#DDD8CC"/>
-    <circle cx="20" cy="24" r="5" fill="#111111"/>
+    <circle cx="20" cy="24" r="5" fill="#091321"/>
     <circle cx="40" cy="24" r="5" fill="#FF4D00"/>
     <circle cx="60" cy="24" r="5" fill="#C9C3B5"/>
     <text x="100" y="29" font-family="ui-monospace, monospace" font-size="13" fill="#3A3935">github.com / fintech / web · pull/482</text>
@@ -25,7 +25,7 @@
   <!-- PR header -->
   <g transform="translate(120, 168)">
     <text font-family="ui-monospace, monospace" font-size="13" letter-spacing="3" fill="#64625C">#482</text>
-    <text x="60" font-family="Geist, system-ui, sans-serif" font-size="22" font-weight="600" fill="#111111">feat: hero video on home + new feature carousel</text>
+    <text x="60" font-family="Geist, system-ui, sans-serif" font-size="22" font-weight="600" fill="#091321">feat: hero video on home + new feature carousel</text>
     <text y="32" x="60" font-family="ui-monospace, monospace" font-size="12" letter-spacing="2" fill="#64625C">opened 4h ago · 12 files changed · +482 / −38</text>
 
     <!-- Status pill -->
@@ -42,26 +42,26 @@
     <g font-family="Geist, system-ui, sans-serif" font-size="14" fill="#3A3935">
       <!-- pass row -->
       <g transform="translate(24, 60)">
-        <circle cx="10" cy="10" r="8" fill="#111111"/>
-        <text x="34" y="15" font-weight="600" fill="#111111">build</text>
+        <circle cx="10" cy="10" r="8" fill="#091321"/>
+        <text x="34" y="15" font-weight="600" fill="#091321">build</text>
         <text x="200" y="15" fill="#3A3935" opacity="0.7">turbopack · 2.4s</text>
-        <text x="1300" y="15" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" fill="#111111" letter-spacing="2">PASS</text>
+        <text x="1300" y="15" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" fill="#091321" letter-spacing="2">PASS</text>
       </g>
       <g transform="translate(24, 86)">
-        <circle cx="10" cy="10" r="8" fill="#111111"/>
-        <text x="34" y="15" font-weight="600" fill="#111111">type-check</text>
+        <circle cx="10" cy="10" r="8" fill="#091321"/>
+        <text x="34" y="15" font-weight="600" fill="#091321">type-check</text>
         <text x="200" y="15" fill="#3A3935" opacity="0.7">tsc --noEmit · 2.1s</text>
-        <text x="1300" y="15" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" fill="#111111" letter-spacing="2">PASS</text>
+        <text x="1300" y="15" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" fill="#091321" letter-spacing="2">PASS</text>
       </g>
       <g transform="translate(24, 112)">
-        <circle cx="10" cy="10" r="8" fill="#111111"/>
-        <text x="34" y="15" font-weight="600" fill="#111111">unit tests</text>
+        <circle cx="10" cy="10" r="8" fill="#091321"/>
+        <text x="34" y="15" font-weight="600" fill="#091321">unit tests</text>
         <text x="200" y="15" fill="#3A3935" opacity="0.7">142 passed · 0 failed</text>
-        <text x="1300" y="15" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" fill="#111111" letter-spacing="2">PASS</text>
+        <text x="1300" y="15" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" fill="#091321" letter-spacing="2">PASS</text>
       </g>
       <g transform="translate(24, 138)">
         <circle cx="10" cy="10" r="8" fill="#ef4444"/>
-        <text x="34" y="15" font-weight="600" fill="#111111">lighthouse-ci · home</text>
+        <text x="34" y="15" font-weight="600" fill="#091321">lighthouse-ci · home</text>
         <text x="280" y="15" fill="#3A3935" opacity="0.7">perf 87 below threshold (95)</text>
         <text x="1300" y="15" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" fill="#ef4444" letter-spacing="2">FAIL</text>
       </g>
@@ -84,8 +84,8 @@
     <!-- Other categories pass -->
     <g transform="translate(340, 40)">
       <rect width="320" height="200" rx="14" fill="#FFFFFF" stroke="#DDD8CC"/>
-      <text x="20" y="32" font-family="ui-monospace, monospace" font-size="11" letter-spacing="3" fill="#111111">ACCESSIBILITY</text>
-      <text x="20" y="120" font-family="Geist, system-ui, sans-serif" font-size="80" font-weight="700" fill="#111111">100</text>
+      <text x="20" y="32" font-family="ui-monospace, monospace" font-size="11" letter-spacing="3" fill="#091321">ACCESSIBILITY</text>
+      <text x="20" y="120" font-family="Geist, system-ui, sans-serif" font-size="80" font-weight="700" fill="#091321">100</text>
       <text x="20" y="170" font-family="ui-monospace, monospace" font-size="12" fill="#64625C">target = 100 · pass</text>
     </g>
     <g transform="translate(680, 40)">
@@ -110,21 +110,21 @@
     <g transform="translate(24, 64)" font-family="ui-monospace, monospace" font-size="14">
       <g>
         <text fill="#3A3935">LCP</text>
-        <text x="80" fill="#111111">1.6s</text>
+        <text x="80" fill="#091321">1.6s</text>
         <text x="180" fill="#64625C">→</text>
         <text x="220" fill="#ef4444">2.8s</text>
         <text x="320" fill="#ef4444" letter-spacing="2">+1.2s</text>
       </g>
       <g transform="translate(440, 0)">
         <text fill="#3A3935">INP</text>
-        <text x="80" fill="#111111">88ms</text>
+        <text x="80" fill="#091321">88ms</text>
         <text x="180" fill="#64625C">→</text>
         <text x="220" fill="#FF4D00">112ms</text>
         <text x="340" fill="#FF4D00" letter-spacing="2">+24ms</text>
       </g>
       <g transform="translate(900, 0)">
         <text fill="#3A3935">CLS</text>
-        <text x="80" fill="#111111">0.02</text>
+        <text x="80" fill="#091321">0.02</text>
         <text x="180" fill="#64625C">→</text>
         <text x="220" fill="#ef4444">0.14</text>
         <text x="340" fill="#ef4444" letter-spacing="2">+0.12</text>

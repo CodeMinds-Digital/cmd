@@ -5,13 +5,13 @@
       <stop offset="55%" stop-color="#B83700" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="ftGlow2" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#111111" stop-opacity="0.32"/>
-      <stop offset="55%" stop-color="#111111" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#091321" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="#091321" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="ftLine" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#FF4D00" stop-opacity="0"/>
       <stop offset="20%" stop-color="#FF4D00" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#111111" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#091321" stop-opacity="1"/>
     </linearGradient>
     <pattern id="ftGrid" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
       <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#DDD8CC" stroke-width="1"/>
@@ -31,7 +31,7 @@
 
   <!-- Title block -->
   <g font-family="Geist, system-ui, sans-serif">
-    <text x="80" y="220" font-size="56" font-weight="600" fill="#111111">Marketing rebuild</text>
+    <text x="80" y="220" font-size="56" font-weight="600" fill="#091321">Marketing rebuild</text>
     <text x="80" y="280" font-size="42" fill="#FF4D00" font-family="'Space Grotesk', Geist, system-ui, sans-serif" font-weight="700">for a fintech</text>
   </g>
 
@@ -57,13 +57,13 @@
           fill="none" stroke="url(#ftLine)" stroke-width="3" stroke-linecap="round"/>
 
     <!-- End point glow -->
-    <circle cx="1440" cy="252" r="6" fill="#111111"/>
-    <circle cx="1440" cy="252" r="14" fill="#111111" opacity="0.25"/>
+    <circle cx="1440" cy="252" r="6" fill="#091321"/>
+    <circle cx="1440" cy="252" r="14" fill="#091321" opacity="0.25"/>
 
     <!-- Result label -->
     <g transform="translate(1340, 200)">
       <text font-family="ui-monospace, monospace" font-size="14" fill="#FF4D00" letter-spacing="2">AFTER</text>
-      <text y="32" font-family="Geist, system-ui, sans-serif" font-size="44" font-weight="700" fill="#111111">1.6s</text>
+      <text y="32" font-family="Geist, system-ui, sans-serif" font-size="44" font-weight="700" fill="#091321">1.6s</text>
     </g>
   </g>
 

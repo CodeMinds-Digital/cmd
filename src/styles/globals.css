@@ -34,22 +34,22 @@
   --color-black: #000;
   --color-danger: light-dark(oklch(50.5% 0.190 27.5), oklch(71.1% 0.166 22.2)); /* #B91C1C · #F87171 — form errors */
 
-  --color-canvas: light-dark(oklch(95.3% 0.010 87.5), oklch(17.8% 0 0));        /* #F2EFE8 · #111111 */
-  --color-surface: light-dark(oklch(100% 0 0), oklch(21.7% 0 0));               /* #FFFFFF · #1A1A19 */
-  --color-surface-sunk: light-dark(oklch(91.9% 0.014 88.7), oklch(26% 0.004 106.7)); /* #E8E4DA · #242422 */
-  --color-line: light-dark(oklch(17.8% 0 0 / 0.1), oklch(95.3% 0.010 87.5 / 0.12));
-  --color-line-strong: light-dark(oklch(17.8% 0 0 / 0.22), oklch(95.3% 0.010 87.5 / 0.26));
-  --color-fg: light-dark(oklch(17.8% 0 0), oklch(95.3% 0.010 87.5));             /* #111111 · #F2EFE8 */
-  --color-fg-muted: light-dark(oklch(46.8% 0.008 88.7), oklch(72.2% 0.013 91.6)); /* #5C5A55 · #A8A59C */
-  --color-fg-subtle: light-dark(oklch(49.6% 0.010 91.6), oklch(64% 0.012 89.8));  /* #64625C · #8F8C84 */
+  --color-canvas: light-dark(oklch(95.3% 0.010 87.5), oklch(17.5% 0.030 258));    /* #F2EFE8 · #08111E */
+  --color-surface: light-dark(oklch(100% 0 0), oklch(21.5% 0.032 258));           /* #FFFFFF · #101A28 */
+  --color-surface-sunk: light-dark(oklch(91.9% 0.014 88.7), oklch(25.5% 0.032 258)); /* #E8E4DA · #192332 */
+  --color-line: light-dark(oklch(18.5% 0.032 258 / 0.1), oklch(95.3% 0.010 87.5 / 0.12));
+  --color-line-strong: light-dark(oklch(18.5% 0.032 258 / 0.22), oklch(95.3% 0.010 87.5 / 0.26));
+  --color-fg: light-dark(oklch(18.5% 0.032 258), oklch(95.3% 0.010 87.5));       /* #091321 · #F2EFE8 — navy-black */
+  --color-fg-muted: light-dark(oklch(45.5% 0.028 258), oklch(72% 0.020 258));     /* #4D5767 · #9DA5B1 */
+  --color-fg-subtle: light-dark(oklch(49% 0.024 258), oklch(64% 0.020 258));      /* #58616E · #858D99 */
   /* Accent: FILLS ONLY. Never small text on canvas (≈2.9:1). */
   --color-accent: oklch(66.8% 0.224 37);                                          /* #FF4D00 */
-  /* Text on an accent fill — stays near-black in both schemes (≈5.7:1). */
-  --color-accent-fg: oklch(17.8% 0 0);                                            /* #111111 */
+  /* Text on an accent fill — navy-black in both schemes (≈5.6:1). */
+  --color-accent-fg: oklch(18.5% 0.032 258);                                      /* #091321 */
   /* Orange text / links on canvas or surface (≥5.1:1). */
   --color-accent-ink: light-dark(oklch(52.5% 0.173 37.6), oklch(72.6% 0.178 43.2)); /* #B83700 · #FF7A3D */
-  --color-inverse: light-dark(oklch(17.8% 0 0), oklch(95.3% 0.010 87.5));        /* #111111 · #F2EFE8 */
-  --color-inverse-fg: light-dark(oklch(95.3% 0.010 87.5), oklch(17.8% 0 0));     /* #F2EFE8 · #111111 */
+  --color-inverse: light-dark(oklch(22.1% 0.039 258), oklch(95.3% 0.010 87.5));  /* #0F1B2D Midnight navy · #F2EFE8 */
+  --color-inverse-fg: light-dark(oklch(95.3% 0.010 87.5), oklch(22.1% 0.039 258)); /* #F2EFE8 · #0F1B2D */
 
   /*
     Fluid type scale (plan §3.3) — interpolates linearly from a 360px to a
@@ -112,7 +112,7 @@
   --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-quint-out: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --shadow-lift: 0 8px 24px -12px oklch(17.8% 0 0 / 0.18);
+  --shadow-lift: 0 8px 24px -12px oklch(18.5% 0.032 258 / 0.18);
 }
 
 :root {

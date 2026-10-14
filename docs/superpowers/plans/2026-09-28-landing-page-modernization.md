@@ -415,3 +415,22 @@ Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; re
 - The H1 is visible with JS disabled, and the contact form submits with JS disabled.
 - All Phase 5 budgets pass in CI, axe is clean, the contrast test is green, and reduced motion has been verified.
 - The contact endpoint is hardened: escaped, validated, rate-limited, and with no credential fallback.
+
+---
+
+## Change — 2026-10-15: Midnight navy replaces black
+
+Chosen from seven rendered options (Ink, Midnight navy, Aubergine, Deep petrol, Forest, Espresso, Graphite). Navy `#0F1B2D` is the hue complement of the orange (≈ 258° vs 37°), keeps the contrast of the black, and gives the brand a colour of its own.
+
+| Token | Before | After |
+|---|---|---|
+| `inverse` (dark surfaces, primary buttons) | `#111111` | `#0F1B2D` oklch(22.1% 0.039 258) |
+| `fg` / `accent-fg` (text) | `#111111` | `#091321` oklch(18.5% 0.032 258) |
+| `fg-muted` | `#5C5A55` | `#4D5767` |
+| `fg-subtle` | `#64625C` | `#58616E` |
+| `line` / `line-strong` / shadows | black-based | navy-based |
+| Dark-scheme values (unused) | neutral greys | navy `#08111E` / `#101A28` / `#192332` |
+
+Also recoloured: OG image, contact email template, the six case SVGs (`#111111` → `#091321`). Paper, white tiles and orange are unchanged.
+
+Verification: contrast unit test 45/45 (all pairs ≥ 4.5:1 in light and dark), axe 0 violations, Lighthouse CI 6/6 perf 100 / a11y 100.

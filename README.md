@@ -39,14 +39,14 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 canvas        #F2EFE8  page background (warm paper)
 surface       #FFFFFF  tiles, cards, inputs
 surface-sunk  #E8E4DA  wells, hover rows, chips
-line          #111 @10%   hairlines   ·   line-strong  #111 @22%
-fg            #111111  headings, body          16.4:1
-fg-muted      #5C5A55  secondary text           6.0:1
-fg-subtle     #64625C  mono labels (≥12px)      5.3:1
+line          navy @10%   hairlines   ·   line-strong  navy @22%
+fg            #091321  headings, body (navy-black)   16.2:1
+fg-muted      #4D5767  secondary text                 6.4:1
+fg-subtle     #58616E  mono labels (≥12px)            5.5:1
 accent        #FF4D00  FILLS ONLY — never small text on canvas
-accent-fg     #111111  text on accent fills     5.7:1
-accent-ink    #B83700  orange text / links      5.1:1
-inverse       #111111  black tiles / pills, with inverse-fg #F2EFE8
+accent-fg     #091321  text on accent fills           5.6:1
+accent-ink    #B83700  orange text / links            5.1:1
+inverse       #0F1B2D  Midnight navy — dark tiles, Process band, primary buttons (inverse-fg #F2EFE8, 15.1:1)
 ```
 
 **Type:**

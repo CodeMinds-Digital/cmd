@@ -56,6 +56,8 @@ export const stack: StackItem[] = [
   { label: 'Appwrite', category: 'backend', icon: 'appwrite' },
   { label: 'Supabase', category: 'backend', icon: 'supabase' },
   { label: 'Firebase', category: 'backend', icon: 'firebase' },
+  { label: 'PocketBase', category: 'backend', icon: 'pocketbase' },
+  { label: 'Convex', category: 'backend', icon: 'convex' },
   // AI tools
   { label: 'Claude Code', category: 'ai-tools', icon: 'claude' },
   { label: 'Cursor', category: 'ai-tools', icon: 'cursor' },

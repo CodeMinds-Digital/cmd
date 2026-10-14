@@ -29,6 +29,8 @@ export const brandIconKeys = [
   "appwrite",
   "supabase",
   "firebase",
+  "pocketbase",
+  "convex",
   "claude",
   "cursor",
   "replit",

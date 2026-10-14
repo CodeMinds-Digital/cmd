@@ -77,6 +77,8 @@ export const capabilities: Capability[] = [
           'Appwrite',
           'Supabase',
           'Firebase',
+          'PocketBase',
+          'Convex',
           'Moving off a BaaS when you outgrow it',
         ],
       },

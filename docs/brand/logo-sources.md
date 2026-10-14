@@ -29,6 +29,8 @@ Logos shown in the home page's stack strip. Path data: `public/brand/stack-icons
 | `appwrite` | Appwrite | https://appwrite.io/assets | https://appwrite.io/assets |
 | `supabase` | Supabase | https://github.com/supabase/supabase/blob/4031a7549f5d46da7bc79c01d56be4177dc7c114/packages/common/assets/images/supabase-logo-wordmark--light.svg | — |
 | `firebase` | Firebase | https://firebase.google.com/brand-guidelines | https://firebase.google.com/brand-guidelines |
+| `pocketbase` | PocketBase | https://github.com/pocketbase/pocketbase/blob/4b64e0910b7dc527ff3de8cdacec074e40449e2e/ui/dist/images/logo.svg | — |
+| `convex` | Convex | https://www.convex.dev/brand | https://www.convex.dev/brand |
 | `claude` | Claude | https://claude.ai | — |
 | `cursor` | Cursor | https://cursor.com/brand | — |
 | `replit` | Replit | https://repl.it | — |

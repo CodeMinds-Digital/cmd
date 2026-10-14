@@ -1,10 +1,11 @@
-import { brandIcons, type BrandIconKey } from '@/components/icons/brand';
+import { BRAND_SPRITE, type BrandIconKey } from '@/components/icons/brand';
 import type { GenericGlyph } from '@/data/stack';
 
 // Generic stroke glyphs (after Lucide, ISC) for items whose brand mark can't be used.
 const GLYPHS: Record<GenericGlyph, string> = {
   terminal: 'M4 17l6-6-6-6M12 19h8',
   phone: 'M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM12 18h.01',
+  code: 'M16 18l6-6-6-6M8 6l-6 6 6 6',
 };
 
 /**
@@ -27,8 +28,9 @@ export default function TechLogo({
           <path d={GLYPHS[icon as GenericGlyph]} />
         </svg>
       ) : (
+        // Fixed 24px box, so nothing shifts while the cached sprite loads.
         <svg viewBox="0 0 24 24" className="size-6 shrink-0" fill="currentColor" aria-hidden focusable="false">
-          <path d={brandIcons[icon as BrandIconKey].d} />
+          <use href={`${BRAND_SPRITE}#${icon as BrandIconKey}`} />
         </svg>
       )}
       <span>{label}</span>

@@ -195,3 +195,19 @@ Highest-risk step first: **Phase 1** (a logo we can't legally or visually use ch
 - Cross-browser: Chromium 153, WebKit 26.6, Firefox 155 — moving, toggle pause, hover pause, 6 tiles, 0 overflow, 0 errors.
 - Lighthouse CI (DevTools throttling, median of 3): all budgets pass. Home perf 100, LCP 0.88–0.97 s, TBT 30–45 ms, CLS 0.001, **JS unchanged at 167 KB**; HTML 57 → 75 KB transferred (inline marks + new tiles). Case page perf 100, LCP median 1.34 s.
 - `npm run test:unit` 43/43.
+
+---
+
+## Extension — 2026-10-15 (backend card + more stack items)
+
+**Request:** more items per section, a new backend card (custom backends in Rust, Go, Node.js, Java; BaaS such as Appwrite, Supabase, Firebase), and more languages.
+
+**Shipped**
+- **Strip: 18 → 31 items in six groups.** Languages: Rust, Go, TypeScript, JavaScript, Python, Java, Kotlin, Swift, Dart · Web: React, Next.js, Tailwind CSS · Mobile: Flutter, React Native, SwiftUI, Android, iOS · **Backend (new):** Node.js, PostgreSQL, Appwrite, Supabase, Firebase · AI tools: Claude Code, Cursor, Replit, Codex · **Cloud & DevOps (new):** Docker, Linux, Nginx, GitHub Actions, Cloudflare. Duration scales with item count, so speed stays ≈ 30 px/s.
+- **Java uses a generic code glyph** (Oracle's logo isn't in Simple Icons; the OpenJDK mark would misrepresent it).
+- **Capabilities: new "04 Backend & APIs" card (wide, 8/12 at lg)** with two service groups side by side via a container query (Custom backends · Backend-as-a-service), stacked when narrow. Layout now 4·4·4 / 8·4 / 6·6 at lg; 2-up at md with AI-native delivery full width; 1-up on mobile. Tiles renumbered 01–07.
+- **Brand marks moved to one cached sprite** (`public/brand/stack-icons.svg`, `<use href>`). Inlining 26 marks put ~39 KB of paths into the HTML four times (visible + duplicate group, each also in the RSC payload): home HTML jumped 75 → 113 KB with an LCP outlier of 2.7 s. With the sprite: **HTML 62 KB**, sprite 17 KB gz (cached). `tests/unit/brand-sprite.test.mjs` guards sprite ↔ key drift.
+
+**Added claims to confirm before launch:** Go, Python, Java, Kotlin, Swift, Dart, Tailwind CSS, Node.js, PostgreSQL, Appwrite, Supabase, Firebase, Docker, Linux, Nginx, GitHub Actions, Cloudflare; and the Backend card lines ("REST and GraphQL APIs", "PostgreSQL schema design and migrations", "Auth, queues and background jobs", "Moving off a BaaS when you outgrow it"). Other BaaS (PocketBase, Convex) have marks available if wanted.
+
+**Verification:** lint, tsc, 45/45 unit tests · axe 0 violations (all routes) · 0 overflow (6 routes × 7 widths) · no console errors · pause control (keyboard, click, no-JS) and hover pause · Chromium/WebKit/Firefox: strip moving, both pauses, 7 tiles, **all marks painted via the external sprite** (pixel check) · Lighthouse CI all budgets, **6/6 runs perf 100**, home LCP 0.89–1.02 s, CLS 0.001, JS 167 KB.

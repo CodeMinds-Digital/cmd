@@ -32,7 +32,8 @@ export function StackBand({ headingId = 'stack-heading' }: { headingId?: string 
       <Marquee
         label="Technologies and tools we use"
         items={items}
-        durationS={60}
+        // Keep the speed constant (~30 px/s) as the list grows.
+        durationS={Math.round(items.length * 3.3)}
         gap="2.5rem"
         className="min-w-0 flex-1"
       />

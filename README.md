@@ -20,7 +20,7 @@ Software studio website. Web, mobile, and AI for funded startups and other studi
 
 | Route | Purpose |
 |---|---|
-| `/` | Home — Hero bento · Stack strip (“Built with”) · Selected Work · Capabilities (6) · Process · Conversation |
+| `/` | Home — Hero bento · Stack strip (“Built with”, 31 tools) · Selected Work · Capabilities (7) · Process · Conversation |
 | `/work` | All case studies index |
 | `/work/[slug]` | Case study — facts · problem · approach · screens · result · pull-quote · next case |
 | `/studio` | About — beliefs, stack, closing CTA |
@@ -90,7 +90,7 @@ Located at `src/components/animations/` — internal preview at `/playground`:
 | `<Stat>` | Integer that counts up on enter (`@property --n`), sr-only real value. |
 | `<Eyebrow>` | `01 ── LABEL` section header chrome, light or `inverse`. |
 | `<Marquee>` | CSS-only loop with a visible pause control (WCAG 2.2.2, works without JS), pause on hover; static wrapped row under reduced motion. |
-| `<TechLogo>` | Monochrome technology mark + visible label. Marks vendored from Simple Icons (CC0) in `icons/brand.ts`; provenance in `docs/brand/logo-sources.md`. |
+| `<TechLogo>` | Monochrome technology mark + visible label. Marks from Simple Icons (CC0) in one cached sprite, `public/brand/stack-icons.svg` (keys in `icons/brand.ts`); provenance in `docs/brand/logo-sources.md`. |
 | `islands/MotionRuntime` | The one JS piece of the motion system: in-view triggers (`data-inview`) + tile pointer glow. |
 | `islands/ChennaiClock` | Live IST time, hydration-safe (`useSyncExternalStore`). |
 

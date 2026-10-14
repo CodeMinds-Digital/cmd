@@ -7,9 +7,21 @@ export type Capability = {
   services?: string[];
   /** One concrete, verifiable line of evidence (sourced from data/cases.ts). */
   proof?: string;
+  /** Services split into named groups (rendered side by side when the tile is wide). */
+  serviceGroups?: { title: string; items: string[] }[];
   /** Visual weight in the bento; one inverse tile per grid. */
   tone?: 'surface' | 'inverse';
+  /** Columns (of 12) at md and lg. Defaults: md 6, lg 4. */
+  span?: { md?: 6 | 12; lg?: 4 | 6 | 8 };
 };
+
+/*
+  Bento rows at lg (12 columns):
+    Web 4 · Mobile 4 · AI apps 4
+    Backend 8 · Cloud & infrastructure 4
+    Performance 6 · AI-native delivery 6
+  At md (2 per row) the last tile spans the full width.
+*/
 
 export const capabilities: Capability[] = [
   {
@@ -45,11 +57,31 @@ export const capabilities: Capability[] = [
   },
   {
     index: '04',
-    title: 'Performance & rebuilds',
-    tags: ['Lighthouse 95+', 'Core Web Vitals', 'Audits'],
+    title: 'Backend & APIs',
+    tags: ['Rust', 'Go', 'Node.js', 'Java'],
     description:
-      'Existing-stack rebuilds, perf audits, and incremental migrations from monoliths.',
-    proof: 'CI gates block any PR below Lighthouse 95 desktop / 85 mobile.',
+      'Custom backends when you need control, backend-as-a-service when speed matters more — we recommend one per project and say why.',
+    serviceGroups: [
+      {
+        title: 'Custom backends',
+        items: [
+          'Rust, Go, Node.js and Java services',
+          'REST and GraphQL APIs',
+          'PostgreSQL schema design and migrations',
+          'Auth, queues and background jobs',
+        ],
+      },
+      {
+        title: 'Backend-as-a-service',
+        items: [
+          'Appwrite',
+          'Supabase',
+          'Firebase',
+          'Moving off a BaaS when you outgrow it',
+        ],
+      },
+    ],
+    span: { md: 6, lg: 8 },
   },
   {
     index: '05',
@@ -69,10 +101,20 @@ export const capabilities: Capability[] = [
   },
   {
     index: '06',
+    title: 'Performance & rebuilds',
+    tags: ['Lighthouse 95+', 'Core Web Vitals', 'Audits'],
+    description:
+      'Existing-stack rebuilds, perf audits, and incremental migrations from monoliths.',
+    proof: 'CI gates block any PR below Lighthouse 95 desktop / 85 mobile.',
+    span: { md: 6, lg: 6 },
+  },
+  {
+    index: '07',
     title: 'AI-native delivery',
     tags: ['Claude Code', 'Cursor', 'Replit', 'Codex'],
     description:
       'Senior engineers working with AI coding tools for scaffolding, refactors, tests and reviews — how 2–4-week delivery stays realistic.',
     proof: 'Engineers own the architecture and review every AI-assisted change before merge.',
+    span: { md: 12, lg: 6 },
   },
 ];

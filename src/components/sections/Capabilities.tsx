@@ -54,9 +54,27 @@ export default function Capabilities({ showStack = false }: { showStack?: boolea
   );
 }
 
+// Literal class names so Tailwind can see them.
+const MD_SPAN = { 6: 'md:col-span-6', 12: 'md:col-span-12' } as const;
+const LG_SPAN = { 4: 'lg:col-span-4', 6: 'lg:col-span-6', 8: 'lg:col-span-8' } as const;
+
+function ServiceList({ items, label, bodyClass, bulletClass }: { items: string[]; label: string; bodyClass: string; bulletClass: string }) {
+  return (
+    <ul className={`space-y-1.5 text-sm ${bodyClass}`} aria-label={label}>
+      {items.map((s) => (
+        <li key={s} className="flex items-start gap-2">
+          <span aria-hidden className={bulletClass}>—</span>
+          {s}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function CapabilityTile({ cap, index }: { cap: Capability; index: number }) {
   const tone = cap.tone ?? 'surface';
   const t = TONE[tone];
+  const span = `${MD_SPAN[cap.span?.md ?? 6]} ${LG_SPAN[cap.span?.lg ?? 4]}`;
   return (
     <Tile
       as="li"
@@ -64,7 +82,7 @@ function CapabilityTile({ cap, index }: { cap: Capability; index: number }) {
       interactive
       reveal
       index={index}
-      className="group col-span-12 flex flex-col gap-8 md:col-span-6 lg:col-span-4"
+      className={`group col-span-12 flex flex-col gap-8 ${span}`}
     >
       <div className="flex items-start justify-between gap-4">
         <span className={`font-mono text-mono-sm ${t.index}`}>{cap.index}</span>
@@ -80,14 +98,20 @@ function CapabilityTile({ cap, index }: { cap: Capability; index: number }) {
         <h3 className={`text-step-3 font-bold ${t.title}`}>{cap.title}</h3>
         <p className={`mt-3 max-w-md text-step-0 ${t.body}`}>{cap.description}</p>
         {cap.services && (
-          <ul className={`mt-4 space-y-1.5 text-sm ${t.body}`} aria-label={`${cap.title} services`}>
-            {cap.services.map((s) => (
-              <li key={s} className="flex items-start gap-2">
-                <span aria-hidden className={t.bullet}>—</span>
-                {s}
-              </li>
+          <div className="mt-4">
+            <ServiceList items={cap.services} label={`${cap.title} services`} bodyClass={t.body} bulletClass={t.bullet} />
+          </div>
+        )}
+        {cap.serviceGroups && (
+          // Side by side once the tile itself is wide enough (container query).
+          <div className="mt-5 grid gap-5 @xl:grid-cols-2 @xl:gap-8">
+            {cap.serviceGroups.map((g) => (
+              <div key={g.title}>
+                <h4 className={`mb-2 font-mono text-mono-xs font-normal uppercase ${t.index}`}>{g.title}</h4>
+                <ServiceList items={g.items} label={g.title} bodyClass={t.body} bulletClass={t.bullet} />
+              </div>
             ))}
-          </ul>
+          </div>
         )}
         {cap.proof && (
           <p className={`mt-5 flex items-start gap-2 border-t pt-4 text-sm font-medium ${t.rule} ${t.proof}`}>

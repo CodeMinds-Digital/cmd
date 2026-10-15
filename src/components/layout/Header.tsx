@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import Magnetic from '@/components/animations/Magnetic';
 import HeaderController from '@/components/islands/HeaderController';
@@ -15,7 +16,8 @@ type HeaderProps = {
  * Site header. Server-rendered; behaviour lives in CSS + one small island:
  * - Condenses from transparent into a floating white pill over the first
  *   80px of scroll (`.condense-on-scroll` → `--condense`, styles/motion.css).
- * - Hides on scroll down / shows on scroll up (<HeaderController>).
+ * - Always visible while scrolling (fixed; <HeaderController> only sets the
+ *   condensed-look fallback and closes the mobile menu).
  * - Mobile menu is a native popover: Esc, light-dismiss and focus return
  *   come from the browser.
  */
@@ -31,9 +33,24 @@ export default function Header({ active, activeIsPage = true }: HeaderProps) {
             href="/"
             className="flex min-h-11 items-center gap-2 font-display text-lg font-bold tracking-tight text-fg hover:text-fg"
           >
-            <span aria-hidden className="size-2.5 rounded-full bg-accent" />
-            codeminds
-            <span className="sr-only"> digital — home</span>
+            {/* Full mark (public/brand/mark-small.svg — same artwork as mark.svg). */}
+            <Image
+              src="/brand/mark-small.svg"
+              alt=""
+              width={40}
+              height={36}
+              unoptimized
+              loading="eager"
+              className="h-9 w-10 shrink-0"
+            />
+            {/* One flex item, so the gap doesn't separate the wordmark from its dot. */}
+            <span>
+              codeminds
+              <span aria-hidden className="text-accent">
+                .
+              </span>
+              <span className="sr-only"> digital — home</span>
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">

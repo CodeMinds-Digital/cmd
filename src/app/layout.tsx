@@ -105,8 +105,6 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#F2EFE8" />
         <meta name="color-scheme" content="light" />
-        <link rel="icon" href="/icons/logo.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icons/logo.svg" />
         {/*
           Motion gate (styles/motion.css): "before" states for in-view
           animations only apply under html.js-motion. Fail-safe: if

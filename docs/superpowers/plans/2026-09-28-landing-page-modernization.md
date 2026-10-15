@@ -204,7 +204,7 @@ src/
 │   │   ├── MagneticCTA.tsx      motion/react m.*
 │   │   ├── TileGlow.tsx         one delegated pointer listener → CSS vars
 │   │   ├── ContactForm.tsx      useActionState / useFormStatus / useOptimistic
-│   │   ├── HeaderController.tsx IO sentinel → data-attr (hide on scroll down)
+│   │   ├── HeaderController.tsx data-scrolled fallback + menu close (header always visible)
 │   │   └── SmoothScroll.tsx     Lenis autoRaf, pointer-fine only
 │   ├── ui/                      Bento, Tile, Button, Chip, Highlight, Eyebrow, Marquee, Stat
 │   └── layout/                  Header (RSC + popover), Footer (RSC)
@@ -288,7 +288,7 @@ Reference screenshots: `docs/perf/2026-09-phase1b/screenshots/` (git-ignored; re
 - **Test note:** Lenis overrides programmatic `window.scrollTo`, so scroll-dependent tests must use wheel events.
 
 ### Phase 3 — Section rebuilds per §4 (3 days, one commit per section) — ✅ done 2026-09-28
-- [x] **Header** (`8ef2c50`): server component. Scroll-driven condense into a floating pill (`--condense`, with a `data-scrolled` fallback), hide on scroll down / show on scroll up via `HeaderController` (attribute toggles, no React state), native `popover` mobile menu (Esc, light dismiss, focus return, closes on in-page links), `aria-current` passed per page.
+- [x] **Header** (`8ef2c50`): server component. Scroll-driven condense into a floating pill (`--condense`, with a `data-scrolled` fallback), `HeaderController` attribute toggles, no React state (hide-on-scroll-down removed 2026-10-15 at the user's request: header stays visible), native `popover` mobile menu (Esc, light dismiss, focus return, closes on in-page links), `aria-current` passed per page.
 - [x] **Hero bento** (`8ef2c50`): the H1 is plain server-rendered text, so it's the LCP element and never hidden. Tiles: headline · orange 2–4 wk stat (counter) · black disciplines · booking status · live Chennai time. Facts come from `data/site.ts`.
 - [x] **Selected Work** (`e311211`): the live case is an 8-col feature tile (cover keeps its `view-transition-name` morph, metric chips, stretched link). "Coming" cases are compact sunk tiles with an ETA chip.
 - [x] **Trust strip** (`daa203d`): logo marquee once ≥ 4 logos have `approved: true` in `data/logos.ts`, otherwise 3 stat tiles. The placeholder third-party names are **deleted**.

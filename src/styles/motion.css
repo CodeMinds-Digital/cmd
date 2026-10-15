@@ -289,13 +289,9 @@
    where that's unsupported / motion is reduced, from [data-scrolled]. */
 .site-header {
   padding-top: calc(env(safe-area-inset-top, 0px) + var(--condense) * 12px);
-  transition: transform 450ms var(--ease-expo-out);
 }
 .site-header[data-scrolled] {
   --condense: 1;
-}
-.site-header[data-hidden] {
-  transform: translateY(-120%);
 }
 .site-header-bar {
   /* The pill grows outward by 20px each side as it gains padding, so the

@@ -9,15 +9,19 @@ Regenerate rather than hand-edit: `cd scripts/brand && python3 vectorize_mark.py
 | `final/svg/` | Master vector files | Web, print, any size |
 | `final/png/` | Transparent PNG of each SVG, 2048 px wide | Slides, documents, tools that can't take SVG |
 | `final/icons/` | `favicon.ico` (16/32/48), `icon.svg`, `apple-icon-180.png`, `icon-192/512.png`, `icon-maskable-512.png` | Browser tab, home screen, app install |
-| `final/social/` | Profile avatars: LinkedIn/X 400, GitHub 500, Instagram 1080 | Upload as-is; safe for circular crops |
-| `final/email/` | `email-signature-400.png` (shows at 200 × 50) | Email signatures |
+| `final/social/` | Profile avatars: LinkedIn/X 400, GitHub 500, Instagram 1080; `og-preview-1200x630.png` (snapshot of the live link-preview image from `/api/og`) | Upload avatars as-is (safe for circular crops) |
+| `final/email/` | `email-signature-520.png` — formal lockup; set its display width to 260 px | Email signatures |
 | `final/review-sheet.png` | Everything at real size on paper and navy | Quick visual check |
 
 **Which variant?**
 - Light backgrounds: `mark.svg`, `lockup.svg`, `lockup-formal.svg` (orange + navy).
+- `lockup-formal` (with DIGITAL) is the primary lockup: site header, link previews, email, documents. Keep it at least 44 px tall on screen (DIGITAL ≈ 11 px; 48 px gives 12 px). Below that, use `lockup.svg`.
+- Name alone: `wordmark.svg` / `wordmark-reversed.svg` — use only where the mark already appears nearby (e.g. the site footer).
 - Navy / dark backgrounds: the `-reversed` files. The peacock and outer lotus leaves use navy tint `#94ACD1` (navy's hue, lightened) so they stay visible; the letterform, petals and crest stay orange.
 - One colour only (embossing, single-ink print, fax): `mark-mono-navy.svg` or `mark-mono-white.svg`.
 - Site header / small UI: `mark-small.svg` / `mark-small-reversed.svg` — identical artwork to `mark.svg` / `mark-reversed.svg`, kept as the path the site header uses.
+
+**Wordmark typeface:** "Codeminds." is set in **Fraunces Soft Bold** (Undercase Type; axes wght 700, opsz 144, SOFT 100, WONK 1), kerned with HarfBuzz and converted to outlines, so the logo files need no font installed. Fraunces is licensed under the SIL Open Font License 1.1 (free for commercial use, including logos); the font file and licence are in `scripts/brand/fonts/`. The `DIGITAL` descriptor is Geist Mono Medium (also OFL).
 
 **Colours:** orange `#FF4D00`, navy `#0F1B2D`, navy text `#091321`, navy tint `#94ACD1`, paper `#F2EFE8`.
 

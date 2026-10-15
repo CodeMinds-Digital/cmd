@@ -45,7 +45,7 @@ put(svg('mark.svg', 240), 30, 30, 'mark.svg')
 put(svg('mark-mono-navy.svg', 150), 300, 30, 'mark-mono-navy.svg')
 put(svg('lockup.svg', 520), 490, 40, 'lockup.svg')
 put(svg('lockup-formal.svg', 520), 490, 200, 'lockup-formal.svg')
-put(png('email', 'email-signature-400.png'), 30, 420, 'email-signature-400.png')
+put(png('email', 'email-signature-520.png'), 30, 400, 'email-signature-520.png (display at 260 px)')
 x = 1080
 for s in (16, 32, 48):
     put(png('icons', f'favicon-{s}.png'), x, 40); x += s + 16

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { cases } from '@/data/cases';
 import { site } from '@/data/site';
@@ -87,11 +88,19 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Oversized wordmark, cut off by the page's bottom edge. Decorative. */}
-      <div aria-hidden className="container mt-10 h-[0.68em] select-none text-[clamp(3rem,17vw,13.75rem)] md:mt-16">
-        <p className="flex items-baseline font-display font-bold leading-[0.8] tracking-[-0.06em] text-fg">
-          codeminds<span className="text-accent">.</span>
-        </p>
+      {/* Oversized wordmark ("Codeminds." in Fraunces Soft, outlined SVG), cut off
+          by the page's bottom edge. Decorative. */}
+      <div aria-hidden className="container mt-10 select-none md:mt-16">
+        <div className="aspect-[484.7/72] overflow-hidden">
+          <Image
+            src="/brand/wordmark.svg"
+            alt=""
+            width={485}
+            height={80}
+            unoptimized
+            className="block h-auto w-full"
+          />
+        </div>
       </div>
     </footer>
   );

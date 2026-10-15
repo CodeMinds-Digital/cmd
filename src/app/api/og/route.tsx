@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { lockup, markReversed } from './brand';
 
 export const runtime = 'edge';
 
@@ -20,7 +21,8 @@ export async function GET(request: Request) {
   const subtitle =
     searchParams.get('subtitle') ??
     'Web · Mobile · AI · 2–4 weeks · Chennai → worldwide';
-  const eyebrow = searchParams.get('eyebrow') ?? 'Codeminds Digital';
+  // Optional label beside the logo (the lockup already carries the name).
+  const eyebrow = searchParams.get('eyebrow');
 
   return new ImageResponse(
     (
@@ -50,20 +52,23 @@ export async function GET(request: Request) {
             borderRadius: 28,
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              fontSize: 18,
-              letterSpacing: 3,
-              textTransform: 'uppercase',
-              color: fgMuted,
-              fontWeight: 500,
-            }}
-          >
-            <div style={{ width: 10, height: 10, borderRadius: 999, background: accent }} />
-            <span>{eyebrow}</span>
+          {/* Formal lockup: mark + "Codeminds." (Fraunces Soft) + DIGITAL, outlined */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- Satori renders plain <img> */}
+            <img src={lockup.src} alt="" height={68} width={Math.round(68 * lockup.ratio)} />
+            {eyebrow && (
+              <span
+                style={{
+                  fontSize: 18,
+                  letterSpacing: 3,
+                  textTransform: 'uppercase',
+                  color: fgMuted,
+                  fontWeight: 500,
+                }}
+              >
+                {eyebrow}
+              </span>
+            )}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -120,6 +125,14 @@ export async function GET(request: Request) {
                 "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",
             }}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element -- Satori renders plain <img> */}
+            <img
+              src={markReversed.src}
+              alt=""
+              height={64}
+              width={Math.round(64 * markReversed.ratio)}
+              style={{ marginBottom: 12 }}
+            />
             <span>codeminds.digital</span>
             <span style={{ color: accent }}>Chennai → world</span>
           </div>

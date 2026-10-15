@@ -29,28 +29,20 @@ export default function Header({ active, activeIsPage = true }: HeaderProps) {
     <header data-site-header className="site-header condense-on-scroll fixed inset-x-0 top-0 z-50">
       <div className="container">
         <div className="site-header-bar flex h-14 items-center justify-between rounded-full md:h-16">
-          <Link
-            href="/"
-            className="flex min-h-11 items-center gap-2 font-display text-lg font-bold tracking-tight text-fg hover:text-fg"
-          >
-            {/* Full mark (public/brand/mark-small.svg — same artwork as mark.svg). */}
+          <Link href="/" className="flex min-h-11 items-center">
+            {/* Formal lockup: mark + "Codeminds." (Fraunces Soft) + DIGITAL, outlined
+                (public/brand/lockup-formal.svg), so no web font loads. 48px tall on
+                desktop puts DIGITAL at 12px; 44px on mobile (≈11px) to fit the bar. */}
             <Image
-              src="/brand/mark-small.svg"
+              src="/brand/lockup-formal.svg"
               alt=""
-              width={40}
-              height={36}
+              width={254}
+              height={48}
               unoptimized
               loading="eager"
-              className="h-9 w-10 shrink-0"
+              className="h-11 w-auto shrink-0 md:h-12"
             />
-            {/* One flex item, so the gap doesn't separate the wordmark from its dot. */}
-            <span>
-              codeminds
-              <span aria-hidden className="text-accent">
-                .
-              </span>
-              <span className="sr-only"> digital — home</span>
-            </span>
+            <span className="sr-only">Codeminds Digital — home</span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">

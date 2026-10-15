@@ -11,7 +11,7 @@ On navy the peacock and lotus leaves switch to NAVY_TINT (same hue as navy,
 lightened) so the mark keeps its two-tone read instead of turning white;
 app icons and avatars sit on a paper tile so they keep the true colours.
 """
-import io, json, os, re, shutil, subprocess
+import base64, io, json, os, re, shutil, subprocess
 from PIL import Image
 from glyphs import text_path, glyph_box
 from bezier_fit import simplify
@@ -119,26 +119,55 @@ def framed(size, bg, inner, radius=0.0, **colours):
     return svg(f'{rect}<g transform="translate({ox:.1f} {oy:.1f}) scale({s:.5f})">{full_mark(**colours)}</g>', size, size)
 
 
+# Wordmark: "Codeminds." in Fraunces Soft Bold (Undercase Type, SIL OFL 1.1; fonts/OFL-Fraunces.txt),
+# outlined so the logo never depends on a font being installed or loaded.
+WORD, WORD_FONT, WORD_WEIGHT, WORD_TRACK = 'Codeminds', 'Fraunces', 700, -0.02
+
+
+def wordmark(text_fill, period_fill, x0=0.0, S=100):
+    """(svg parts, right edge, (top, bottom)) for 'Codeminds.' with its baseline at y=0."""
+    kw = dict(family=WORD_FONT, weight=WORD_WEIGHT, size=S)
+    w_d, ww, (top, bottom) = text_path(WORD, tracking=WORD_TRACK, x=x0, **kw)
+    px = x0 + ww + WORD_TRACK * S
+    p_d, pw, (_, pbottom) = text_path('.', x=px, **kw)
+    right = px + glyph_box('.', **kw)[2]
+    return ([f'<path fill="{text_fill}" d="{w_d}"/>', f'<path fill="{period_fill}" d="{p_d}"/>'],
+            right, (top, max(bottom, pbottom)))
+
+
+def wordmark_svg(text_fill, period_fill):
+    parts, right, (top, bottom) = wordmark(text_fill, period_fill)
+    pad = 2
+    return svg(''.join(parts), 0, 0, f'{-pad} {top - pad:.2f} {right + 2 * pad:.2f} {bottom - top + 2 * pad:.2f}')
+
+
+# DIGITAL descriptor (formal lockup): Geist Mono Medium at 30 % of the wordmark size,
+# so it renders at >= 12 px whenever the lockup is >= 48 px tall (site header desktop).
+DESC_SIZE, DESC_TRACK, DESC_GAP = 0.30, 0.34, 0.13
+
+
 def lockup(text_fill, period_fill, mark_body, descriptor=False):
-    """Mark + 'codeminds.' wordmark (+ optional DIGITAL), mark height = 1.55 × cap height."""
+    """Mark + 'Codeminds.' (+ DIGITAL stacked beneath, left-aligned to the C).
+    The mark is centred on the text block: the cap band alone, or cap band + DIGITAL."""
     S = 100
-    cap = -glyph_box('H', size=S)[1]; xh = -glyph_box('x', size=S)[1]
-    mh = cap * 1.55; ms = mh / H; mw = W * ms
-    gap = S * 0.22
-    x0 = mw + gap
-    w_d, ww, (top, bottom) = text_path('codeminds', size=S, tracking=-0.03, x=x0)
-    p_d, _, _ = text_path('.', size=S, x=x0 + ww - 0.03 * S)
-    width = x0 + ww - 0.03 * S + glyph_box('.', size=S)[2]
-    mark_top = -xh / 2 - mh / 2  # centre the mark on the x-height band
-    parts = [f'<g transform="translate(0 {mark_top:.2f}) scale({ms:.5f})">{mark_body}</g>',
-             f'<path fill="{text_fill}" d="{w_d}"/>', f'<path fill="{period_fill}" d="{p_d}"/>']
+    kw = dict(family=WORD_FONT, weight=WORD_WEIGHT, size=S)
+    cap = -glyph_box('H', **kw)[1]
+    dcap = DESC_SIZE * S * 0.70  # Geist Mono cap height ≈ 0.70 em
+    block_top, block_bot = -cap, (DESC_GAP * S + dcap) if descriptor else 0.0
+    mh = cap * 1.6 if not descriptor else (block_bot - block_top) * 1.04
+    ms = mh / H; mw = W * ms
+    x0 = mw + S * 0.2
+    parts, right, (top, bottom) = wordmark(text_fill, period_fill, x0, S)
+    mark_top = (block_top + block_bot) / 2 - mh / 2
+    parts.insert(0, f'<g transform="translate(0 {mark_top:.2f}) scale({ms:.5f})">{mark_body}</g>')
     y_top, y_bot = min(top, mark_top), max(bottom, mark_top + mh)
     if descriptor:
-        dd, _, (_, dmax) = text_path('DIGITAL', family='Geist Mono', weight=500, size=S * 0.24, tracking=0.22,
-                                     x=x0 + glyph_box('c', size=S)[0], baseline=S * 0.5)
+        dd, _, (dtop, dmax) = text_path('DIGITAL', family='Geist Mono', weight=500, size=S * DESC_SIZE,
+                                        tracking=DESC_TRACK, x=x0 + glyph_box('C', **kw)[0] + S * 0.01,
+                                        baseline=DESC_GAP * S + dcap)
         parts.append(f'<path fill="{text_fill}" d="{dd}"/>'); y_bot = max(y_bot, dmax)
     pad = S * 0.04
-    vb = f'{-pad:.2f} {y_top - pad:.2f} {width + 2 * pad:.2f} {y_bot - y_top + 2 * pad:.2f}'
+    vb = f'{-pad:.2f} {y_top - pad:.2f} {right + 2 * pad:.2f} {y_bot - y_top + 2 * pad:.2f}'
     return svg(''.join(parts), 0, 0, vb)
 
 
@@ -155,6 +184,9 @@ files = {
     'lockup-reversed.svg': lockup(PAPER, ORANGE, full_mark(**REVERSED)),
     'lockup-formal.svg': lockup(NAVY_TEXT, ORANGE, full_mark(**COLOUR), descriptor=True),
     'lockup-formal-reversed.svg': lockup(PAPER, ORANGE, full_mark(**REVERSED), descriptor=True),
+    # Wordmark alone (footer, places the mark already appears)
+    'wordmark.svg': wordmark_svg(NAVY_TEXT, ORANGE),
+    'wordmark-reversed.svg': wordmark_svg(PAPER, ORANGE),
 }
 for name, content in files.items():
     for d in (PUBLIC, os.path.join(ASSETS, 'svg')):
@@ -196,6 +228,18 @@ save(render(framed(512, PAPER, 0.58), None, 512), os.path.join(PUBLIC, 'icon-mas
 for name, size in [('linkedin-400', 400), ('x-400', 400), ('github-500', 500), ('instagram-1080', 1080)]:
     save(render(framed(size, PAPER, 0.66), None, size),
          os.path.join(PUBLIC, 'social', f'avatar-{name}.png'), A('social', f'avatar-{name}.png'))
-# Email signature: horizontal lockup, 400 × 100 (2× of 200 × 50) on white
-save(render(files['lockup.svg'], None, 400, bg=WHITE), os.path.join(PUBLIC, 'email-signature.png'), A('email', 'email-signature-400.png'))
+# Email signature: formal lockup on white, 520 px wide = 2× of a 260 px display width,
+# the smallest at which DIGITAL stays >= 12 px.
+save(render(files['lockup-formal.svg'], None, 520, bg=WHITE), os.path.join(PUBLIC, 'email-signature.png'), A('email', 'email-signature-520.png'))
 print('sizes:', {n: f'{len(c) / 1024:.1f} KB' for n, c in files.items()})
+
+# OG image (src/app/api/og, edge runtime: no filesystem) gets the logos as data URIs.
+og = os.path.join(APP, 'api', 'og', 'brand.ts')
+uri = lambda name: 'data:image/svg+xml;base64,' + base64.b64encode(files[name].encode()).decode()
+ratio = lambda name: (lambda v: round(v[2] / v[3], 4))([float(x) for x in re.search(r'viewBox="([^"]+)"', files[name]).group(1).split()])
+open(og, 'w').write(
+    '// Generated by scripts/brand/build_logo_set.py — do not edit.\n'
+    '// Logo SVGs as data URIs for the OG image (edge runtime can\'t read public/).\n\n'
+    f"export const lockup = {{ src: '{uri('lockup-formal.svg')}', ratio: {ratio('lockup-formal.svg')} }};\n"
+    f"export const markReversed = {{ src: '{uri('mark-reversed.svg')}', ratio: {ratio('mark-reversed.svg')} }};\n")
+print('wrote', os.path.relpath(og, ROOT))

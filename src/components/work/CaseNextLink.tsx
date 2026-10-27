@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { CaseStub } from '@/data/cases';
+import type { CaseStub } from '@/lib/cms/types';
 
 export default function CaseNextLink({
   next,

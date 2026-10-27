@@ -1,45 +1,45 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { cases } from '@/data/cases';
-import { site } from '@/data/site';
+import { getCases, getSite } from '@/lib/cms/repository';
 
 type FooterLink = { href: string; label: string; external?: boolean };
-
-const liveCase = cases.find((c) => c.status === 'live');
-
-const columns: { label: string; links: FooterLink[] }[] = [
-  {
-    label: 'Studio',
-    links: [
-      { href: '/', label: 'Home' },
-      { href: '/studio', label: 'About' },
-      { href: '/#capabilities', label: 'Capabilities' },
-      { href: '/#process', label: 'How we work' },
-    ],
-  },
-  {
-    label: 'Work',
-    links: [
-      { href: '/work', label: 'All work' },
-      ...(liveCase ? [{ href: `/work/${liveCase.slug}`, label: 'Latest case' }] : []),
-      { href: '/journal', label: 'Journal' },
-    ],
-  },
-  {
-    label: 'Contact',
-    links: [
-      { href: `mailto:${site.email}`, label: site.email },
-      { href: site.calUrl, label: 'Book a call', external: true },
-      { href: '/#contact', label: 'Project brief' },
-    ],
-  },
-];
 
 /**
  * Footer — link columns, anchor strip, and an oversized wordmark clipped by
  * the bottom edge of the page (plan §4).
  */
-export default function Footer() {
+export default async function Footer() {
+  const [site, cases] = await Promise.all([getSite(), getCases()]);
+  const liveCase = cases.find((c) => c.status === 'live');
+
+  const columns: { label: string; links: FooterLink[] }[] = [
+    {
+      label: 'Studio',
+      links: [
+        { href: '/', label: 'Home' },
+        { href: '/studio', label: 'About' },
+        { href: '/#capabilities', label: 'Capabilities' },
+        { href: '/#process', label: 'How we work' },
+      ],
+    },
+    {
+      label: 'Work',
+      links: [
+        { href: '/work', label: 'All work' },
+        ...(liveCase ? [{ href: `/work/${liveCase.slug}`, label: 'Latest case' }] : []),
+        { href: '/journal', label: 'Journal' },
+      ],
+    },
+    {
+      label: 'Contact',
+      links: [
+        { href: `mailto:${site.email}`, label: site.email },
+        { href: site.calUrl, label: 'Book a call', external: true },
+        { href: '/#contact', label: 'Project brief' },
+      ],
+    },
+  ];
+
   return (
     <footer className="overflow-hidden border-t border-line">
       <div className="container pt-16 md:pt-24">

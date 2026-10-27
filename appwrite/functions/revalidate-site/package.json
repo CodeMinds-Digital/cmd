@@ -1,0 +1,8 @@
+{
+  "name": "revalidate-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Appwrite Function: on a content row change, asks the site to revalidate the matching cache tag.",
+  "type": "module",
+  "main": "src/main.js"
+}

@@ -3,8 +3,10 @@ export const ROUTES = [
   { name: 'home', path: '/' },
   { name: 'work', path: '/work' },
   { name: 'work-case', path: '/work/fintech-marketing-rebuild' },
+  { name: 'work-coming', path: '/work/yc-startup-mobile-mvp' },
   { name: 'studio', path: '/studio' },
   { name: 'journal', path: '/journal' },
+  { name: 'journal-post', path: '/journal/why-we-stopped-pricing-by-the-hour' },
 ] as const;
 
 export const WIDTHS = [375, 768, 1280, 1920] as const;

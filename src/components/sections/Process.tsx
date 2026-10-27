@@ -3,7 +3,7 @@ import Chip from '@/components/ui/Chip';
 import Eyebrow from '@/components/ui/Eyebrow';
 import Highlight from '@/components/ui/Highlight';
 import Tile from '@/components/ui/Tile';
-import { processSteps } from '@/data/process';
+import { getProcessSteps } from '@/lib/cms/repository';
 
 /**
  * How we work — the one inverse (black) section on the page (plan §3.4).
@@ -11,7 +11,8 @@ import { processSteps } from '@/data/process';
  * scrolls through (scroll-driven `.progress-x` on the section's view
  * timeline). Mobile: a vertical list on a rail.
  */
-export default function Process() {
+export default async function Process() {
+  const processSteps = await getProcessSteps();
   return (
     <section
       id="process"

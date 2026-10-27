@@ -1,4 +1,4 @@
-import type { CaseTestimonial } from '@/data/cases';
+import type { CaseTestimonial } from '@/lib/cms/types';
 
 export default function CasePullquote({
   testimonial,

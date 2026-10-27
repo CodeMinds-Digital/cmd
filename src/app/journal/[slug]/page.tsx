@@ -1,15 +1,19 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Eyebrow from '@/components/ui/Eyebrow';
-import { posts, getPost, formatDate } from '@/data/posts';
+import { formatDate } from '@/lib/format-date';
+import { getPost, getPosts } from '@/lib/cms/repository';
+import { renderRichText } from '@/lib/cms/rich-text';
+import { BUCKETS, fileViewUrl } from '@codeminds/cms/assets';
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getPosts()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -18,15 +22,16 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return { title: 'Post Not Found | Codeminds Digital' };
 
+  const description = post.seoDescription ?? post.excerpt;
   return {
-    title: `${post.title} | Codeminds Digital`,
-    description: post.excerpt,
+    title: `${post.seoTitle ?? post.title} | Codeminds Digital`,
+    description,
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: post.seoTitle ?? post.title,
+      description,
       type: 'article',
       publishedTime: post.date,
       images: [
@@ -44,9 +49,10 @@ export default async function JournalPostPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
 
+  const posts = await getPosts();
   const idx = posts.findIndex((p) => p.slug === slug);
   const next = posts[idx + 1] ?? posts[0];
 
@@ -86,8 +92,15 @@ export default async function JournalPostPage({
 
           <section className="section-padding pt-0">
             <div className="container max-w-3xl">
+              {post.cover && (
+                <div className="relative mb-12 aspect-[16/9] overflow-hidden rounded-2xl border border-line">
+                  <Image src={post.cover.src} alt={post.cover.alt ?? ''} fill priority sizes="(min-width: 768px) 768px, 100vw" className="object-cover" />
+                </div>
+              )}
               <div className="text-body text-fg space-y-6 leading-relaxed">
-                {post.body ? (
+                {post.doc ? (
+                  renderRichText(post.doc, { fileUrl: (id) => fileViewUrl(BUCKETS.publicAssets, id) })
+                ) : post.body ? (
                   <p>{post.body}</p>
                 ) : (
                   <p className="italic text-fg-muted">

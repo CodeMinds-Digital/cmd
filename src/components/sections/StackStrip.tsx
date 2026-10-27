@@ -1,13 +1,24 @@
 import Marquee from '@/components/ui/Marquee';
 import TechLogo from '@/components/ui/TechLogo';
-import { stack, stackCategories } from '@/data/stack';
+import { getStack } from '@/lib/cms/repository';
+import type { StackCategory } from '@/lib/cms/types';
+
+const stackCategories: { id: StackCategory; label: string }[] = [
+  { id: 'languages', label: 'Languages' },
+  { id: 'web', label: 'Web' },
+  { id: 'mobile', label: 'Mobile' },
+  { id: 'backend', label: 'Backend' },
+  { id: 'ai-tools', label: 'AI tools' },
+  { id: 'devops', label: 'Cloud & DevOps' },
+];
 
 /**
  * The "Built with" band: one monochrome marquee of the technologies and AI
  * tools we work with, grouped by a mono category label. Pure CSS motion via
  * <Marquee> (pauses on hover/focus; static wrapped row under reduced motion).
  */
-export function StackBand({ headingId = 'stack-heading' }: { headingId?: string }) {
+export async function StackBand({ headingId = 'stack-heading' }: { headingId?: string }) {
+  const stack = await getStack();
   const items = stackCategories.flatMap((cat) => [
     <span key={`cat-${cat.id}`} className="font-mono text-mono-xs uppercase text-accent-ink">
       {cat.label}

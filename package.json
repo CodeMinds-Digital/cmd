@@ -2,6 +2,10 @@
   "name": "agency-website",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "packages/*",
+    "admin"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,15 +16,31 @@
     "baseline:screens": "playwright test tests/baseline/screenshots.spec.ts",
     "baseline:a11y": "playwright test tests/baseline/a11y.spec.ts --workers=1",
     "test:unit": "node --test tests/unit/",
-    "lhci": "next build && npx -y @lhci/cli@0.15 autorun"
+    "lhci": "next build && npx -y @lhci/cli@0.15 autorun",
+    "appwrite:check": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/check.mts",
+    "appwrite:pull": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/pull-schema.mts",
+    "appwrite:backup": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/backup.mts",
+    "appwrite:schema": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/schema.mts",
+    "appwrite:migrate:lead-ip": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/migrations/2026-10-27-lead-ip-hash.mts",
+    "appwrite:seed": "node --dns-result-order=ipv4first --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file-if-exists=.env.local scripts/appwrite/seed.mts",
+    "appwrite:function": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/deploy-function.mts",
+    "appwrite:create-admin": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/create-admin.mts",
+    "admin:dev": "npm run dev -w admin",
+    "admin:build": "npm run build -w admin",
+    "admin:e2e": "npm run build -w admin && npm run test:e2e -w admin",
+    "appwrite:check-key": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/check-key.mts",
+    "appwrite:restore": "node --dns-result-order=ipv4first --env-file-if-exists=.env.local scripts/appwrite/restore.mts",
+    "appwrite:docs": "node scripts/appwrite/docs.mts"
   },
   "dependencies": {
+    "@codeminds/cms": "*",
     "@types/nodemailer": "^7.0.1",
     "lenis": "^1.3.23",
     "next": "^16.2.4",
     "nodemailer": "^7.0.6",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "server-only": "^0.0.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -39,6 +59,7 @@
     "pngjs": "^7.0.0",
     "postcss": "^8.5.4",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "undici": "^6.29.1"
   }
 }

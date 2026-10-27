@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { clientIp } from '../../src/lib/client-ip.ts';
+import { clientIp } from '../../packages/cms/src/client-ip.ts';
 
 const h = (obj) => new Headers(obj);
 

@@ -1,10 +1,12 @@
 'use server';
 
+import { after } from 'next/server';
 import { headers } from 'next/headers';
 import { z } from 'zod';
-import { clientIp } from '@/lib/client-ip';
+import { clientIp } from '@codeminds/cms/client-ip';
 import { takeContactToken } from '@/lib/contact-rate-limit';
 import { deliverContact } from '@/lib/contact';
+import { markEmailDelivered, storeEnquiry } from '@/lib/enquiries';
 import { contactSchema } from '@/lib/contact-schema';
 import { HONEYPOT_FIELD, type ContactField, type ContactFormState } from '@/lib/contact-options';
 
@@ -42,7 +44,9 @@ export async function submitContact(
     };
   }
 
-  const limit = takeContactToken(clientIp(await headers()));
+  const h = await headers();
+  const ip = clientIp(h);
+  const limit = takeContactToken(ip);
   if (!limit.ok) {
     return {
       status: 'error',
@@ -52,8 +56,11 @@ export async function submitContact(
     };
   }
 
+  // Stored first, so an email outage can't lose the enquiry.
+  const enquiryId = await storeEnquiry(parsed.data, { source: 'contact-form', ip, userAgent: h.get('user-agent') });
   const result = await deliverContact(parsed.data);
-  if (!result.ok) {
+  if (enquiryId) after(() => markEmailDelivered(enquiryId, result.ok));
+  if (!result.ok && !enquiryId) {
     return {
       status: 'error',
       message:

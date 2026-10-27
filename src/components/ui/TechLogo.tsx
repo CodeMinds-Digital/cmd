@@ -1,5 +1,5 @@
 import { BRAND_SPRITE, type BrandIconKey } from '@/components/icons/brand';
-import type { GenericGlyph } from '@/data/stack';
+import type { GenericGlyph } from '@/lib/cms/types';
 
 // Generic stroke glyphs (after Lucide, ISC) for items whose brand mark can't be used.
 const GLYPHS: Record<GenericGlyph, string> = {

@@ -5,7 +5,7 @@ import Chip from '@/components/ui/Chip';
 import Icon from '@/components/icons/Icon';
 import Tile from '@/components/ui/Tile';
 import type { ChipTone } from '@/components/ui/Chip';
-import type { CaseStub } from '@/data/cases';
+import type { CaseStub } from '@/lib/cms/types';
 
 /**
  * Selected-work bento (plan §4): live cases as large feature tiles, cases in

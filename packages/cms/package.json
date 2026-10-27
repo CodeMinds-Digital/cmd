@@ -1,0 +1,33 @@
+{
+  "name": "@codeminds/cms",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Appwrite access shared by the site and the admin app: env, clients, schema, asset URLs.",
+  "type": "module",
+  "exports": {
+    "./env": "./src/env.ts",
+    "./server": "./src/appwrite/server.ts",
+    "./session": "./src/appwrite/session.ts",
+    "./assets": "./src/appwrite/assets.ts",
+    "./schema": "./src/schema/index.ts",
+    "./content/project": "./src/content/project.ts",
+    "./privacy": "./src/privacy/ip-hash.ts",
+    "./retry": "./src/appwrite/retry.ts",
+    "./signing": "./src/signing.ts",
+    "./cache-tags": "./src/cache-tags.ts",
+    "./rate-limit": "./src/rate-limit.ts",
+    "./audit": "./src/audit.ts",
+    "./roles": "./src/roles.ts",
+    "./styles/voltage-colors.css": "./styles/voltage-colors.css",
+    "./client-ip": "./src/client-ip.ts",
+    "./content/post": "./src/content/post.ts",
+    "./content/rich-text": "./src/content/rich-text.ts",
+    "./brand-icons": "./src/brand-icons.ts",
+    "./content/sections": "./src/content/sections.ts",
+    "./content/drafts": "./src/content/drafts.ts"
+  },
+  "dependencies": {
+    "node-appwrite": "^31.0.0",
+    "zod": "^4.6.5"
+  }
+}

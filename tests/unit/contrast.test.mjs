@@ -4,11 +4,12 @@ import { readFileSync } from 'node:fs';
 
 /**
  * WCAG contrast check over the real Voltage tokens (plan §3.1 / Phase 5).
- * Parses the OKLCH values out of src/styles/globals.css, so editing a token
- * that breaks a text/background pair fails this test.
+ * Parses the OKLCH values out of packages/cms/styles/voltage-colors.css (shared
+ * by the site and admin), so editing a token that breaks a text/background
+ * pair fails this test.
  */
 
-const css = readFileSync(new URL('../../src/styles/globals.css', import.meta.url), 'utf8');
+const css = readFileSync(new URL('../../packages/cms/styles/voltage-colors.css', import.meta.url), 'utf8');
 
 const OKLCH = /oklch\(\s*([\d.]+)%\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*[\d.]+)?\s*\)/g;
 

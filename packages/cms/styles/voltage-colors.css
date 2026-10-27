@@ -1,0 +1,36 @@
+/*
+  Voltage colour tokens: one source for the site (src/styles/globals.css)
+  and the admin app (admin/src/app/globals.css). Tailwind 4 @theme, so each
+  token becomes bg-, text- and border- utilities.
+*/
+@theme {
+  /*
+    Colors — light-dark(light, dark). Only the light values are live while
+    :root sets `color-scheme: light`; the dark pairs are ready for the
+    optional dark variant (plan §3.2, open question Q3).
+    Hex equivalents are noted for design parity.
+  */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-danger: light-dark(oklch(50.5% 0.190 27.5), oklch(71.1% 0.166 22.2)); /* #B91C1C · #F87171 — form errors */
+
+  --color-canvas: light-dark(oklch(95.3% 0.010 87.5), oklch(17.5% 0.030 258));    /* #F2EFE8 · #08111E */
+  --color-surface: light-dark(oklch(100% 0 0), oklch(21.5% 0.032 258));           /* #FFFFFF · #101A28 */
+  --color-surface-sunk: light-dark(oklch(91.9% 0.014 88.7), oklch(25.5% 0.032 258)); /* #E8E4DA · #192332 */
+  --color-line: light-dark(oklch(18.5% 0.032 258 / 0.1), oklch(95.3% 0.010 87.5 / 0.12));
+  --color-line-strong: light-dark(oklch(18.5% 0.032 258 / 0.22), oklch(95.3% 0.010 87.5 / 0.26));
+  --color-fg: light-dark(oklch(18.5% 0.032 258), oklch(95.3% 0.010 87.5));       /* #091321 · #F2EFE8 — navy-black */
+  --color-fg-muted: light-dark(oklch(45.5% 0.028 258), oklch(72% 0.020 258));     /* #4D5767 · #9DA5B1 */
+  --color-fg-subtle: light-dark(oklch(49% 0.024 258), oklch(64% 0.020 258));      /* #58616E · #858D99 */
+  /* Accent: FILLS ONLY. Never small text on canvas (≈2.9:1). */
+  --color-accent: oklch(66.8% 0.224 37);                                          /* #FF4D00 */
+  /* Text on an accent fill — navy-black in both schemes (≈5.6:1). */
+  --color-accent-fg: oklch(18.5% 0.032 258);                                      /* #091321 */
+  /* Orange text / links on canvas or surface (≥5.1:1). */
+  --color-accent-ink: light-dark(oklch(52.5% 0.173 37.6), oklch(72.6% 0.178 43.2)); /* #B83700 · #FF7A3D */
+  --color-inverse: light-dark(oklch(22.1% 0.039 258), oklch(95.3% 0.010 87.5));  /* #0F1B2D Midnight navy · #F2EFE8 */
+  --color-inverse-fg: light-dark(oklch(95.3% 0.010 87.5), oklch(22.1% 0.039 258)); /* #F2EFE8 · #0F1B2D */
+}

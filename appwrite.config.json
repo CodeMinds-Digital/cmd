@@ -1,0 +1,2700 @@
+{
+  "projectId": "69f17059001f2290328e",
+  "endpoint": "https://sgp.cloud.appwrite.io/v1",
+  "tablesDB": [
+    {
+      "$id": "cmd_website_db",
+      "name": "cmd-website-db",
+      "enabled": true
+    }
+  ],
+  "tables": [
+    {
+      "$id": "auditLog",
+      "$permissions": [
+        "read(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Audit Log",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "actor",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "actorId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "action",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "collectionId",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "documentId",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "documentLabel",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "diffSummary",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 1000,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_11_by_collection_doc",
+          "key": "by_collection_doc",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "collectionId",
+            "documentId"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": [
+            "ASC",
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_11_by_action",
+          "key": "by_action",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "action"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_11_by_created",
+          "key": "by_created",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "$createdAt"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "DESC"
+          ]
+        }
+      ]
+    },
+    {
+      "$id": "capability",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Capabilities",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "title",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "description",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "tags",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "displayIndex",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 4,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 100,
+          "default": null
+        },
+        {
+          "key": "state",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": [
+            "draft",
+            "in_review",
+            "published",
+            "archived"
+          ],
+          "format": "enum",
+          "default": "draft"
+        },
+        {
+          "key": "services",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": true,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "proof",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 300,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "tone",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": [
+            "surface",
+            "inverse"
+          ],
+          "format": "enum",
+          "default": null
+        },
+        {
+          "key": "spanMd",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 1,
+          "max": 12,
+          "default": null
+        },
+        {
+          "key": "spanLg",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 1,
+          "max": 12,
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_8_by_order",
+          "key": "by_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "orderIndex"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_8_by_state_order",
+          "key": "by_state_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "state",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "capabilityGroup",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Capability Groups",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "capabilityId",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 10000,
+          "default": null
+        },
+        {
+          "key": "title",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "items",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": true,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_16_by_capability_order",
+          "key": "by_capability_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "capabilityId",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "caseApproachStep",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Case Approach Steps",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "caseStudyId",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 10000,
+          "default": null
+        },
+        {
+          "key": "displayIndex",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 4,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "title",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "body",
+          "description": "",
+          "type": "text",
+          "required": true,
+          "array": false,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_13_by_case_order",
+          "key": "by_case_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "caseStudyId",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "caseMetric",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Case Metrics",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "caseStudyId",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 10000,
+          "default": null
+        },
+        {
+          "key": "label",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "value",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_15_by_case_order",
+          "key": "by_case_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "caseStudyId",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "caseScreen",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Case Screens",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "caseStudyId",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 10000,
+          "default": null
+        },
+        {
+          "key": "fileId",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "src",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 255,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "alt",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 300,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "caption",
+          "description": "",
+          "type": "text",
+          "required": false,
+          "array": false,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "tone",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": [
+            "paper",
+            "ink",
+            "mixed"
+          ],
+          "format": "enum",
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_14_by_case_order",
+          "key": "by_case_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "caseStudyId",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "caseStudy",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Case Studies",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "slug",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "title",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "client",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "year",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 2020,
+          "max": 2099,
+          "default": null
+        },
+        {
+          "key": "brief",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "tags",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "status",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 16,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "eta",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "coverFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "coverAlt",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "role",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "duration",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "liveUrl",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "problem",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 1500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "approachJson",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 3000,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "screensJson",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 2500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "metricsJson",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 800,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "testimonialId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 0,
+          "max": 1000,
+          "default": null
+        },
+        {
+          "key": "scheduledFor",
+          "description": "",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "reviewedBy",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "reviewedAt",
+          "description": "",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "publishedBy",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "publishedAt",
+          "description": "",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "state",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": [
+            "draft",
+            "in_review",
+            "published",
+            "archived"
+          ],
+          "format": "enum",
+          "default": "draft"
+        },
+        {
+          "key": "coverSrc",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 255,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "createdBy",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "updatedBy",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_6_by_slug",
+          "key": "by_slug",
+          "description": "",
+          "type": "unique",
+          "columns": [
+            "slug"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_6_by_order",
+          "key": "by_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "orderIndex"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_6_by_status",
+          "key": "by_status",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "status"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_6_by_state_order",
+          "key": "by_state_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "state",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "clientLogo",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Client Logos",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "name",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "logoFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "ndaBound",
+          "description": "",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 1000,
+          "default": null
+        },
+        {
+          "key": "approved",
+          "description": "",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": false
+        },
+        {
+          "key": "width",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 40,
+          "max": 400,
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_10_by_order",
+          "key": "by_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "orderIndex"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_10_by_approved_order",
+          "key": "by_approved_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "approved",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "contentDraft",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:editor\")",
+        "create(\"team:admin\")",
+        "update(\"team:editor\")",
+        "update(\"team:admin\")",
+        "delete(\"team:editor\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Content Drafts",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "tableId",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "rowId",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "status",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "elements": [
+            "draft",
+            "in_review"
+          ],
+          "format": "enum",
+          "default": null
+        },
+        {
+          "key": "title",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "data",
+          "description": "",
+          "type": "mediumtext",
+          "required": true,
+          "array": false,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "createdBy",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "updatedBy",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "submittedBy",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "submittedAt",
+          "description": "",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_18_by_target",
+          "key": "by_target",
+          "description": "",
+          "type": "unique",
+          "columns": [
+            "tableId",
+            "rowId"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        },
+        {
+          "$id": "25378_18_by_table_status",
+          "key": "by_table_status",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "tableId",
+            "status"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "journalPost",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Journal Posts",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "slug",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "title",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "excerpt",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "publishedAt",
+          "description": "",
+          "type": "datetime",
+          "required": true,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "readingTime",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "tags",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "coverFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "body",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 12000,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "status",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 16,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "scheduledFor",
+          "description": "",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "authorId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "reviewedBy",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "reviewedAt",
+          "description": "",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "publishedBy",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "state",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": [
+            "draft",
+            "in_review",
+            "published",
+            "archived"
+          ],
+          "format": "enum",
+          "default": "draft"
+        },
+        {
+          "key": "bodyJson",
+          "description": "",
+          "type": "mediumtext",
+          "required": false,
+          "array": false,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "coverAlt",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 300,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "seoTitle",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 70,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "seoDescription",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 160,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "authorName",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "createdBy",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "updatedBy",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_7_by_slug",
+          "key": "by_slug",
+          "description": "",
+          "type": "unique",
+          "columns": [
+            "slug"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_7_by_published_at",
+          "key": "by_published_at",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "publishedAt"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "DESC"
+          ]
+        },
+        {
+          "$id": "25378_7_by_status",
+          "key": "by_status",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "status"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_7_by_state_published",
+          "key": "by_state_published",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "state",
+            "publishedAt"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": [
+            "ASC",
+            "DESC"
+          ]
+        }
+      ]
+    },
+    {
+      "$id": "lead",
+      "$permissions": [
+        "read(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Leads",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "name",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "email",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "format": "email",
+          "default": null
+        },
+        {
+          "key": "project",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "message",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 4000,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "source",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "status",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 16,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "assignedTo",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "notes",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 4000,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "userAgent",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "budget",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "timeline",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "ipHash",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "emailDelivered",
+          "description": "",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": null
+        },
+        {
+          "key": "messageBody",
+          "description": "",
+          "type": "text",
+          "required": false,
+          "array": false,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_12_by_status",
+          "key": "by_status",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "status"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_12_by_email",
+          "key": "by_email",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "email"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_12_by_created",
+          "key": "by_created",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "$createdAt"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "navItem",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:editor\")",
+        "create(\"team:admin\")",
+        "update(\"team:editor\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Navigation Items",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "label",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "href",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "location",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 1000,
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_2_by_location_order",
+          "key": "by_location_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "location",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": [
+            "ASC",
+            "ASC"
+          ]
+        }
+      ]
+    },
+    {
+      "$id": "processStep",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Process Steps",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "displayIndex",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 4,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "title",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "duration",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "body",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 1000,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "deliverables",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "iconPath",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 1500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 100,
+          "default": null
+        },
+        {
+          "key": "state",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": [
+            "draft",
+            "in_review",
+            "published",
+            "archived"
+          ],
+          "format": "enum",
+          "default": "draft"
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_9_by_order",
+          "key": "by_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "orderIndex"
+          ],
+          "lengths": [
+            0
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "$id": "25378_9_by_state_order",
+          "key": "by_state_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "state",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "siteSettings",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "update(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Site Settings",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "wordmarkFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "faviconFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "appleTouchIconFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "ogImageFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "themeColor",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 16,
+          "default": "#0a0a0c",
+          "encrypt": false
+        },
+        {
+          "key": "ogTitle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "ogSubtitle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 400,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "contactEmail",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "format": "email",
+          "default": null
+        },
+        {
+          "key": "phone",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "bookingUrl",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "twitterHandle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "githubHandle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "linkedinHandle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "updatedBy",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroEyebrow",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 120,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroLine1",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 120,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroLine2",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 120,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroLine2Accent",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 80,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroSub",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 400,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroPrimaryCtaLabel",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroPrimaryCtaHref",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroSecondaryCtaLabel",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroSecondaryCtaHref",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroAnchorLeft",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 80,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "heroAnchorCenter",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 80,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "logoMode",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 8,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "logoText",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "logoFontFamily",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "logoFontSize",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 12,
+          "max": 48,
+          "default": null
+        },
+        {
+          "key": "logoFontWeight",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 100,
+          "max": 900,
+          "default": null
+        },
+        {
+          "key": "logoLetterSpacing",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 16,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "city",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "country",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "timezoneLabel",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 40,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "replyWithin",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 40,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "bookingOpen",
+          "description": "",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": true
+        },
+        {
+          "key": "bookingDetail",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": false,
+          "size": 80,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "deliveryMinWeeks",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 1,
+          "max": 52,
+          "default": null
+        },
+        {
+          "key": "deliveryMaxWeeks",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 1,
+          "max": 52,
+          "default": null
+        },
+        {
+          "key": "disciplines",
+          "description": "",
+          "type": "varchar",
+          "required": false,
+          "array": true,
+          "size": 30,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "$id": "stackItem",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Stack Items",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "label",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 60,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "category",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "elements": [
+            "languages",
+            "web",
+            "mobile",
+            "backend",
+            "ai-tools",
+            "devops"
+          ],
+          "format": "enum",
+          "default": null
+        },
+        {
+          "key": "icon",
+          "description": "",
+          "type": "varchar",
+          "required": true,
+          "array": false,
+          "size": 32,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 10000,
+          "default": null
+        },
+        {
+          "key": "state",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": [
+            "draft",
+            "in_review",
+            "published",
+            "archived"
+          ],
+          "format": "enum",
+          "default": "draft"
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_17_by_category_order",
+          "key": "by_category_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "category",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    },
+    {
+      "$id": "teamMember",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:editor\")",
+        "create(\"team:admin\")",
+        "update(\"team:editor\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Team Members",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "name",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "role",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "bio",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 2000,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "headshotFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "twitterHandle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "githubHandle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "linkedinHandle",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "$id": "testimonial",
+      "$permissions": [
+        "read(\"team:editor\")",
+        "read(\"team:admin\")",
+        "create(\"team:admin\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "databaseId": "cmd_website_db",
+      "name": "Testimonials",
+      "enabled": true,
+      "rowSecurity": false,
+      "columns": [
+        {
+          "key": "quote",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 1000,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "author",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "role",
+          "description": "",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "company",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 200,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "photoFileId",
+          "description": "",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "approved",
+          "description": "",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": false
+        },
+        {
+          "key": "orderIndex",
+          "description": "",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 0,
+          "max": 10000,
+          "default": 0
+        }
+      ],
+      "indexes": [
+        {
+          "$id": "25378_3_by_approved_order",
+          "key": "by_approved_order",
+          "description": "",
+          "type": "key",
+          "columns": [
+            "approved",
+            "orderIndex"
+          ],
+          "lengths": [
+            0,
+            0
+          ],
+          "orders": []
+        }
+      ]
+    }
+  ],
+  "buckets": [
+    {
+      "$id": "public-assets",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:editor\")",
+        "create(\"team:admin\")",
+        "update(\"team:editor\")",
+        "update(\"team:admin\")",
+        "delete(\"team:admin\")"
+      ],
+      "fileSecurity": false,
+      "name": "Public Assets",
+      "enabled": true,
+      "maximumFileSize": 10485760,
+      "allowedFileExtensions": [
+        "png",
+        "jpg",
+        "jpeg",
+        "webp",
+        "avif",
+        "gif"
+      ],
+      "compression": "none",
+      "encryption": true,
+      "antivirus": true
+    }
+  ],
+  "teams": [
+    {
+      "$id": "admin",
+      "name": "Admin"
+    },
+    {
+      "$id": "editor",
+      "name": "Editor"
+    },
+    {
+      "$id": "viewer",
+      "name": "Viewer"
+    },
+    {
+      "$id": "writer",
+      "name": "Writer"
+    }
+  ]
+}

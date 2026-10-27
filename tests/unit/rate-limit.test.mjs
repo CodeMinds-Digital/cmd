@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createRateLimiter } from '../../src/lib/rate-limit.ts';
+import { createRateLimiter } from '../../packages/cms/src/rate-limit.ts';
 
 const MIN = 60_000;
 

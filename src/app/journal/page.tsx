@@ -3,7 +3,8 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Eyebrow from '@/components/ui/Eyebrow';
-import { posts, formatDate } from '@/data/posts';
+import { formatDate } from '@/lib/format-date';
+import { getPosts } from '@/lib/cms/repository';
 
 export const metadata: Metadata = {
   title: 'Journal | Codeminds Digital',
@@ -11,7 +12,8 @@ export const metadata: Metadata = {
     'Notes from the studio — pricing, mobile delivery, AI engineering, and the boring infra in between.',
 };
 
-export default function JournalIndexPage() {
+export default async function JournalIndexPage() {
+  const posts = await getPosts();
   return (
     <>
       <Header active="/journal" />

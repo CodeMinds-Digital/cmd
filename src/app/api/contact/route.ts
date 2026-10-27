@@ -1,10 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { clientIp } from '@/lib/client-ip';
+import { clientIp } from '@codeminds/cms/client-ip';
 import { deliverContact } from '@/lib/contact';
+import { markEmailDelivered, storeEnquiry } from '@/lib/enquiries';
 import { takeContactToken } from '@/lib/contact-rate-limit';
 import { HONEYPOT_FIELD } from '@/lib/contact-options';
 import { contactSchema } from '@/lib/contact-schema';
+import { readBodyCapped } from '@/lib/read-body';
 
 /**
  * JSON contact endpoint, kept for external callers. The site's own form uses
@@ -19,12 +21,8 @@ export async function POST(request: NextRequest) {
   if (!request.headers.get('content-type')?.toLowerCase().startsWith('application/json')) {
     return NextResponse.json({ error: 'Expected application/json' }, { status: 415 });
   }
-  const declaredLength = Number(request.headers.get('content-length') ?? 0);
-  if (declaredLength > MAX_BODY_BYTES) {
-    return NextResponse.json({ error: 'Request body too large' }, { status: 413 });
-  }
-  const text = await request.text().catch(() => '');
-  if (text.length > MAX_BODY_BYTES) {
+  const text = await readBodyCapped(request, MAX_BODY_BYTES).catch(() => '');
+  if (text === null) {
     return NextResponse.json({ error: 'Request body too large' }, { status: 413 });
   }
 
@@ -52,7 +50,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const limit = takeContactToken(clientIp(request.headers));
+  const ip = clientIp(request.headers);
+  const limit = takeContactToken(ip);
   if (!limit.ok) {
     return NextResponse.json(
       { error: 'Too many requests. Please try again later.' },
@@ -60,8 +59,11 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Stored first, so an email outage can't lose the enquiry.
+  const enquiryId = await storeEnquiry(parsed.data, { source: 'api', ip, userAgent: request.headers.get('user-agent') });
   const result = await deliverContact(parsed.data);
-  if (!result.ok) {
+  if (enquiryId) after(() => markEmailDelivered(enquiryId, result.ok));
+  if (!result.ok && !enquiryId) {
     return result.reason === 'not-configured'
       ? NextResponse.json(
           { error: 'Contact form is temporarily unavailable. Please email cmd@codeminds.digital.' },

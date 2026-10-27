@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { CaseScreen } from '@/data/cases';
+import type { CaseScreen } from '@/lib/cms/types';
 
 const glow = (pct: number) => `color-mix(in oklab, var(--color-accent) ${pct}%, transparent)`;
 

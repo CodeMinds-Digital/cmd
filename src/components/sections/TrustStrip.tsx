@@ -1,14 +1,18 @@
 import Image from 'next/image';
 import Eyebrow from '@/components/ui/Eyebrow';
 import Marquee from '@/components/ui/Marquee';
-import { approvedLogos, MIN_LOGOS_FOR_MARQUEE } from '@/data/logos';
+import { getApprovedLogos } from '@/lib/cms/repository';
+
+/** Below this many approved logos the stack strip keeps the slot. */
+export const MIN_LOGOS_FOR_MARQUEE = 4;
 
 /**
  * Client-logo marquee. Only rendered (by the home page) once at least
- * MIN_LOGOS_FOR_MARQUEE logos are approved in data/logos.ts; until then the
+ * MIN_LOGOS_FOR_MARQUEE logos are approved (Appwrite `clientLogo.approved`); until then the
  * stack strip holds this slot.
  */
-export default function TrustStrip() {
+export default async function TrustStrip() {
+  const approvedLogos = await getApprovedLogos();
   if (approvedLogos.length < MIN_LOGOS_FOR_MARQUEE) return null;
 
   return (

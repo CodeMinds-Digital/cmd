@@ -10,35 +10,5 @@
  */
 export const BRAND_SPRITE = '/brand/stack-icons.svg';
 
-export const brandIconKeys = [
-  "rust",
-  "go",
-  "typescript",
-  "javascript",
-  "python",
-  "kotlin",
-  "swift",
-  "dart",
-  "react",
-  "nextdotjs",
-  "tailwindcss",
-  "flutter",
-  "android",
-  "nodedotjs",
-  "postgresql",
-  "appwrite",
-  "supabase",
-  "firebase",
-  "pocketbase",
-  "convex",
-  "claude",
-  "cursor",
-  "replit",
-  "docker",
-  "linux",
-  "nginx",
-  "githubactions",
-  "cloudflare",
-] as const;
-
-export type BrandIconKey = (typeof brandIconKeys)[number];
+// The key list is shared with the admin (stack editor), so it lives in packages/cms.
+export { brandIconKeys, type BrandIconKey } from '@codeminds/cms/brand-icons';

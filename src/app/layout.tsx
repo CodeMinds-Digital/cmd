@@ -5,6 +5,7 @@ import StructuredData from '@/components/seo/StructuredData';
 import WebVitals from '@/components/perf/WebVitals';
 import FrameBudget from '@/components/perf/FrameBudget';
 import CustomCursor from '@/components/layout/CustomCursor';
+import DraftBanner from '@/components/layout/DraftBanner';
 import SmoothScroll from '@/components/animations/SmoothScrollLoader';
 import IconSprite from '@/components/icons/IconSprite';
 import MotionRuntime from '@/components/islands/MotionRuntime';
@@ -138,6 +139,7 @@ export default function RootLayout({
         <div id="root" className="relative min-h-screen">
           {children}
         </div>
+        <DraftBanner />
       </body>
     </html>
   );

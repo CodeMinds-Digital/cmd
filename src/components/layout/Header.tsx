@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Magnetic from '@/components/animations/Magnetic';
 import HeaderController from '@/components/islands/HeaderController';
 import Button from '@/components/ui/Button';
-import { site } from '@/data/site';
+import { siteConfig } from '@/config/site';
 
 type HeaderProps = {
   /** Nav href of the current section, e.g. "/work". */
@@ -46,7 +46,7 @@ export default function Header({ active, activeIsPage = true }: HeaderProps) {
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
-            {site.nav.map((item) => (
+            {siteConfig.nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -99,7 +99,7 @@ export default function Header({ active, activeIsPage = true }: HeaderProps) {
           </button>
         </div>
         <nav aria-label="Mobile primary" className="flex flex-col">
-          {site.nav.map((item) => (
+          {siteConfig.nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}

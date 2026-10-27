@@ -1,4 +1,4 @@
-import type { CaseStub } from '@/data/cases';
+import type { CaseStub } from '@/lib/cms/types';
 
 type Fact = { label: string; value: string };
 

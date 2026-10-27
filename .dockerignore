@@ -32,6 +32,7 @@ README.md
 # to ensure dependencies are installed in the Docker image
 .env.local
 .env*.local
+**/.env*.local
 
 # IDE
 .vscode/
@@ -74,3 +75,8 @@ backups/
 test-results/
 playwright-report/
 blob-report/
+
+# Admin app build/test output
+admin/.next/
+admin/test-results/
+admin/playwright-report/

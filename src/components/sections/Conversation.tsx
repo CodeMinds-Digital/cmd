@@ -5,13 +5,14 @@ import ContactForm from '@/components/islands/ContactForm';
 import Eyebrow from '@/components/ui/Eyebrow';
 import Highlight from '@/components/ui/Highlight';
 import Tile from '@/components/ui/Tile';
-import { site } from '@/data/site';
+import { getSite } from '@/lib/cms/repository';
 
 /**
  * Closing moment — a full-bleed orange band (plan §4) with the enquiry form
  * and the direct channels. The form is the only client island here.
  */
-export default function Conversation() {
+export default async function Conversation() {
+  const site = await getSite();
   const channels: { label: string; value: React.ReactNode; href?: string }[] = [
     { label: 'Email', value: site.email, href: `mailto:${site.email}` },
     { label: 'Book a call', value: site.calUrl.replace('https://', ''), href: site.calUrl },
@@ -32,7 +33,7 @@ export default function Conversation() {
 
         <div className="grid grid-cols-12 gap-bento">
           <Tile className="col-span-12 lg:col-span-7">
-            <ContactForm />
+            <ContactForm email={site.email} replyWithin={site.replyWithin} />
           </Tile>
 
           <Tile tone="inverse" className="col-span-12 flex flex-col justify-between gap-10 lg:col-span-5">

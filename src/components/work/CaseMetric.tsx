@@ -1,4 +1,4 @@
-import type { CaseMetricItem } from '@/data/cases';
+import type { CaseMetricItem } from '@/lib/cms/types';
 
 export default function CaseMetric({
   metrics,

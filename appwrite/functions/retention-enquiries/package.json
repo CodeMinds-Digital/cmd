@@ -1,0 +1,8 @@
+{
+  "name": "retention-enquiries",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Appwrite Function: deletes contact enquiries 24 months after their last update (plan D10).",
+  "type": "module",
+  "main": "src/main.js"
+}

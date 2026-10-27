@@ -3,9 +3,10 @@ import Button from '@/components/ui/Button';
 import Eyebrow from '@/components/ui/Eyebrow';
 import Highlight from '@/components/ui/Highlight';
 import CaseBento from '@/components/work/CaseBento';
-import { cases } from '@/data/cases';
+import { getCases } from '@/lib/cms/repository';
 
-export default function SelectedWork() {
+export default async function SelectedWork() {
+  const cases = await getCases();
   return (
     <section id="work" className="section-padding scroll-mt-20">
       <div className="container">

@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.10
 # Node.js 24 LTS (Alpine). Node 20 reached end-of-life in April 2026.
 FROM node:24-alpine AS base
 
@@ -7,8 +8,10 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files (root + npm workspace manifests, so `npm ci` can link them)
 COPY package.json package-lock.json ./
+COPY packages/cms/package.json ./packages/cms/
+COPY admin/package.json ./admin/
 
 # Install dependencies
 RUN npm ci
@@ -23,8 +26,21 @@ COPY . .
 # Set environment variable for build
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build the application
-RUN npm run build
+# Pages are prerendered from Appwrite content, so the build needs Appwrite.
+# Public identifiers come in as Dokploy "Build Time Arguments"…
+ARG NEXT_PUBLIC_SITE_URL
+ARG NEXT_PUBLIC_APPWRITE_ENDPOINT
+ARG NEXT_PUBLIC_APPWRITE_PROJECT_ID
+ARG NEXT_PUBLIC_APPWRITE_DATABASE_ID
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+    NEXT_PUBLIC_APPWRITE_ENDPOINT=$NEXT_PUBLIC_APPWRITE_ENDPOINT \
+    NEXT_PUBLIC_APPWRITE_PROJECT_ID=$NEXT_PUBLIC_APPWRITE_PROJECT_ID \
+    NEXT_PUBLIC_APPWRITE_DATABASE_ID=$NEXT_PUBLIC_APPWRITE_DATABASE_ID
+
+# …and the API key as a Dokploy "Build-time Secret": mounted for this step
+# only, never written to an image layer or the build history.
+RUN --mount=type=secret,id=APPWRITE_API_KEY,env=APPWRITE_API_KEY \
+    npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner

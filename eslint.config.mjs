@@ -19,6 +19,10 @@ const config = [
       'test-results/**',
       'playwright-report/**',
       'next-env.d.ts',
+      'admin/.next/**',
+      'admin/next-env.d.ts',
+      'admin/test-results/**',
+      'admin/playwright-report/**',
       // Other tools' scratch worktrees.
       '.kilo/**',
     ],

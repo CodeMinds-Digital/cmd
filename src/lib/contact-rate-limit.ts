@@ -1,4 +1,4 @@
-import { createRateLimiter } from '@/lib/rate-limit';
+import { createRateLimiter } from '@codeminds/cms/rate-limit';
 
 /**
  * Contact-form send limits (plan Phase 4). Only submissions that pass

@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button';
 import Highlight from '@/components/ui/Highlight';
 import Stat from '@/components/ui/Stat';
 import Tile from '@/components/ui/Tile';
-import { site } from '@/data/site';
+import { getSite } from '@/lib/cms/repository';
 
 /**
  * Hero — a bento of the studio's key facts (plan §4).
@@ -14,7 +14,8 @@ import { site } from '@/data/site';
  * element without waiting for JS; only the supporting tiles stagger in.
  * Client islands: <Magnetic> CTA and the live <ChennaiClock>.
  */
-export default function Hero() {
+export default async function Hero() {
+  const site = await getSite();
   const { minWeeks, maxWeeks } = site.delivery;
 
   return (

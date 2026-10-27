@@ -6,7 +6,8 @@ import Eyebrow from '@/components/ui/Eyebrow';
 import Highlight from '@/components/ui/Highlight';
 import Tile from '@/components/ui/Tile';
 import { StackBand } from '@/components/sections/StackStrip';
-import { capabilities, type Capability } from '@/data/capabilities';
+import { getCapabilities } from '@/lib/cms/repository';
+import type { Capability } from '@/lib/cms/types';
 
 const TONE = {
   surface: {
@@ -19,7 +20,8 @@ const TONE = {
   },
 };
 
-export default function Capabilities({ showStack = false }: { showStack?: boolean }) {
+export default async function Capabilities({ showStack = false }: { showStack?: boolean }) {
+  const capabilities = await getCapabilities();
   return (
     <section id="capabilities" className="section-padding scroll-mt-20">
       <div className="container">

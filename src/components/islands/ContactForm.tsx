@@ -13,7 +13,6 @@ import {
   type ContactField,
   type ContactFormState,
 } from '@/lib/contact-options';
-import { site } from '@/data/site';
 
 const initialState: ContactFormState = { status: 'idle' };
 
@@ -23,7 +22,7 @@ const initialState: ContactFormState = { status: 'idle' };
  * returns the submitted values; they're fed back as default values so the
  * form's automatic post-action reset restores what the visitor typed.
  */
-export default function ContactForm() {
+export default function ContactForm({ email, replyWithin }: { email: string; replyWithin: string }) {
   const [state, formAction] = useActionState(submitContact, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -46,7 +45,7 @@ export default function ContactForm() {
         </span>
         <p className="text-step-3 font-bold font-display">Thanks — message received.</p>
         <p className="text-step-0 text-fg-muted">
-          We reply within {site.replyWithin}. Anything urgent: <a href={`mailto:${site.email}`}>{site.email}</a>.
+          We reply within {replyWithin}. Anything urgent: <a href={`mailto:${email}`}>{email}</a>.
         </p>
       </div>
     );
@@ -102,7 +101,7 @@ export default function ContactForm() {
       <div className="flex flex-col items-start gap-4 pt-2 @md:flex-row @md:items-center">
         <SubmitButton />
         <span className="font-mono text-mono-xs uppercase text-fg-subtle">
-          Or email {site.email}
+          Or email {email}
         </span>
       </div>
     </form>

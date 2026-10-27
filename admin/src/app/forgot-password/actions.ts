@@ -3,6 +3,7 @@
 import { headers } from 'next/headers';
 import { z } from 'zod';
 import { clientIp } from '@codeminds/cms/client-ip';
+import { AppwriteException } from '@codeminds/cms/server';
 import { createPublicClient } from '@codeminds/cms/session';
 import type { FormState } from '@/components/form';
 import { adminUrl } from '@/lib/env';
@@ -18,7 +19,8 @@ export async function requestReset(_prev: FormState, form: FormData): Promise<Fo
   try {
     await createPublicClient().account.createRecovery({ email: email.data, url: `${adminUrl()}/reset-password` });
   } catch (e) {
-    console.error('Password recovery request failed:', (e as Error).message);
+    // The visitor still sees the neutral message (no account probing); the reason is only logged.
+    console.error('Password recovery email NOT sent:', e instanceof AppwriteException ? `${e.code} ${e.type}: ${e.message}` : (e as Error).message);
   }
   return { status: 'success', message: SENT };
 }

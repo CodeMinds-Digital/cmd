@@ -49,7 +49,8 @@ export const viewport = {
   initialScale: 1,
 };
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://codeminds.digital';
+// `||`, not `??`: an empty value (e.g. an unset Docker build arg) must also fall back.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://codeminds.digital';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

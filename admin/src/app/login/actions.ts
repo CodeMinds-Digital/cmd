@@ -36,7 +36,8 @@ export async function signIn(_prev: FormState, form: FormData): Promise<FormStat
   } catch (e) {
     // One message for wrong email, wrong password and blocked accounts: no account probing.
     if (e instanceof AppwriteException && e.code >= 400 && e.code < 500) return { status: 'error', message: 'Email or password is incorrect.' };
-    console.error('Sign-in failed:', (e as Error).message);
+    // Not a credentials problem: configuration, network or Appwrite itself. See the [admin] startup line too.
+    console.error('Sign-in failed (not a wrong password):', e instanceof AppwriteException ? `${e.code} ${e.type}: ${e.message}` : (e as Error).message);
     return { status: 'error', message: 'Sign-in is unavailable right now. Try again shortly.' };
   }
 

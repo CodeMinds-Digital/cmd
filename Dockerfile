@@ -26,20 +26,22 @@ COPY . .
 # Set environment variable for build
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Pages are prerendered from Appwrite content, so the build needs Appwrite.
-# Public identifiers come in as Dokploy "Build Time Arguments"…
+# Pages are prerendered from Appwrite content, so the build needs Appwrite
+# settings. Dokploy writes the app's Environment to .env (loaded by Next), and
+# Dokploy "Build Time Arguments" can override them. An argument that isn't
+# provided must stay UNSET: an empty value would shadow the .env value (Next
+# never overrides an existing variable) and break the build.
 ARG NEXT_PUBLIC_SITE_URL
 ARG NEXT_PUBLIC_APPWRITE_ENDPOINT
 ARG NEXT_PUBLIC_APPWRITE_PROJECT_ID
 ARG NEXT_PUBLIC_APPWRITE_DATABASE_ID
-ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
-    NEXT_PUBLIC_APPWRITE_ENDPOINT=$NEXT_PUBLIC_APPWRITE_ENDPOINT \
-    NEXT_PUBLIC_APPWRITE_PROJECT_ID=$NEXT_PUBLIC_APPWRITE_PROJECT_ID \
-    NEXT_PUBLIC_APPWRITE_DATABASE_ID=$NEXT_PUBLIC_APPWRITE_DATABASE_ID
 
-# …and the API key as a Dokploy "Build-time Secret": mounted for this step
-# only, never written to an image layer or the build history.
+# The API key may also come as a Dokploy "Build-time Secret": mounted for this
+# step only, never written to an image layer or the build history.
 RUN --mount=type=secret,id=APPWRITE_API_KEY,env=APPWRITE_API_KEY \
+    for v in NEXT_PUBLIC_SITE_URL NEXT_PUBLIC_APPWRITE_ENDPOINT NEXT_PUBLIC_APPWRITE_PROJECT_ID NEXT_PUBLIC_APPWRITE_DATABASE_ID APPWRITE_API_KEY; do \
+      eval "[ -n \"\${$v}\" ]" || unset "$v"; \
+    done && \
     npm run build
 
 # Production image, copy all the files and run next
